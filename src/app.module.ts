@@ -1,10 +1,75 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ConfigModule, ConfigModuleOptions } from '@nestjs/config';
+import { AcceptLanguageResolver, I18nModule, I18nOptions } from 'nestjs-i18n';
+import path from 'path';
+import { JwtModule } from '@nestjs/jwt';
+import { TerminusModule } from '@nestjs/terminus';
+import { LoggerModule } from 'nestjs-pino';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { HealthController } from './health.controller';
+import { DataSource } from 'typeorm';
+import { AuthMiddleware } from './shared/middlewares/auth.middleware';
+import { LoggerMiddleware } from './shared/middlewares/logger.middleware';
+
+export const typeOrmConfig: TypeOrmModuleOptions = {
+  type: 'mysql',
+  url: process.env.DATABASE_URL,
+  entities: [__dirname + '/**/*.entity{.ts,.js}'],
+  synchronize: false, // should be set to false when setup of migrations is done
+  autoLoadEntities: true,
+  logging: process.env.DEBUG ? true : false,
+  extra: {
+    connectionLimit: 20, // Ensure this matches poolSize
+    connectTimeout: 10000, // 10 seconds
+    waitForConnections: true,
+    queueLimit: 0, // No limit to the queue size
+  },
+};
+
+export const i18nConfig: I18nOptions = {
+  fallbackLanguage: 'en',
+  loaderOptions: {
+    path: path.join(__dirname, '/i18n/'),
+    watch: true,
+  },
+  resolvers: [AcceptLanguageResolver],
+};
+
+export const configModuleOptions: ConfigModuleOptions = {
+  isGlobal: true,
+};
+
+export const jwtConfig = {
+  global: true,
+  secret: process.env.JWT_SECRET,
+  // signOptions: { expiresIn: '' },
+};
 
 @Module({
-  imports: [],
-  controllers: [AppController],
+  imports: [
+    ConfigModule.forRoot(configModuleOptions),
+    TypeOrmModule.forRoot(typeOrmConfig),
+    I18nModule.forRoot(i18nConfig),
+    JwtModule.register(jwtConfig),
+    TerminusModule,
+    LoggerModule,
+  ],
+  controllers: [AppController, HealthController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  constructor(private dataSource: DataSource) {}
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).exclude({ path: '/auth/login', method: RequestMethod.POST }).forRoutes({
+      path: '*',
+      method: RequestMethod.ALL,
+    });
+    consumer.apply(LoggerMiddleware).forRoutes({
+      path: '*',
+      method: RequestMethod.ALL,
+    });
+  }
+}
