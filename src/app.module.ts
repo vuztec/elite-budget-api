@@ -2,10 +2,9 @@ import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/c
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule, ConfigModuleOptions } from '@nestjs/config';
 import { AcceptLanguageResolver, I18nModule, I18nOptions } from 'nestjs-i18n';
-import path from 'path';
+import * as path from 'path';
 import { JwtModule } from '@nestjs/jwt';
 import { TerminusModule } from '@nestjs/terminus';
-import { LoggerModule } from 'nestjs-pino';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -20,12 +19,16 @@ import { ExpensesModule } from './expenses/expenses.module';
 import { JointSplitModule } from './joint-split/joint-split.module';
 import { SavingsRetirementsModule } from './savings-retirements/savings-retirements.module';
 import { ExtraFundsTrackerModule } from './extra-funds-tracker/extra-funds-tracker.module';
+import { BankAccountsModule } from './bank-accounts/bank-accounts.module';
+import { LoggerModule } from './logger/logger.module';
+
+import 'dotenv/config';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
   url: process.env.DATABASE_URL,
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-  synchronize: false, // should be set to false when setup of migrations is done
+  synchronize: true, // should be set to false when setup of migrations is done
   autoLoadEntities: true,
   logging: process.env.DEBUG ? true : false,
   extra: {
@@ -70,6 +73,7 @@ export const jwtConfig = {
     JointSplitModule,
     SavingsRetirementsModule,
     ExtraFundsTrackerModule,
+    BankAccountsModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

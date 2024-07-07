@@ -27,7 +27,7 @@ export class Expense extends CustomBaseEntity {
   @Column({ type: 'enum', enum: PAYMENT_METHOD, default: PAYMENT_METHOD.AUTO_DEBIT })
   PaymentMethod: PAYMENT_METHOD;
 
-  @Column({ type: 'datetime', default: 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   @ApiProperty()
   DueDate: Date;
 
