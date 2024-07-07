@@ -15,6 +15,7 @@ import { AuthMiddleware } from './shared/middlewares/auth.middleware';
 import { LoggerMiddleware } from './shared/middlewares/logger.middleware';
 import { RootusersModule } from './rootusers/rootusers.module';
 import { IncomeModule } from './income/income.module';
+import { SavingsRetirementsModule } from './savings_retirements/savings_retirements.module';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -60,6 +61,7 @@ export const jwtConfig = {
     LoggerModule,
     RootusersModule,
     IncomeModule,
+    SavingsRetirementsModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],
