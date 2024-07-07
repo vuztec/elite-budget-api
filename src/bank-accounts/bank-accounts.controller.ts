@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BankAccountsService } from './bank-accounts.service';
-import { CreateBankAccountDto } from './dto/create-bank-account.dto';
-import { UpdateBankAccountDto } from './dto/update-bank-account.dto';
+import { CreateBankAccountNameDto } from './dto/create-bank-account.dto';
+import { UpdateBankAccountNameDto } from './dto/update-bank-account.dto';
 
 @Controller('bank-accounts')
 export class BankAccountsController {
   constructor(private readonly bankAccountsService: BankAccountsService) {}
 
   @Post()
-  create(@Body() createBankAccountDto: CreateBankAccountDto) {
+  create(@Body() createBankAccountDto: CreateBankAccountNameDto) {
     return this.bankAccountsService.create(createBankAccountDto);
   }
 
@@ -23,7 +23,7 @@ export class BankAccountsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBankAccountDto: UpdateBankAccountDto) {
+  update(@Param('id') id: string, @Body() updateBankAccountDto: UpdateBankAccountNameDto) {
     return this.bankAccountsService.update(+id, updateBankAccountDto);
   }
 

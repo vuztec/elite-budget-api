@@ -29,6 +29,6 @@ export class BankAccountTransaction extends CustomBaseEntity {
   IsCleared: boolean;
 
   @ManyToOne(() => BankAccountName, (bankAccountName) => bankAccountName.transactions)
-  @ApiProperty({ type: () => BankAccountName })
+  @ApiProperty()
   BankAccountName: BankAccountName;
 }
