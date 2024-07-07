@@ -1,8 +1,4 @@
-import {
-  CreateDateColumn,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { ApiHideProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
@@ -13,18 +9,18 @@ export abstract class CustomBaseEntity {
   id: number;
 
   @CreateDateColumn({
-    type: 'timestamp',
+    type: 'datetime',
     default: () => 'CURRENT_TIMESTAMP',
   })
   @ApiHideProperty()
-  created_at: Date;
+  CreatedAt: Date;
 
   @UpdateDateColumn({
-    type: 'timestamp',
+    type: 'datetime',
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   @Exclude()
   @ApiHideProperty()
-  updated_at: Date;
+  UpdatedAt: Date;
 }

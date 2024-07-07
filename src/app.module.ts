@@ -13,6 +13,7 @@ import { HealthController } from './health.controller';
 import { DataSource } from 'typeorm';
 import { AuthMiddleware } from './shared/middlewares/auth.middleware';
 import { LoggerMiddleware } from './shared/middlewares/logger.middleware';
+import { RootusersModule } from './rootusers/rootusers.module';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -56,6 +57,7 @@ export const jwtConfig = {
     JwtModule.register(jwtConfig),
     TerminusModule,
     LoggerModule,
+    RootusersModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],
