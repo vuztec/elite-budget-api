@@ -17,6 +17,7 @@ import { RootusersModule } from './rootusers/rootusers.module';
 import { IncomeModule } from './income/income.module';
 import { SavingsRetirementsModule } from './savings_retirements/savings_retirements.module';
 import { DebtModule } from './debt/debt.module';
+import { ExpensesModule } from './expenses/expenses.module';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -64,6 +65,7 @@ export const jwtConfig = {
     IncomeModule,
     SavingsRetirementsModule,
     DebtModule,
+    ExpensesModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],
