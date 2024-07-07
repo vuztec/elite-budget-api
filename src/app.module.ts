@@ -23,6 +23,7 @@ import { BankAccountsModule } from './bank-accounts/bank-accounts.module';
 import { LoggerModule } from './logger/logger.module';
 
 import 'dotenv/config';
+import { AuthModule } from './auth/auth.module';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -74,6 +75,7 @@ export const jwtConfig = {
     SavingsRetirementsModule,
     ExtraFundsTrackerModule,
     BankAccountsModule,
+    AuthModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],
