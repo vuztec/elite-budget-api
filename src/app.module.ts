@@ -29,7 +29,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
   url: process.env.DATABASE_URL,
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-  synchronize: true, // should be set to false when setup of migrations is done
+  synchronize: false, // should be set to false when setup of migrations is done
   autoLoadEntities: true,
   logging: process.env.DEBUG ? true : false,
   extra: {
