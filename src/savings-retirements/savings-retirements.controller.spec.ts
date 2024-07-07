@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SavingsRetirementsController } from './savings_retirements.controller';
-import { SavingsRetirementsService } from './savings_retirements.service';
+import { SavingsRetirementsController } from './savings-retirements.controller';
+import { SavingsRetirementsService } from './savings-retirements.service';
 
 describe('SavingsRetirementsController', () => {
   let controller: SavingsRetirementsController;

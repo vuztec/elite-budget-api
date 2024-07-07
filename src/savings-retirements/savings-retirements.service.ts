@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSavingsRetirementDto } from './dto/create-savings_retirement.dto';
-import { UpdateSavingsRetirementDto } from './dto/update-savings_retirement.dto';
+import { CreateSavingsRetirementDto } from './dto/create-savings-retirement.dto';
+import { UpdateSavingsRetirementDto } from './dto/update-savings-retirement.dto';
 
 @Injectable()
 export class SavingsRetirementsService {

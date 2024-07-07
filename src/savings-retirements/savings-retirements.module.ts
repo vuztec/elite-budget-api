@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { SavingsRetirementsService } from './savings_retirements.service';
-import { SavingsRetirementsController } from './savings_retirements.controller';
+import { SavingsRetirementsService } from './savings-retirements.service';
+import { SavingsRetirementsController } from './savings-retirements.controller';
 
 @Module({
   controllers: [SavingsRetirementsController],

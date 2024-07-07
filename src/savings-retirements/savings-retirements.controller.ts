@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SavingsRetirementsService } from './savings_retirements.service';
-import { CreateSavingsRetirementDto } from './dto/create-savings_retirement.dto';
-import { UpdateSavingsRetirementDto } from './dto/update-savings_retirement.dto';
+import { SavingsRetirementsService } from './savings-retirements.service';
+import { CreateSavingsRetirementDto } from './dto/create-savings-retirement.dto';
+import { UpdateSavingsRetirementDto } from './dto/update-savings-retirement.dto';
 
 @Controller('savings-retirements')
 export class SavingsRetirementsController {
