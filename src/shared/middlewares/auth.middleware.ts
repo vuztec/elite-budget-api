@@ -1,18 +1,14 @@
-import {
-  Injectable,
-  NestMiddleware,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@/users/entities/user.entity';
+import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(Rootuser) private usersRepository: Repository<Rootuser>,
     private jwtService: JwtService,
   ) {}
 
@@ -29,11 +25,7 @@ export class AuthMiddleware implements NestMiddleware {
       } else if (token.startsWith('Bearer ')) {
         let payload = await this.jwtService.verifyAsync(token.split(' ')[1]);
 
-        let user = await this.usersRepository
-          .createQueryBuilder('user')
-          .where('user.id = :id', { id: payload.id })
-          .leftJoinAndSelect('user.Categories', 'Categories')
-          .getOne();
+        let user = await this.usersRepository.createQueryBuilder('user').where('user.id = :id', { id: payload.id }).getOne();
 
         req['user'] = user;
         next();

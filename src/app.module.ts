@@ -14,6 +14,7 @@ import { DataSource } from 'typeorm';
 import { AuthMiddleware } from './shared/middlewares/auth.middleware';
 import { LoggerMiddleware } from './shared/middlewares/logger.middleware';
 import { RootusersModule } from './rootusers/rootusers.module';
+import { IncomeModule } from './income/income.module';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -58,6 +59,7 @@ export const jwtConfig = {
     TerminusModule,
     LoggerModule,
     RootusersModule,
+    IncomeModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],
