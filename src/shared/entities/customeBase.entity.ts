@@ -1,8 +1,8 @@
-import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { CreateDateColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { ApiHideProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-// import { User } from '@/users/entities/user.entity';
+import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 
 export abstract class CustomBaseEntity {
   @PrimaryGeneratedColumn()
@@ -23,4 +23,8 @@ export abstract class CustomBaseEntity {
   @Exclude()
   @ApiHideProperty()
   UpdatedAt: Date;
+
+  @ManyToOne(() => Rootuser, (user) => user)
+  @ApiProperty()
+  Root: Rootuser;
 }
