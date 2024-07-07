@@ -1,5 +1,5 @@
 import { CustomBaseEntity } from '@/shared/entities/customeBase.entity';
-import { Status } from '@/shared/enums/enum';
+import { Status, UserType } from '@/shared/enums/enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, Length } from 'class-validator';
 import { Column, Entity, Index } from 'typeorm';
@@ -55,4 +55,7 @@ export class Rootuser extends CustomBaseEntity {
 
   @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
   Status: Status;
+
+  @Column({ type: 'enum', enum: UserType, default: UserType.ROOT })
+  UserType: UserType;
 }

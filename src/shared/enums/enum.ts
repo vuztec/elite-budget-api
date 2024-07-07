@@ -1,3 +1,7 @@
+export enum UserType {
+  ROOT = 'Root',
+}
+
 export enum Status {
   ACTIVE = 'Active',
   INACTIVE = 'In-Active',
