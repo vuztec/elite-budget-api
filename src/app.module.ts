@@ -5,11 +5,11 @@ import { AcceptLanguageResolver, I18nModule, I18nOptions } from 'nestjs-i18n';
 import * as path from 'path';
 import { JwtModule } from '@nestjs/jwt';
 import { TerminusModule } from '@nestjs/terminus';
+import { DataSource } from 'typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HealthController } from './health.controller';
-import { DataSource } from 'typeorm';
 import { AuthMiddleware } from './shared/middlewares/auth.middleware';
 import { LoggerMiddleware } from './shared/middlewares/logger.middleware';
 import { RootusersModule } from './rootusers/rootusers.module';
@@ -21,15 +21,15 @@ import { SavingsRetirementsModule } from './savings-retirements/savings-retireme
 import { ExtraFundsTrackerModule } from './extra-funds-tracker/extra-funds-tracker.module';
 import { BankAccountsModule } from './bank-accounts/bank-accounts.module';
 import { LoggerModule } from './logger/logger.module';
+import { AuthModule } from './auth/auth.module';
 
 import 'dotenv/config';
-import { AuthModule } from './auth/auth.module';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
   url: process.env.DATABASE_URL,
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-  synchronize: false, // should be set to false when setup of migrations is done
+  synchronize: true, // should be set to false when setup of migrations is done
   autoLoadEntities: true,
   logging: process.env.DEBUG ? true : false,
   extra: {

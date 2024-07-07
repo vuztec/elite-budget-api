@@ -1,15 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
 import { IncomeService } from './income.service';
 import { CreateIncomeDto } from './dto/create-income.dto';
 import { UpdateIncomeDto } from './dto/update-income.dto';
+import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 
 @Controller('income')
 export class IncomeController {
   constructor(private readonly incomeService: IncomeService) {}
 
   @Post()
-  create(@Body() createIncomeDto: CreateIncomeDto) {
-    return this.incomeService.create(createIncomeDto);
+  create(@Body() createIncomeDto: CreateIncomeDto, @Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.incomeService.create(createIncomeDto, user);
   }
 
   @Get()

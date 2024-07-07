@@ -9,5 +9,6 @@ import { Expense } from './entities/expense.entity';
   imports: [TypeOrmModule.forFeature([Expense])],
   controllers: [ExpensesController],
   providers: [ExpensesService],
+  exports: [TypeOrmModule],
 })
 export class ExpensesModule {}

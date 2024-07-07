@@ -9,5 +9,6 @@ import { SavingsRetirement } from './entities/savings-retirement.entity';
   imports: [TypeOrmModule.forFeature([SavingsRetirement])],
   controllers: [SavingsRetirementsController],
   providers: [SavingsRetirementsService],
+  exports: [TypeOrmModule],
 })
 export class SavingsRetirementsModule {}
