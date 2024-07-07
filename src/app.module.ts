@@ -19,6 +19,7 @@ import { DebtModule } from './debt/debt.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { JointSplitModule } from './joint-split/joint-split.module';
 import { SavingsRetirementsModule } from './savings-retirements/savings-retirements.module';
+import { ExtraFundsTrackerModule } from './extra-funds-tracker/extra-funds-tracker.module';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -68,6 +69,7 @@ export const jwtConfig = {
     ExpensesModule,
     JointSplitModule,
     SavingsRetirementsModule,
+    ExtraFundsTrackerModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],
