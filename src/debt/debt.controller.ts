@@ -11,7 +11,7 @@ export class DebtController {
   @Post()
   create(@Body() createDebtDto: CreateDebtDto, @Req() req: Request & { user: Rootuser }) {
     const { user } = req;
-    return this.debtService.create(createDebtDto);
+    return this.debtService.create(createDebtDto, user);
   }
 
   @Get()
