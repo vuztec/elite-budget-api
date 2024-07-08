@@ -25,7 +25,8 @@ export class IncomeController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateIncomeDto: UpdateIncomeDto) {
+  update(@Param('id') id: string, @Body() updateIncomeDto: UpdateIncomeDto, @Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
     return this.incomeService.update(+id, updateIncomeDto);
   }
 

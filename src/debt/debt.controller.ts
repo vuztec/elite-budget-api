@@ -1,14 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
 import { DebtService } from './debt.service';
 import { CreateDebtDto } from './dto/create-debt.dto';
 import { UpdateDebtDto } from './dto/update-debt.dto';
+import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 
 @Controller('debt')
 export class DebtController {
   constructor(private readonly debtService: DebtService) {}
 
   @Post()
-  create(@Body() createDebtDto: CreateDebtDto) {
+  create(@Body() createDebtDto: CreateDebtDto, @Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
     return this.debtService.create(createDebtDto);
   }
 
@@ -23,7 +25,8 @@ export class DebtController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDebtDto: UpdateDebtDto) {
+  update(@Param('id') id: string, @Body() updateDebtDto: UpdateDebtDto, @Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
     return this.debtService.update(+id, updateDebtDto);
   }
 

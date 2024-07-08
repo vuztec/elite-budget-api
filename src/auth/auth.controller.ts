@@ -3,15 +3,25 @@ import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { RootusersService } from '@/rootusers/rootusers.service';
+import { CreateRootuserDto } from '@/rootusers/dto/create-rootuser.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly rootusersService: RootusersService,
+  ) {}
 
   @Post('login')
-  create(@Body() createAuthDto: CreateAuthDto) {
+  login(@Body() createAuthDto: CreateAuthDto) {
     return this.authService.login(createAuthDto);
+  }
+
+  @Post('signup')
+  signup(@Body() createAuthDto: CreateRootuserDto) {
+    return this.rootusersService.create(createAuthDto);
   }
 
   @Get()

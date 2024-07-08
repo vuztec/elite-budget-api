@@ -22,18 +22,24 @@ export class IncomeService {
   }
 
   findAll() {
-    return `This action returns all income`;
+    return this.incomeRepo.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} income`;
+    return this.incomeRepo.findOne({ where: { id } });
   }
 
-  update(id: number, updateIncomeDto: UpdateIncomeDto) {
-    return `This action updates a #${id} income`;
+  async update(id: number, updateIncomeDto: UpdateIncomeDto) {
+    const new_income = await this.incomeRepo.findOne({ where: { id } });
+    new_income.Frequency = updateIncomeDto.Frequency;
+    new_income.IncomeAmount = updateIncomeDto.IncomeAmount;
+    new_income.IncomeSource = updateIncomeDto.IncomeSource;
+    new_income.Owner = updateIncomeDto.Owner;
+
+    return this.incomeRepo.save(new_income);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} income`;
+    return this.incomeRepo.delete(id);
   }
 }

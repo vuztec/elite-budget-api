@@ -1,14 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
 import { ExtraFundsTrackerService } from './extra-funds-tracker.service';
 import { CreateExtraFundsTrackerDto } from './dto/create-extra-funds-tracker.dto';
 import { UpdateExtraFundsTrackerDto } from './dto/update-extra-funds-tracker.dto';
+import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 
 @Controller('extra-funds-tracker')
 export class ExtraFundsTrackerController {
   constructor(private readonly extraFundsTrackerService: ExtraFundsTrackerService) {}
 
   @Post()
-  create(@Body() createExtraFundsTrackerDto: CreateExtraFundsTrackerDto) {
+  create(@Body() createExtraFundsTrackerDto: CreateExtraFundsTrackerDto, @Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
     return this.extraFundsTrackerService.create(createExtraFundsTrackerDto);
   }
 
@@ -23,7 +25,12 @@ export class ExtraFundsTrackerController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExtraFundsTrackerDto: UpdateExtraFundsTrackerDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateExtraFundsTrackerDto: UpdateExtraFundsTrackerDto,
+    @Req() req: Request & { user: Rootuser },
+  ) {
+    const { user } = req;
     return this.extraFundsTrackerService.update(+id, updateExtraFundsTrackerDto);
   }
 

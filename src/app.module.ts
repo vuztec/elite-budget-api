@@ -83,10 +83,13 @@ export const jwtConfig = {
 export class AppModule implements NestModule {
   constructor(private dataSource: DataSource) {}
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).exclude({ path: '/auth/login', method: RequestMethod.POST }).forRoutes({
-      path: '*',
-      method: RequestMethod.ALL,
-    });
+    consumer
+      .apply(AuthMiddleware)
+      .exclude({ path: '/auth/login', method: RequestMethod.POST }, { path: '/auth/signup', method: RequestMethod.POST })
+      .forRoutes({
+        path: '*',
+        method: RequestMethod.ALL,
+      });
     consumer.apply(LoggerMiddleware).forRoutes({
       path: '*',
       method: RequestMethod.ALL,

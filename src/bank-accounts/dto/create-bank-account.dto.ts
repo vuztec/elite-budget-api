@@ -29,5 +29,5 @@ export class CreateBankAccountTransactionDto {
   IsCleared: boolean;
 
   @IsNumber()
-  BankAccountNameId: Number;
+  BankAccountNameId: number;
 }
