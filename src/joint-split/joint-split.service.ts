@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateJointSplitDto } from './dto/create-joint-split.dto';
 import { UpdateJointSplitDto } from './dto/update-joint-split.dto';
+import { Rootuser } from '@/rootusers/entities/rootuser.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { JointSplit } from './entities/joint-split.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class JointSplitService {
-  create(createJointSplitDto: CreateJointSplitDto) {
-    return 'This action adds a new jointSplit';
+  constructor(@InjectRepository(JointSplit) private readonly jointSplitRepo: Repository<JointSplit>) {}
+
+  create(createJointSplitDto: CreateJointSplitDto, user: Rootuser) {
+    const new_joint = new JointSplit();
+
+    new_joint.SelfAmount = createJointSplitDto.SelfAmount;
+    new_joint.Root = user;
+
+    return this.jointSplitRepo.save(new_joint);
   }
 
   findAll() {
-    return `This action returns all jointSplit`;
+    return this.jointSplitRepo.find({});
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} jointSplit`;
+    return this.jointSplitRepo.findOne({ where: { id } });
   }
 
-  update(id: number, updateJointSplitDto: UpdateJointSplitDto) {
-    return `This action updates a #${id} jointSplit`;
+  async update(id: number, updateJointSplitDto: UpdateJointSplitDto) {
+    const new_joint = await this.jointSplitRepo.findOne({ where: { id } });
+
+    new_joint.SelfAmount = updateJointSplitDto.SelfAmount;
+
+    return this.jointSplitRepo.save(new_joint);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} jointSplit`;
+    return this.jointSplitRepo.delete(id);
   }
 }

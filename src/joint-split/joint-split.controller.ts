@@ -11,7 +11,7 @@ export class JointSplitController {
   @Post()
   create(@Body() createJointSplitDto: CreateJointSplitDto, @Req() req: Request & { user: Rootuser }) {
     const { user } = req;
-    return this.jointSplitService.create(createJointSplitDto);
+    return this.jointSplitService.create(createJointSplitDto, user);
   }
 
   @Get()
