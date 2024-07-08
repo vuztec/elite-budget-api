@@ -1,22 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query } from '@nestjs/common';
 import { SavingsRetirementsService } from './savings-retirements.service';
 import { CreateSavingsRetirementDto } from './dto/create-savings-retirement.dto';
 import { UpdateSavingsRetirementDto } from './dto/update-savings-retirement.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
+import { SAV_RET_TYPE } from '@/shared/enums/enum';
 
 @Controller('savings-retirements')
 export class SavingsRetirementsController {
   constructor(private readonly savingsRetirementsService: SavingsRetirementsService) {}
 
   @Post()
-  create(@Body() createSavingsRetirementDto: CreateSavingsRetirementDto, @Req() req: Request & { user: Rootuser }) {
+  create(
+    @Body() createSavingsRetirementDto: CreateSavingsRetirementDto,
+    @Req() req: Request & { user: Rootuser },
+    @Query('type') type: SAV_RET_TYPE,
+  ) {
     const { user } = req;
-    return this.savingsRetirementsService.create(createSavingsRetirementDto);
+    return this.savingsRetirementsService.create(createSavingsRetirementDto, user, type);
   }
 
   @Get()
-  findAll() {
-    return this.savingsRetirementsService.findAll();
+  findAll(@Query('type') type: SAV_RET_TYPE) {
+    return this.savingsRetirementsService.findAll(type);
   }
 
   @Get(':id')
