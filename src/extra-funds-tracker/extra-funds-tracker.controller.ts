@@ -11,7 +11,7 @@ export class ExtraFundsTrackerController {
   @Post()
   create(@Body() createExtraFundsTrackerDto: CreateExtraFundsTrackerDto, @Req() req: Request & { user: Rootuser }) {
     const { user } = req;
-    return this.extraFundsTrackerService.create(createExtraFundsTrackerDto);
+    return this.extraFundsTrackerService.create(createExtraFundsTrackerDto, user);
   }
 
   @Get()
