@@ -11,7 +11,7 @@ export class ExpensesController {
   @Post()
   create(@Body() createExpenseDto: CreateExpenseDto, @Req() req: Request & { user: Rootuser }) {
     const { user } = req;
-    return this.expensesService.create(createExpenseDto);
+    return this.expensesService.create(createExpenseDto, user);
   }
 
   @Get()
