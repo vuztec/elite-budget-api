@@ -20,8 +20,9 @@ export class SavingsRetirementsController {
   }
 
   @Get()
-  findAll(@Query('type') type: SAV_RET_TYPE) {
-    return this.savingsRetirementsService.findAll(type);
+  findAll(@Query('type') type: SAV_RET_TYPE, @Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.savingsRetirementsService.findAll(type, user);
   }
 
   @Get(':id')

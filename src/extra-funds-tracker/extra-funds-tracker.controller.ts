@@ -15,8 +15,9 @@ export class ExtraFundsTrackerController {
   }
 
   @Get()
-  findAll() {
-    return this.extraFundsTrackerService.findAll();
+  findAll(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.extraFundsTrackerService.findAll(user);
   }
 
   @Get(':id')

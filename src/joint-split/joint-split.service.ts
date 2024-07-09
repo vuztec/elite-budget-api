@@ -19,8 +19,8 @@ export class JointSplitService {
     return this.jointSplitRepo.save(new_joint);
   }
 
-  findAll() {
-    return this.jointSplitRepo.find({});
+  findAll(user: Rootuser) {
+    return this.jointSplitRepo.createQueryBuilder('joint').where('joint.rootid = :id', { id: user.id }).getMany();
   }
 
   findOne(id: number) {

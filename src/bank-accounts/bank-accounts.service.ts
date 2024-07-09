@@ -38,11 +38,11 @@ export class BankAccountsService {
     return this.bankTransactionRepo.save(new_transaction);
   }
 
-  findAllNames() {
-    return this.bankNameRepo.find({});
+  findAllNames(user: Rootuser) {
+    return this.bankNameRepo.createQueryBuilder('names').where('names.rootid = :id', { id: user.id }).getMany();
   }
 
-  findAllTransactions() {
+  findAllTransactions(user: Rootuser) {
     return this.bankTransactionRepo.find({ relations: ['BankAccountName'] });
   }
 

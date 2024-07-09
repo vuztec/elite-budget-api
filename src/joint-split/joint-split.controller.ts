@@ -15,8 +15,9 @@ export class JointSplitController {
   }
 
   @Get()
-  findAll() {
-    return this.jointSplitService.findAll();
+  findAll(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.jointSplitService.findAll(user);
   }
 
   @Get(':id')

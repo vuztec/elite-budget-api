@@ -21,8 +21,8 @@ export class IncomeService {
     return this.incomeRepo.save(new_income);
   }
 
-  findAll() {
-    return this.incomeRepo.find();
+  findAll(user: Rootuser) {
+    return this.incomeRepo.createQueryBuilder('income').where('income.rootid = :id', { id: user.id }).getMany();
   }
 
   findOne(id: number) {

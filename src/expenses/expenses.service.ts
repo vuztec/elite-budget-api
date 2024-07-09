@@ -25,8 +25,8 @@ export class ExpensesService {
     return this.expenseRepo.save(new_expense);
   }
 
-  findAll() {
-    return this.expenseRepo.find({});
+  findAll(user: Rootuser) {
+    return this.expenseRepo.createQueryBuilder('expense').where('expense.rootid = :id', { id: user.id }).getMany();
   }
 
   findOne(id: number) {

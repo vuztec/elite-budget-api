@@ -21,13 +21,15 @@ export class BankAccountsController {
   }
 
   @Get('name')
-  findAllName() {
-    return this.bankAccountsService.findAllNames();
+  findAllName(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.bankAccountsService.findAllNames(user);
   }
 
   @Get('transaction')
-  findAllTransaction() {
-    return this.bankAccountsService.findAllTransactions();
+  findAllTransaction(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.bankAccountsService.findAllTransactions(user);
   }
 
   @Get('name/:id')

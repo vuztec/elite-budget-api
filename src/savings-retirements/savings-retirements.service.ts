@@ -29,8 +29,12 @@ export class SavingsRetirementsService {
     return this.saveRetRep.save(new_sav_ret);
   }
 
-  findAll(type: SAV_RET_TYPE) {
-    return this.saveRetRep.find({ where: { Type: type } });
+  findAll(type: SAV_RET_TYPE, user: Rootuser) {
+    return this.saveRetRep
+      .createQueryBuilder('data')
+      .where('data.rootid = :id', { id: user.id })
+      .andWhere('Type = :type', { type })
+      .getMany();
   }
 
   findOne(id: number) {

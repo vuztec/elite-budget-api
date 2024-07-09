@@ -25,8 +25,8 @@ export class DebtService {
     return this.debtRepo.save(new_debt);
   }
 
-  findAll() {
-    return this.debtRepo.find();
+  findAll(user: Rootuser) {
+    return this.debtRepo.createQueryBuilder('debts').where('debts.rootid = :id', { id: user.id }).getMany();
   }
 
   findOne(id: number) {

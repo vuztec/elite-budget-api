@@ -24,8 +24,8 @@ export class ExtraFundsTrackerService {
     return this.fundRepo.save(new_fund);
   }
 
-  findAll() {
-    return this.fundRepo.find({});
+  findAll(user: Rootuser) {
+    return this.fundRepo.createQueryBuilder('funds').where('funds.rootid = :id', { id: user.id }).getMany();
   }
 
   findOne(id: number) {

@@ -15,8 +15,9 @@ export class DebtController {
   }
 
   @Get()
-  findAll() {
-    return this.debtService.findAll();
+  findAll(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.debtService.findAll(user);
   }
 
   @Get(':id')

@@ -15,8 +15,9 @@ export class IncomeController {
   }
 
   @Get()
-  findAll() {
-    return this.incomeService.findAll();
+  findAll(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.incomeService.findAll(user);
   }
 
   @Get(':id')
