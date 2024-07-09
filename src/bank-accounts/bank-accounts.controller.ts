@@ -20,12 +20,12 @@ export class BankAccountsController {
     return this.bankAccountsService.createTransaction(createBankAccountDto, user);
   }
 
-  @Get()
+  @Get('name')
   findAllName() {
     return this.bankAccountsService.findAllNames();
   }
 
-  @Get()
+  @Get('transaction')
   findAllTransaction() {
     return this.bankAccountsService.findAllTransactions();
   }
