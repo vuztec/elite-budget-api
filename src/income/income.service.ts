@@ -13,7 +13,8 @@ export class IncomeService {
   create(createIncomeDto: CreateIncomeDto, user: Rootuser) {
     const new_income = new Income();
     new_income.Frequency = createIncomeDto.Frequency;
-    new_income.IncomeAmount = createIncomeDto.IncomeAmount;
+    new_income.GrossAmount = createIncomeDto.GrossAmount;
+    new_income.NetAmount = createIncomeDto.NetAmount;
     new_income.IncomeSource = createIncomeDto.IncomeSource;
     new_income.Owner = createIncomeDto.Owner;
     new_income.Root = user;
@@ -32,7 +33,8 @@ export class IncomeService {
   async update(id: number, updateIncomeDto: UpdateIncomeDto) {
     const new_income = await this.incomeRepo.findOne({ where: { id } });
     new_income.Frequency = updateIncomeDto.Frequency;
-    new_income.IncomeAmount = updateIncomeDto.IncomeAmount;
+    new_income.GrossAmount = updateIncomeDto.GrossAmount;
+    new_income.NetAmount = updateIncomeDto.NetAmount;
     new_income.IncomeSource = updateIncomeDto.IncomeSource;
     new_income.Owner = updateIncomeDto.Owner;
 

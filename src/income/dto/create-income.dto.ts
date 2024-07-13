@@ -12,5 +12,8 @@ export class CreateIncomeDto {
   IncomeSource: string;
 
   @IsNumber()
-  IncomeAmount: Number;
+  GrossAmount: Number;
+
+  @IsNumber()
+  NetAmount: Number;
 }

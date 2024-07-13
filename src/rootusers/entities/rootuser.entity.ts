@@ -1,5 +1,5 @@
 import { CustomBaseEntity } from '@/shared/entities/customeBase.entity';
-import { Status, UserType } from '@/shared/enums/enum';
+import { PACKAGE, PLAN, Status, UserType } from '@/shared/enums/enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, Length } from 'class-validator';
 import { Column, Entity, Index } from 'typeorm';
@@ -58,4 +58,31 @@ export class Rootuser extends CustomBaseEntity {
 
   @Column({ type: 'enum', enum: UserType, default: UserType.ROOT })
   UserType: UserType;
+
+  @Column({ type: 'boolean', default: false })
+  @ApiProperty()
+  IsGoogle: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  @ApiProperty()
+  Payment: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  @ApiProperty()
+  IsExpired: boolean;
+
+  @Column({ type: 'enum', enum: PACKAGE })
+  @ApiProperty()
+  Package: PACKAGE;
+
+  @Column({ type: 'enum', enum: PLAN })
+  @ApiProperty()
+  Plan: PLAN;
+
+  @Column({
+    type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  @ApiProperty()
+  SubscribeDate: Date;
 }

@@ -2,6 +2,17 @@ export enum UserType {
   ROOT = 'Root',
 }
 
+export enum PACKAGE {
+  BASIC = 'Basic',
+  STANDARD = 'Standard',
+  PREMIUM = 'Premium',
+}
+
+export enum PLAN {
+  MONTHLY = 'Monthly',
+  YEARLY = 'Yearly',
+}
+
 export enum Status {
   ACTIVE = 'Active',
   INACTIVE = 'In-Active',
