@@ -5,12 +5,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Rootuser } from './entities/rootuser.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { debt_data, expenses_data, income_data, retirements_data, savings_data } from '@/shared/utils/default.data';
+import { debt_data, expenses_data, goals_data, income_data, retirements_data, savings_data } from '@/shared/utils/default.data';
 import { Income } from '@/income/entities/income.entity';
 import { SavingsRetirement } from '@/savings-retirements/entities/savings-retirement.entity';
 import { SAV_RET_TYPE } from '@/shared/enums/enum';
 import { Debt } from '@/debt/entities/debt.entity';
 import { Expense } from '@/expenses/entities/expense.entity';
+import { ExtraPayCheck } from '@/extra-pay-checks/entities/extra-pay-check.entity';
+import { Goal } from '@/goals/entities/goal.entity';
 
 @Injectable()
 export class RootusersService {
@@ -20,6 +22,8 @@ export class RootusersService {
     @InjectRepository(SavingsRetirement) private readonly saveRetRep: Repository<SavingsRetirement>,
     @InjectRepository(Debt) private readonly debtRepo: Repository<Debt>,
     @InjectRepository(Expense) private readonly expenseRepo: Repository<Expense>,
+    @InjectRepository(ExtraPayCheck) private readonly payCheckRepo: Repository<ExtraPayCheck>,
+    @InjectRepository(Goal) private readonly goalRepo: Repository<Goal>,
   ) {}
 
   async create(createRootuserDto: CreateRootuserDto) {
@@ -89,6 +93,24 @@ export class RootusersService {
       expense.Root = user;
 
       return await this.expenseRepo.save(expense);
+    });
+
+    Array.from({ length: 10 }).map(async () => {
+      const new_pay = new ExtraPayCheck();
+
+      new_pay.Root = user;
+
+      return await this.payCheckRepo.save(new_pay);
+    });
+
+    goals_data.map(async (goal) => {
+      const new_goal = new Goal();
+
+      new_goal.Category = goal.Category;
+      new_goal.Percentage = goal.Percentage;
+      new_goal.Root = user;
+
+      return await this.goalRepo.save(new_goal);
     });
 
     return user;

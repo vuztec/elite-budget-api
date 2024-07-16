@@ -15,6 +15,9 @@ export class CreateSavingsRetirementDto {
   Description: string;
 
   @IsString()
+  NickName: string;
+
+  @IsString()
   PaymentMethod: PAYMENT_METHOD;
 
   @IsString()

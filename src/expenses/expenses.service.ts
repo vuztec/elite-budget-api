@@ -20,6 +20,8 @@ export class ExpensesService {
     new_expense.MarketValue = createExpenseDto.MarketValue;
     new_expense.Owner = createExpenseDto.Owner;
     new_expense.PaymentMethod = createExpenseDto.PaymentMethod;
+    new_expense.NickName = createExpenseDto.NickName;
+
     new_expense.Root = user;
 
     return this.expenseRepo.save(new_expense);
@@ -43,6 +45,7 @@ export class ExpensesService {
     new_expense.MarketValue = updateExpenseDto.MarketValue;
     new_expense.Owner = updateExpenseDto.Owner;
     new_expense.PaymentMethod = updateExpenseDto.PaymentMethod;
+    new_expense.NickName = updateExpenseDto.NickName;
 
     return this.expenseRepo.save(new_expense);
   }

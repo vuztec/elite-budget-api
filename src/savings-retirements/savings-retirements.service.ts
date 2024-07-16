@@ -21,6 +21,7 @@ export class SavingsRetirementsService {
     new_sav_ret.MonthlyBudget = createSavingsRetirementDto.MonthlyBudget;
     new_sav_ret.Owner = createSavingsRetirementDto.Owner;
     new_sav_ret.PaymentMethod = createSavingsRetirementDto.PaymentMethod;
+    new_sav_ret.NickName = createSavingsRetirementDto.NickName;
 
     new_sav_ret.Type = type;
 
@@ -33,7 +34,7 @@ export class SavingsRetirementsService {
     return this.saveRetRep
       .createQueryBuilder('data')
       .where('data.rootid = :id', { id: user.id })
-      .andWhere('Type = :type', { type })
+      .andWhere('data.Type = :type', { type })
       .getMany();
   }
 
@@ -51,6 +52,7 @@ export class SavingsRetirementsService {
     new_sav_ret.MonthlyBudget = updateSavingsRetirementDto.MonthlyBudget;
     new_sav_ret.Owner = updateSavingsRetirementDto.Owner;
     new_sav_ret.PaymentMethod = updateSavingsRetirementDto.PaymentMethod;
+    new_sav_ret.NickName = updateSavingsRetirementDto.NickName;
 
     return this.saveRetRep.save(new_sav_ret);
   }

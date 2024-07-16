@@ -22,6 +22,8 @@ import { ExtraFundsTrackerModule } from './extra-funds-tracker/extra-funds-track
 import { BankAccountsModule } from './bank-accounts/bank-accounts.module';
 import { LoggerModule } from './logger/logger.module';
 import { AuthModule } from './auth/auth.module';
+import { ExtraPayChecksModule } from './extra-pay-checks/extra-pay-checks.module';
+import { GoalsModule } from './goals/goals.module';
 
 import 'dotenv/config';
 
@@ -76,6 +78,8 @@ export const jwtConfig = {
     ExtraFundsTrackerModule,
     BankAccountsModule,
     AuthModule,
+    ExtraPayChecksModule,
+    GoalsModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

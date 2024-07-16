@@ -18,6 +18,9 @@ export class CreateExpenseDto {
   Description: string;
 
   @IsString()
+  NickName: string;
+
+  @IsString()
   PaymentMethod: PAYMENT_METHOD;
 
   @IsString()

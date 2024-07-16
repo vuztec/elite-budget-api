@@ -33,7 +33,7 @@ export enum Frequency {
 }
 
 export enum PAYMENT_METHOD {
-  AUTO_DEBIT = 'Auto Debt',
+  AUTO_DEBIT = 'Auto Debit',
   AUTO_TRANSFER = 'Auto Transfer',
   BILL_PAY = 'Bill Pay',
   CHECK_CASH = 'Check or Cash',
@@ -49,10 +49,13 @@ export enum DEBT_CATEGORY {
   CREDIT_CARD = 'Credit Card',
   DEPARTMENT_STORE = 'Department Store',
   FAMILY_FRIEND_LOAN = 'Family/Friend Loan',
-  MEDICLE_DEBT = 'Medicle Debt',
+  MEDICAL_DEBT = 'Medical Debt',
   PERSONAL_LOAN = 'Personal Loan',
   STUDENT_LOAN = 'Student Loan',
-  OTHER = 'Other',
+  REAL_ESTATE_LOAN = 'Real Estate Loan',
+  VEHICLE_LOAN = 'Vehicle Loan',
+  CHILDREN = 'Children',
+  OTHER_DEBT = 'Other Debt',
 }
 
 export enum EXPENSES_CATEGORY {
@@ -64,16 +67,32 @@ export enum EXPENSES_CATEGORY {
   CHILDREN = 'Children',
   PARENT_ELDER_CARE = 'Parent/Elder Care',
   PETS_ANIMAL = 'Pets/Animal',
-  HEALTH_MEDICLE = 'Health Medicle',
+  HEALTH_MEDICAL = 'Health Medical',
   OTHER_INSURANCE = 'Other Insurance',
   HOUSEHOLD_PERSONAL_CARE_AND_GIFTS = 'Household, Personal Care & Gifts',
   DUES_SUBSCRIPTIONS = 'Dues/Subscriptions',
   RECREATION = 'Recreation',
   VACATIONS = 'Vacations',
   RENTAL_PROPERTY = 'Rental Property',
+  REAL_ESTATE_LOAN = 'Real Estate Loan',
+  VEHICLE_LOAN = 'Vehicle Loan',
+  OTHER_EXPENSE = 'Other Expense',
 }
 
 export enum TRANSACTION_TYPE {
   WITHDRAWAL = 'Withdrawal',
   CREDIT = 'Credit',
+}
+
+export enum GOAL_TYPE {
+  DEBT = 'Debt',
+  EXPENSE = 'Expense',
+  MAIN = 'Main',
+}
+
+export enum MAIN_CATEGORY {
+  EXPENSES = 'Expenses',
+  DEBTS = 'Debts',
+  RETIREMENT = 'Retirement',
+  SAVINGS = 'Savings',
 }

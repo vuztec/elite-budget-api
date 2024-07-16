@@ -15,6 +15,10 @@ export class Income extends CustomBaseEntity {
   @ApiProperty()
   IncomeSource: String;
 
+  @Column()
+  @ApiProperty()
+  NickName: String;
+
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   @ApiProperty()
   GrossAmount: Number;

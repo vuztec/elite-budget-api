@@ -17,6 +17,8 @@ export class IncomeService {
     new_income.NetAmount = createIncomeDto.NetAmount;
     new_income.IncomeSource = createIncomeDto.IncomeSource;
     new_income.Owner = createIncomeDto.Owner;
+    new_income.NickName = createIncomeDto.NickName;
+
     new_income.Root = user;
 
     return this.incomeRepo.save(new_income);
@@ -37,6 +39,7 @@ export class IncomeService {
     new_income.NetAmount = updateIncomeDto.NetAmount;
     new_income.IncomeSource = updateIncomeDto.IncomeSource;
     new_income.Owner = updateIncomeDto.Owner;
+    new_income.NickName = updateIncomeDto.NickName;
 
     return this.incomeRepo.save(new_income);
   }

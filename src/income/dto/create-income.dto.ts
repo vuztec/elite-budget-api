@@ -11,6 +11,9 @@ export class CreateIncomeDto {
   @IsString()
   IncomeSource: string;
 
+  @IsString()
+  NickName: string;
+
   @IsNumber()
   GrossAmount: Number;
 
