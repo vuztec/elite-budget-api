@@ -52,8 +52,6 @@ export enum DEBT_CATEGORY {
   MEDICAL_DEBT = 'Medical Debt',
   PERSONAL_LOAN = 'Personal Loan',
   STUDENT_LOAN = 'Student Loan',
-  REAL_ESTATE_LOAN = 'Real Estate Loan',
-  VEHICLE_LOAN = 'Vehicle Loan',
   CHILDREN = 'Children',
   OTHER_DEBT = 'Other Debt',
 }
@@ -74,8 +72,6 @@ export enum EXPENSES_CATEGORY {
   RECREATION = 'Recreation',
   VACATIONS = 'Vacations',
   RENTAL_PROPERTY = 'Rental Property',
-  REAL_ESTATE_LOAN = 'Real Estate Loan',
-  VEHICLE_LOAN = 'Vehicle Loan',
   OTHER_EXPENSE = 'Other Expense',
 }
 
