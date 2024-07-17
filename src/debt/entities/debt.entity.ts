@@ -23,9 +23,9 @@ export class Debt extends CustomBaseEntity {
   @Column({ type: 'enum', enum: PAYMENT_METHOD, default: PAYMENT_METHOD.AUTO_DEBIT })
   PaymentMethod: PAYMENT_METHOD;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ default: '01' })
   @ApiProperty()
-  DueDate: Date;
+  DueDate: string;
 
   @Column({ type: 'enum', enum: DEBT_CATEGORY, default: DEBT_CATEGORY.CREDIT_CARD })
   Category: DEBT_CATEGORY;

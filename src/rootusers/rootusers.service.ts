@@ -108,6 +108,8 @@ export class RootusersService {
 
       new_goal.Category = goal.Category;
       new_goal.Percentage = goal.Percentage;
+      new_goal.Type = goal.Type;
+
       new_goal.Root = user;
 
       return await this.goalRepo.save(new_goal);

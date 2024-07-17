@@ -24,7 +24,7 @@ export class CreateExpenseDto {
   PaymentMethod: PAYMENT_METHOD;
 
   @IsString()
-  DueDate: Date;
+  DueDate: string;
 
   @IsString()
   Category: EXPENSES_CATEGORY;

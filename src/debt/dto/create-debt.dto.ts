@@ -18,7 +18,7 @@ export class CreateDebtDto {
   PaymentMethod: PAYMENT_METHOD;
 
   @IsString()
-  DueDate: Date;
+  DueDate: string;
 
   @IsString()
   Category: DEBT_CATEGORY;

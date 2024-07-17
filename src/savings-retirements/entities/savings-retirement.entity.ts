@@ -27,9 +27,9 @@ export class SavingsRetirement extends CustomBaseEntity {
   @Column({ type: 'enum', enum: PAYMENT_METHOD, default: PAYMENT_METHOD.AUTO_DEBIT })
   PaymentMethod: PAYMENT_METHOD;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ default: '01' })
   @ApiProperty()
-  DueDate: Date;
+  DueDate: string;
 
   @Column({ type: 'enum', enum: SAV_RET_TYPE, default: SAV_RET_TYPE.SAVINGS })
   Type: SAV_RET_TYPE;

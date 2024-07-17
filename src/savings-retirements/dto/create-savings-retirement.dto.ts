@@ -21,7 +21,7 @@ export class CreateSavingsRetirementDto {
   PaymentMethod: PAYMENT_METHOD;
 
   @IsString()
-  DueDate: Date;
+  DueDate: string;
 
   @IsString()
   Category: SAV_RET_TYPE;
