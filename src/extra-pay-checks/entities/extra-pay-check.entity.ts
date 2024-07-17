@@ -12,7 +12,7 @@ export class ExtraPayCheck extends CustomBaseEntity {
   @ApiProperty()
   PartnerAmount: Number;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'datetime', nullable: true })
   @ApiProperty()
   Date: Date;
 }
