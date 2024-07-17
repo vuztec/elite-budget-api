@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { RootusersService } from '@/rootusers/rootusers.service';
 import { CreateRootuserDto } from '@/rootusers/dto/create-rootuser.dto';
+import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -27,6 +28,12 @@ export class AuthController {
   @Get()
   findAll() {
     return this.authService.findAll();
+  }
+
+  @Get('me')
+  findMe(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.authService.findMe(user);
   }
 
   @Get(':id')

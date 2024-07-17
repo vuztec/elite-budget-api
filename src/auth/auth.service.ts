@@ -48,6 +48,10 @@ export class AuthService {
     return `This action returns a #${id} auth`;
   }
 
+  findMe(user: Rootuser) {
+    return user;
+  }
+
   update(id: number, updateAuthDto: UpdateAuthDto) {
     return `This action updates a #${id} auth`;
   }
