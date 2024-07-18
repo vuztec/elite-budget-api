@@ -52,7 +52,6 @@ export enum DEBT_CATEGORY {
   MEDICAL_DEBT = 'Medical Debt',
   PERSONAL_LOAN = 'Personal Loan',
   STUDENT_LOAN = 'Student Loan',
-  CHILDREN = 'Children',
   OTHER_DEBT = 'Other Debt',
 }
 

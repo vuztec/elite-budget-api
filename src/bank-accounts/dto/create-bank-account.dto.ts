@@ -7,6 +7,9 @@ export class CreateBankAccountNameDto {
 
   @IsString()
   Name: string;
+
+  @IsNumber()
+  OpeningBalance: Number;
 }
 
 export class CreateBankAccountTransactionDto {

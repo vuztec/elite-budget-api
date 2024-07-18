@@ -13,6 +13,10 @@ export class BankAccountName extends CustomBaseEntity {
   @ApiProperty()
   Name: string;
 
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @ApiProperty()
+  OpeningBalance: Number;
+
   @OneToMany(() => BankAccountTransaction, (transaction) => transaction.BankAccountName)
   transactions: BankAccountTransaction[];
 }

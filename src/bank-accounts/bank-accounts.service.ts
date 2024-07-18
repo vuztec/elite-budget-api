@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBankAccountNameDto, CreateBankAccountTransactionDto } from './dto/create-bank-account.dto';
 import { UpdateBankAccountNameDto, UpdateBankAccountTransactionDto } from './dto/update-bank-account.dto';
-import { BankAccountName } from './entities/bank-account-Name.entity';
+import { BankAccountName } from './entities/bank-account-name.entity';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -18,6 +18,8 @@ export class BankAccountsService {
 
     new_account_name.Name = createBankAccountDto.Name;
     new_account_name.Owner = createBankAccountDto.Owner;
+    new_account_name.OpeningBalance = createBankAccountDto.OpeningBalance;
+
     new_account_name.Root = user;
 
     return this.bankNameRepo.save(new_account_name);
