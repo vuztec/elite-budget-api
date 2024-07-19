@@ -1,4 +1,4 @@
-import { EXPENSES_CATEGORY, Owner, PAYMENT_METHOD } from '@/shared/enums/enum';
+import { Owner, PAYMENT_METHOD } from '@/shared/enums/enum';
 import { IsNumber, IsString } from 'class-validator';
 
 export class CreateExpenseDto {
@@ -25,7 +25,4 @@ export class CreateExpenseDto {
 
   @IsString()
   DueDate: string;
-
-  @IsString()
-  Category: EXPENSES_CATEGORY;
 }

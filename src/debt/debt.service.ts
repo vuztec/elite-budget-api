@@ -37,7 +37,6 @@ export class DebtService {
     const new_debt = await this.debtRepo.findOne({ where: { id } });
 
     new_debt.Category = updateDebtDto.Category;
-    new_debt.Description = updateDebtDto.Description;
     new_debt.DueDate = updateDebtDto.DueDate;
     new_debt.LoanBalance = updateDebtDto.LoanBalance;
     new_debt.MonthlyBudget = updateDebtDto.MonthlyBudget;

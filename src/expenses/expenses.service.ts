@@ -12,7 +12,7 @@ export class ExpensesService {
 
   create(createExpenseDto: CreateExpenseDto, user: Rootuser) {
     const new_expense = new Expense();
-    new_expense.Category = createExpenseDto.Category;
+    // new_expense.Category = createExpenseDto.Category;
     new_expense.Description = createExpenseDto.Description;
     new_expense.DueDate = createExpenseDto.DueDate;
     new_expense.LoanBalance = createExpenseDto.LoanBalance;
@@ -37,8 +37,7 @@ export class ExpensesService {
 
   async update(id: number, updateExpenseDto: UpdateExpenseDto) {
     const new_expense = await this.expenseRepo.findOne({ where: { id } });
-    new_expense.Category = updateExpenseDto.Category;
-    new_expense.Description = updateExpenseDto.Description;
+
     new_expense.DueDate = updateExpenseDto.DueDate;
     new_expense.LoanBalance = updateExpenseDto.LoanBalance;
     new_expense.MonthlyBudget = updateExpenseDto.MonthlyBudget;

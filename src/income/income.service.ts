@@ -37,7 +37,6 @@ export class IncomeService {
     new_income.Frequency = updateIncomeDto.Frequency;
     new_income.GrossAmount = updateIncomeDto.GrossAmount;
     new_income.NetAmount = updateIncomeDto.NetAmount;
-    new_income.IncomeSource = updateIncomeDto.IncomeSource;
     new_income.Owner = updateIncomeDto.Owner;
     new_income.NickName = updateIncomeDto.NickName;
 

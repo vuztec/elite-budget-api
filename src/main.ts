@@ -1,11 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import {
-  Logger,
-  RequestMethod,
-  ValidationPipe,
-  VersioningType,
-} from '@nestjs/common';
+import { Logger, RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './shared/filters/exception.filter';
 import { InternalDisabledLogger } from './shared/utils/logger';
@@ -50,8 +45,7 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       forbidUnknownValues: true,
-      disableErrorMessages:
-        process.env.NODE_ENV === 'production' ? true : false,
+      disableErrorMessages: process.env.NODE_ENV === 'production' ? true : false,
     }),
   );
 

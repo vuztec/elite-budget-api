@@ -45,8 +45,8 @@ export class SavingsRetirementsService {
   async update(id: number, updateSavingsRetirementDto: UpdateSavingsRetirementDto) {
     const new_sav_ret = await this.saveRetRep.findOne({ where: { id } });
 
-    new_sav_ret.Category = updateSavingsRetirementDto.Category;
-    new_sav_ret.Description = updateSavingsRetirementDto.Description;
+    // new_sav_ret.Category = updateSavingsRetirementDto.Category;
+    // new_sav_ret.Description = updateSavingsRetirementDto.Description;
     new_sav_ret.DueDate = updateSavingsRetirementDto.DueDate;
     new_sav_ret.MarketValue = updateSavingsRetirementDto.MarketValue;
     new_sav_ret.MonthlyBudget = updateSavingsRetirementDto.MonthlyBudget;
