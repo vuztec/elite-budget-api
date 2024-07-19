@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { UpdateAuthDto, UpdatePasswordDto } from './dto/update-auth.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { RootusersService } from '@/rootusers/rootusers.service';
 import { CreateRootuserDto } from '@/rootusers/dto/create-rootuser.dto';
@@ -39,6 +39,12 @@ export class AuthController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.authService.findOne(+id);
+  }
+
+  @Patch('password')
+  updatePassword(@Body() updateUserDto: UpdatePasswordDto, @Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.authService.updatePassword(updateUserDto, user);
   }
 
   @Patch(':id')

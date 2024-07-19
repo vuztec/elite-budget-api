@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { UpdateAuthDto, UpdatePasswordDto } from './dto/update-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
@@ -50,6 +50,20 @@ export class AuthService {
 
   findMe(user: Rootuser) {
     return user;
+  }
+
+  async updatePassword(updateUserDto: UpdatePasswordDto, logged: Rootuser) {
+    const user = await this.userRepo.findOne({ where: { id: logged.id } });
+
+    const isMatch = await bcrypt.compare(updateUserDto.CurrentPassword, user.Password);
+
+    if (!isMatch) {
+      throw new UnauthorizedException('Invalid credentials.');
+    }
+
+    user.Password = await bcrypt.hash(updateUserDto.NewPassword, Number(process.env.SALT));
+
+    return this.userRepo.save(user);
   }
 
   update(id: number, updateAuthDto: UpdateAuthDto) {
