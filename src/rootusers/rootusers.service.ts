@@ -130,8 +130,9 @@ export class RootusersService {
     const new_user = await this.findOne(id);
 
     new_user.FullName = updateRootuserDto.FullName;
-    new_user.Contact = updateRootuserDto.Contact;
-    new_user.Address = updateRootuserDto.Address;
+    new_user.SelfAge = updateRootuserDto.SelfAge;
+    new_user.PartnerAge = updateRootuserDto.PartnerAge;
+    new_user.Email = updateRootuserDto.Email;
     new_user.City = updateRootuserDto.City;
     new_user.Country = updateRootuserDto.Country;
     new_user.DateFormat = updateRootuserDto.DateFormat;

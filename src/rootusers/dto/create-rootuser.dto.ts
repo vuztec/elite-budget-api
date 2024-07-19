@@ -37,4 +37,10 @@ export class CreateRootuserDto {
 
   @IsString()
   DateFormat: string;
+
+  @IsString()
+  PartnerAge: Number;
+
+  @IsString()
+  SelfAge: Number;
 }

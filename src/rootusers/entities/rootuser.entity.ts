@@ -22,6 +22,14 @@ export class Rootuser extends CustomBaseEntity {
 
   @ApiProperty()
   @Column()
+  PartnerAge: Number;
+
+  @ApiProperty()
+  @Column()
+  SelfAge: Number;
+
+  @ApiProperty()
+  @Column()
   @Length(8, 32)
   Password: string;
 
