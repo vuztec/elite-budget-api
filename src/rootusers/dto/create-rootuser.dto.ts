@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsNumber, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateRootuserDto {
   @IsString()
@@ -38,9 +38,9 @@ export class CreateRootuserDto {
   @IsString()
   DateFormat: string;
 
-  @IsString()
+  @IsNumber()
   PartnerAge: Number;
 
-  @IsString()
+  @IsNumber()
   SelfAge: Number;
 }

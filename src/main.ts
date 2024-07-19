@@ -44,13 +44,14 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
-      forbidUnknownValues: true,
-      disableErrorMessages: process.env.NODE_ENV === 'production' ? true : false,
+      disableErrorMessages: false, // Ensure error messages are not disabled
+      whitelist: true, // Automatically strip non-whitelisted properties
+      forbidNonWhitelisted: true,
     }),
   );
 
   // Exception filter to catch all http exceptions and return a json response
-  app.useGlobalFilters(new HttpExceptionFilter());
+  // app.useGlobalFilters(new HttpExceptionFilter());
 
   // Explicitly enable versioning
   app.enableVersioning({
