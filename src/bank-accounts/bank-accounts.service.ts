@@ -29,7 +29,7 @@ export class BankAccountsService {
     const new_transaction = new BankAccountTransaction();
 
     new_transaction.Amount = createBankAccountDto.Amount;
-    new_transaction.BankAccountName = await this.bankNameRepo.findOneBy({ id: createBankAccountDto.BankAccountNameId });
+    new_transaction.BankAccountName = await this.bankNameRepo.findOneBy({ id: createBankAccountDto.BankName });
     new_transaction.Date = createBankAccountDto.Date;
     new_transaction.Description = createBankAccountDto.Description;
     new_transaction.IsCleared = createBankAccountDto.IsCleared;
@@ -69,7 +69,7 @@ export class BankAccountsService {
     const new_transaction = await this.bankTransactionRepo.findOne({ where: { id } });
 
     new_transaction.Amount = updateBankAccountDto.Amount;
-    new_transaction.BankAccountName = await this.bankNameRepo.findOneBy({ id: updateBankAccountDto.BankAccountNameId });
+    new_transaction.BankAccountName = await this.bankNameRepo.findOneBy({ id: updateBankAccountDto.BankName });
     new_transaction.Date = updateBankAccountDto.Date;
     new_transaction.Description = updateBankAccountDto.Description;
     new_transaction.IsCleared = updateBankAccountDto.IsCleared;
