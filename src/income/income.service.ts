@@ -5,6 +5,7 @@ import { Income } from './entities/income.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
+import { Frequency } from '@/shared/enums/enum';
 
 @Injectable()
 export class IncomeService {
@@ -43,7 +44,13 @@ export class IncomeService {
     return this.incomeRepo.save(new_income);
   }
 
-  remove(id: number) {
-    return this.incomeRepo.delete(id);
+  async remove(id: number) {
+    const new_income = await this.incomeRepo.findOne({ where: { id } });
+    new_income.Frequency = Frequency.MONTHLY;
+    new_income.GrossAmount = 0;
+    new_income.NetAmount = 0;
+    new_income.NickName = '';
+
+    return this.incomeRepo.save(new_income);
   }
 }

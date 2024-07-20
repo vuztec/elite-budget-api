@@ -5,6 +5,7 @@ import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 import { Expense } from './entities/expense.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { PAYMENT_METHOD } from '@/shared/enums/enum';
 
 @Injectable()
 export class ExpensesService {
@@ -49,7 +50,16 @@ export class ExpensesService {
     return this.expenseRepo.save(new_expense);
   }
 
-  remove(id: number) {
-    return this.expenseRepo.delete(id);
+  async remove(id: number) {
+    const new_expense = await this.expenseRepo.findOne({ where: { id } });
+
+    new_expense.DueDate = '01';
+    new_expense.LoanBalance = 0;
+    new_expense.MonthlyBudget = 0;
+    new_expense.MarketValue = 0;
+    new_expense.PaymentMethod = PAYMENT_METHOD.AUTO_DEBIT;
+    new_expense.NickName = null;
+
+    return this.expenseRepo.save(new_expense);
   }
 }

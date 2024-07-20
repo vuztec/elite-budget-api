@@ -32,11 +32,8 @@ export class RootusersService {
     new_user.FullName = createRootuserDto.FullName;
     new_user.Email = createRootuserDto.Email;
     new_user.Contact = createRootuserDto.Contact;
-    new_user.Address = createRootuserDto.Address;
-    new_user.City = createRootuserDto.City;
     new_user.Country = createRootuserDto.Country;
     new_user.DateFormat = createRootuserDto.DateFormat;
-    new_user.Province = createRootuserDto.Province;
     new_user.Currency = createRootuserDto.Currency;
     new_user.Separator = createRootuserDto.Separator;
 
@@ -133,10 +130,8 @@ export class RootusersService {
     new_user.SelfAge = updateRootuserDto.SelfAge;
     new_user.PartnerAge = updateRootuserDto.PartnerAge;
     new_user.Email = updateRootuserDto.Email;
-    new_user.City = updateRootuserDto.City;
     new_user.Country = updateRootuserDto.Country;
     new_user.DateFormat = updateRootuserDto.DateFormat;
-    new_user.Province = updateRootuserDto.Province;
     new_user.Currency = updateRootuserDto.Currency;
     new_user.Separator = updateRootuserDto.Separator;
 

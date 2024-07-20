@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateSavingsRetirementDto } from './dto/create-savings-retirement.dto';
 import { UpdateSavingsRetirementDto } from './dto/update-savings-retirement.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
-import { SAV_RET_TYPE } from '@/shared/enums/enum';
+import { PAYMENT_METHOD, SAV_RET_TYPE } from '@/shared/enums/enum';
 import { SavingsRetirement } from './entities/savings-retirement.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -45,8 +45,6 @@ export class SavingsRetirementsService {
   async update(id: number, updateSavingsRetirementDto: UpdateSavingsRetirementDto) {
     const new_sav_ret = await this.saveRetRep.findOne({ where: { id } });
 
-    // new_sav_ret.Category = updateSavingsRetirementDto.Category;
-    // new_sav_ret.Description = updateSavingsRetirementDto.Description;
     new_sav_ret.DueDate = updateSavingsRetirementDto.DueDate;
     new_sav_ret.MarketValue = updateSavingsRetirementDto.MarketValue;
     new_sav_ret.MonthlyBudget = updateSavingsRetirementDto.MonthlyBudget;
@@ -57,7 +55,16 @@ export class SavingsRetirementsService {
     return this.saveRetRep.save(new_sav_ret);
   }
 
-  remove(id: number) {
-    return this.saveRetRep.delete(id);
+  async remove(id: number) {
+    const new_sav_ret = await this.saveRetRep.findOne({ where: { id } });
+
+    new_sav_ret.DueDate = '01';
+    new_sav_ret.MarketValue = 0;
+    new_sav_ret.MonthlyBudget = 0;
+    // new_sav_ret.Owner = updateSavingsRetirementDto.Owner;
+    new_sav_ret.PaymentMethod = PAYMENT_METHOD.AUTO_DEBIT;
+    new_sav_ret.NickName = '';
+
+    return this.saveRetRep.save(new_sav_ret);
   }
 }
