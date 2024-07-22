@@ -20,7 +20,9 @@ export class DebtService {
     new_debt.LoanBalance = createDebtDto.LoanBalance;
     new_debt.MonthlyBudget = createDebtDto.MonthlyBudget;
     new_debt.PaymentMethod = createDebtDto.PaymentMethod;
+    new_debt.NickName = createDebtDto.NickName;
     new_debt.Owner = createDebtDto.Owner;
+
     new_debt.Root = user;
 
     return this.debtRepo.save(new_debt);
@@ -42,6 +44,8 @@ export class DebtService {
     new_debt.LoanBalance = updateDebtDto.LoanBalance;
     new_debt.MonthlyBudget = updateDebtDto.MonthlyBudget;
     new_debt.PaymentMethod = updateDebtDto.PaymentMethod;
+    new_debt.NickName = updateDebtDto.NickName;
+
     new_debt.Owner = updateDebtDto.Owner;
 
     return this.debtRepo.save(new_debt);
@@ -53,6 +57,7 @@ export class DebtService {
     new_debt.DueDate = '01';
     new_debt.LoanBalance = 0;
     new_debt.MonthlyBudget = 0;
+    new_debt.NickName = '';
     new_debt.PaymentMethod = PAYMENT_METHOD.AUTO_DEBIT;
 
     return this.debtRepo.save(new_debt);

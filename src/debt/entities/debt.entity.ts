@@ -20,6 +20,10 @@ export class Debt extends CustomBaseEntity {
   @ApiProperty()
   Description: string;
 
+  @Column()
+  @ApiProperty()
+  NickName: string;
+
   @Column({ type: 'enum', enum: PAYMENT_METHOD, default: PAYMENT_METHOD.AUTO_DEBIT })
   PaymentMethod: PAYMENT_METHOD;
 

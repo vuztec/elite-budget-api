@@ -23,12 +23,20 @@ export class GoalsService {
     return this.goalRepo.save(new_goal);
   }
 
-  findAll(user: Rootuser, type: GOAL_TYPE) {
-    return this.goalRepo
+  async findAll(user: Rootuser, type: GOAL_TYPE) {
+    const goals = await this.goalRepo
       .createQueryBuilder('goal')
       .where('goal.rootid = :id', { id: user.id })
       .andWhere('goal.Type = :type', { type })
       .getMany();
+
+    goals.sort((a, b) => {
+      if (a.Category < b.Category) return -1;
+      if (a.Category > b.Category) return 1;
+      return 0;
+    });
+
+    return goals;
   }
 
   findOne(id: number) {

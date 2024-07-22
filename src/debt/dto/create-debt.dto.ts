@@ -15,6 +15,9 @@ export class CreateDebtDto {
   Description: string;
 
   @IsString()
+  NickName: string;
+
+  @IsString()
   PaymentMethod: PAYMENT_METHOD;
 
   @IsString()
