@@ -1,0 +1,58 @@
+name: Node js to aws
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: us-west-1
+  ECR_REPOSITORY: elite-budget-api
+  CONTAINER_NAME: elite-budget-api
+  IMAGE_TAG: elite-budget-nest-api
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          echo "Login : " >> ${{ steps.login-ecr.outputs.registry }}
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:${{env.IMAGE_TAG}} .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{env.IMAGE_TAG}}
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:${{env.IMAGE_TAG}}" >> $GITHUB_OUTPUT
+
+      - name: Executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        with:
+          host: ${{ secrets.IP_ADDRESS }}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # sudo docker stop ${{env.CONTAINER_NAME}}
+            # sudo docker rm ${{env.CONTAINER_NAME}}
+            sudo docker login -u AWS -p $(aws ecr get-login-password --region ${{ env.AWS_REGION }}) ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}
+            sudo docker pull ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG}}
+            sudo docker run -d --name ${{env.CONTAINER_NAME}} -e NODE_ENV="production" -e DATABASE_URL="${{ secrets.DATABASE_URL }}" -e SALT="${{ secrets.SALT }}" -e JWT_SECRET="${{ secrets.JWT_SECRET }}" -p 8082:8000 ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG}}
+            # sudo docker rmi $(sudo docker images -q --filter "dangling=true")
