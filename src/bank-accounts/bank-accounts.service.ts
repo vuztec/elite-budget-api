@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBankAccountNameDto, CreateBankAccountTransactionDto } from './dto/create-bank-account.dto';
 import { UpdateBankAccountNameDto, UpdateBankAccountTransactionDto } from './dto/update-bank-account.dto';
-import { BankAccountName } from './entities/bank-account-names.entity';
+import { BankAccountName } from './entities/bank-account-name.entity';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
