@@ -2,7 +2,7 @@ import { CustomBaseEntity } from '@/shared/entities/customeBase.entity';
 import { Owner, TRANSACTION_TYPE } from '@/shared/enums/enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { BankAccountName } from './bank-account-name.entity';
+import { BankAccountName } from './bank-account-names.entity';
 
 @Entity()
 export class BankAccountTransaction extends CustomBaseEntity {
