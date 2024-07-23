@@ -1,9 +1,9 @@
 import { Global, Module } from '@nestjs/common';
-import { BankAccountsService } from './bank-accounts.service';
-import { BankAccountsController } from './bank-accounts.controller';
+import { BankAccountsService } from '@/bank-accounts/bank-accounts.service';
+import { BankAccountsController } from '@/bank-accounts/bank-accounts.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BankAccountName } from './entities/bank-account-name.entity';
-import { BankAccountTransaction } from './entities/bank-account-transaction.entity';
+import { BankAccountName } from '@/bank-accounts/entities/bank-account-name.entity';
+import { BankAccountTransaction } from '@/bank-accounts/entities/bank-account-transaction.entity';
 
 @Global()
 @Module({
