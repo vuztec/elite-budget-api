@@ -71,6 +71,7 @@ export enum EXPENSES_CATEGORY {
   RECREATION = 'Recreation',
   VACATIONS = 'Vacations',
   RENTAL_PROPERTY = 'Rental Property',
+  JOINT_CONTRIBUTION = 'Joint Contribution',
   OTHER_EXPENSE = 'Other Expense',
 }
 

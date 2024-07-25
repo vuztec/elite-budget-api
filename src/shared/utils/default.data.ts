@@ -339,6 +339,8 @@ export const expenses_data = [
   { Owner: Owner.JOINT, Category: EXPENSES_CATEGORY.RENTAL_PROPERTY, Description: 'Enter - Rental Property' },
   { Owner: Owner.SELF, Category: EXPENSES_CATEGORY.RENTAL_PROPERTY, Description: 'Enter - Rental Property' },
   { Owner: Owner.PARTNER, Category: EXPENSES_CATEGORY.RENTAL_PROPERTY, Description: 'Enter - Rental Property' },
+  { Owner: Owner.SELF, Category: EXPENSES_CATEGORY.JOINT_CONTRIBUTION, Description: 'Self Joint Contribution' },
+  { Owner: Owner.PARTNER, Category: EXPENSES_CATEGORY.JOINT_CONTRIBUTION, Description: 'Partner Joint Contribution' },
 ];
 
 export const goals_data = [
@@ -351,6 +353,8 @@ export const goals_data = [
   { Category: DEBT_CATEGORY.STUDENT_LOAN, Percentage: 0.0, Type: GOAL_TYPE.DEBT },
   { Category: DEBT_CATEGORY.CREDIT_CARD, Percentage: 0.0, Type: GOAL_TYPE.DEBT },
   { Category: EXPENSES_CATEGORY.CHILDREN, Percentage: 0.0, Type: GOAL_TYPE.EXPENSE },
+  { Category: EXPENSES_CATEGORY.CHARITY, Percentage: 0.0, Type: GOAL_TYPE.EXPENSE },
+  { Category: EXPENSES_CATEGORY.HOUSING, Percentage: 0.0, Type: GOAL_TYPE.EXPENSE },
   { Category: EXPENSES_CATEGORY.DUES_SUBSCRIPTIONS, Percentage: 0.0, Type: GOAL_TYPE.EXPENSE },
   { Category: EXPENSES_CATEGORY.ENTERTAINMENT, Percentage: 0.0, Type: GOAL_TYPE.EXPENSE },
   { Category: EXPENSES_CATEGORY.FOOD, Percentage: 0.0, Type: GOAL_TYPE.EXPENSE },
