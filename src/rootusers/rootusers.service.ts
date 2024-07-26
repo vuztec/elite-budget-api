@@ -29,6 +29,8 @@ export class RootusersService {
   async create(createRootuserDto: CreateRootuserDto) {
     const new_user = new Rootuser();
 
+    console.log(createRootuserDto);
+
     new_user.FullName = createRootuserDto.FullName;
     new_user.Email = createRootuserDto.Email;
     new_user.Contact = createRootuserDto.Contact;
