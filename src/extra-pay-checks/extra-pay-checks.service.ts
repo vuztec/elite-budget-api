@@ -40,7 +40,13 @@ export class ExtraPayChecksService {
     return this.payCheckRepo.save(new_pay);
   }
 
-  remove(id: number) {
-    return this.payCheckRepo.delete(id);
+  async remove(id: number) {
+    const new_pay = await this.payCheckRepo.findOne({ where: { id } });
+
+    new_pay.PartnerAmount = 0;
+    new_pay.SelfAmount = 0;
+    new_pay.Date = null;
+
+    return this.payCheckRepo.save(new_pay);
   }
 }
