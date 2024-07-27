@@ -8,12 +8,6 @@ export class CreateRootuserDto {
   Email: string;
 
   @IsString()
-  @MinLength(8, { message: 'Contact must be at least 8 characters long' })
-  @MaxLength(15, { message: 'Contact must be at most 15 characters long' })
-  @IsOptional()
-  Contact: string;
-
-  @IsString()
   @MinLength(8, { message: 'Password must be at least 8 characters long' })
   @MaxLength(32, { message: 'Password must be at most 32 characters long' })
   Password: string;
