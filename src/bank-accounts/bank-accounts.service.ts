@@ -45,7 +45,12 @@ export class BankAccountsService {
   }
 
   findAllTransactions(user: Rootuser) {
-    return this.bankTransactionRepo.find({ relations: ['BankAccountName'] });
+    // return this.bankTransactionRepo.find({ relations: ['BankAccountName'] });
+    return this.bankTransactionRepo
+      .createQueryBuilder('transaction')
+      .where('names.rootid = :id', { id: user.id })
+      .leftJoinAndSelect('transaction.BankAccountName', 'BankAccountName')
+      .getMany();
   }
 
   findOneName(id: number) {
