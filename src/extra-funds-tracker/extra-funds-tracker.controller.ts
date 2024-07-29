@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
 import { ExtraFundsTrackerService } from './extra-funds-tracker.service';
 import { CreateExtraFundsTrackerDto } from './dto/create-extra-funds-tracker.dto';
-import { UpdateExtraFundsTrackerDto } from './dto/update-extra-funds-tracker.dto';
+import { UpdateBalanceDto, UpdateExtraFundsTrackerDto } from './dto/update-extra-funds-tracker.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 
 @Controller('extra-funds-tracker')
@@ -20,9 +20,21 @@ export class ExtraFundsTrackerController {
     return this.extraFundsTrackerService.findAll(user);
   }
 
+  @Get('excess-balance')
+  findBalance(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.extraFundsTrackerService.findBalance(user.id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.extraFundsTrackerService.findOne(+id);
+  }
+
+  @Patch('excess-balance')
+  updateBalance(@Body() updateBalanceDto: UpdateBalanceDto, @Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.extraFundsTrackerService.updateBalance(updateBalanceDto, user);
   }
 
   @Patch(':id')
