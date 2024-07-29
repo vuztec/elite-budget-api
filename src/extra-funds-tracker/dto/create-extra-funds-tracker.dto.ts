@@ -17,3 +17,8 @@ export class CreateExtraFundsTrackerDto {
   @IsNumber()
   Amount: Number;
 }
+
+export class CreateBalanceDto {
+  @IsNumber()
+  Balance: Number;
+}
