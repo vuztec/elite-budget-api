@@ -33,7 +33,6 @@ export class RootusersService {
 
     new_user.FullName = createRootuserDto.FullName;
     new_user.Email = createRootuserDto.Email;
-    new_user.Contact = createRootuserDto.Contact;
     new_user.Country = createRootuserDto.Country;
     new_user.DateFormat = createRootuserDto.DateFormat;
     new_user.Currency = createRootuserDto.Currency;
