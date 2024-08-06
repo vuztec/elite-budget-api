@@ -5,7 +5,7 @@ import { Column, Entity } from 'typeorm';
 
 @Entity()
 export class ExtraFundsTracker extends CustomBaseEntity {
-  @Column({ type: 'enum', enum: Owner, default: Owner.SELF })
+  @Column({ type: 'enum', enum: Owner, default: null })
   Owner: Owner;
 
   @Column()

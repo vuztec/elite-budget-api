@@ -6,7 +6,7 @@ import { BankAccountName } from './bank-account-name.entity';
 
 @Entity()
 export class BankAccountTransaction extends CustomBaseEntity {
-  @Column({ type: 'enum', enum: Owner, default: Owner.SELF })
+  @Column({ type: 'enum', enum: Owner, default: null })
   Owner: Owner;
 
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })

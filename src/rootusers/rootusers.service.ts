@@ -43,7 +43,6 @@ export class RootusersService {
     income_data.map(async (data) => {
       const income = new Income();
       income.IncomeSource = data.IncomeSource;
-      income.Owner = data.Owner;
       income.Root = user;
 
       return await this.incomeRepo.save(income);
@@ -53,7 +52,6 @@ export class RootusersService {
       const savings = new SavingsRetirement();
       savings.Category = SAV_RET_TYPE.SAVINGS;
       savings.Type = SAV_RET_TYPE.SAVINGS;
-      savings.Owner = data.Owner;
       savings.Description = data.Description;
       savings.Root = user;
 
@@ -64,7 +62,6 @@ export class RootusersService {
       const retirement = new SavingsRetirement();
       retirement.Category = SAV_RET_TYPE.RETIREMENTS;
       retirement.Type = SAV_RET_TYPE.RETIREMENTS;
-      retirement.Owner = data.Owner;
       retirement.Description = data.Description;
       retirement.Root = user;
 
@@ -75,7 +72,6 @@ export class RootusersService {
       const debt = new Debt();
       debt.Description = data.description;
       debt.Category = data.Category;
-      debt.Owner = data.Owner;
       debt.Root = user;
 
       return await this.debtRepo.save(debt);
