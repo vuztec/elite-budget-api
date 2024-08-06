@@ -62,7 +62,7 @@ export enum EXPENSES_CATEGORY {
   FOOD = 'Food',
   ENTERTAINMENT = 'Entertainment',
   CHILDREN = 'Children',
-  PARENT_ELDER_CARE = 'Parent/Elder Care',
+  PARENT_ELDER_CARE = 'Parents/Elder Care',
   PETS_ANIMAL = 'Pets/Animals',
   HEALTH_MEDICAL = 'Health/Medical',
   OTHER_INSURANCE = 'Other Insurance',
