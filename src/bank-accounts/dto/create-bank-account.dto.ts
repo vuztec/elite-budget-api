@@ -14,9 +14,6 @@ export class CreateBankAccountNameDto {
 
 export class CreateBankAccountTransactionDto {
   @IsString()
-  Owner: Owner;
-
-  @IsString()
   Description: string;
 
   @IsString()
