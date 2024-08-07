@@ -65,6 +65,7 @@ export class BankAccountsService {
 
     new_account_name.Name = updateBankAccountDto.Name;
     new_account_name.Owner = updateBankAccountDto.Owner;
+    new_account_name.OpeningBalance = updateBankAccountDto.OpeningBalance;
 
     return this.bankNameRepo.save(new_account_name);
   }
