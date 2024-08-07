@@ -5,7 +5,7 @@ import { Column, Entity } from 'typeorm';
 
 @Entity()
 export class Debt extends CustomBaseEntity {
-  @Column({ type: 'enum', enum: Owner, default: Owner.SELF })
+  @Column({ type: 'enum', enum: Owner, default: null })
   Owner: Owner;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })

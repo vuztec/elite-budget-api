@@ -6,7 +6,7 @@ import { BankAccountTransaction } from './bank-account-transaction.entity';
 
 @Entity()
 export class BankAccountName extends CustomBaseEntity {
-  @Column({ type: 'enum', enum: Owner, default: Owner.SELF })
+  @Column({ type: 'enum', enum: Owner, default: null })
   Owner: Owner;
 
   @Column()
