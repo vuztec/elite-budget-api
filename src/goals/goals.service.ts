@@ -14,7 +14,7 @@ export class GoalsService {
   create(createGoalDto: CreateGoalDto, user: Rootuser, type: GOAL_TYPE) {
     const new_goal = new Goal();
 
-    new_goal.Category = createGoalDto.Category;
+    // new_goal.Category = createGoalDto.Category;
     new_goal.Percentage = createGoalDto.Percentage;
     new_goal.Type = type;
 
@@ -46,7 +46,6 @@ export class GoalsService {
   async update(id: number, updateGoalDto: UpdateGoalDto) {
     const new_goal = await this.goalRepo.findOne({ where: { id } });
 
-    new_goal.Category = updateGoalDto.Category;
     new_goal.Percentage = updateGoalDto.Percentage;
 
     return this.goalRepo.save(new_goal);
