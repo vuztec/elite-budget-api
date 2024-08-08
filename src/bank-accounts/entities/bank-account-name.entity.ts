@@ -17,6 +17,6 @@ export class BankAccountName extends CustomBaseEntity {
   @ApiProperty()
   OpeningBalance: Number;
 
-  @OneToMany(() => BankAccountTransaction, (transaction) => transaction.BankAccountName)
+  @OneToMany(() => BankAccountTransaction, (transaction) => transaction.BankAccountName, { cascade: ['remove'] })
   transactions: BankAccountTransaction[];
 }
