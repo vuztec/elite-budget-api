@@ -90,7 +90,7 @@ export class BankAccountsService {
     return this.bankTransactionRepo.save(new_transaction);
   }
 
-  removeName(id: number) {
+  async removeName(id: number) {
     return this.bankNameRepo.delete(id);
   }
 

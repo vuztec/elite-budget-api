@@ -25,7 +25,7 @@ export class BankAccountTransaction extends CustomBaseEntity {
   @ApiProperty()
   IsCleared: boolean;
 
-  @ManyToOne(() => BankAccountName, (bankAccountName) => bankAccountName.transactions)
+  @ManyToOne(() => BankAccountName, (bankAccountName) => bankAccountName.transactions, { onDelete: 'CASCADE' })
   @ApiProperty()
   BankAccountName: BankAccountName;
 }
