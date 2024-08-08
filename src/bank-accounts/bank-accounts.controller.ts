@@ -15,7 +15,10 @@ export class BankAccountsController {
   }
 
   @Post('transaction')
-  createTransaction(@Body() createBankAccountDto: CreateBankAccountTransactionDto, @Req() req: Request & { user: Rootuser }) {
+  createTransaction(
+    @Body() createBankAccountDto: CreateBankAccountTransactionDto,
+    @Req() req: Request & { user: Rootuser },
+  ) {
     const { user } = req;
     return this.bankAccountsService.createTransaction(createBankAccountDto, user);
   }
@@ -43,7 +46,11 @@ export class BankAccountsController {
   }
 
   @Patch('name/:id')
-  updateName(@Param('id') id: string, @Body() updateBankAccountDto: UpdateBankAccountNameDto, @Req() req: Request & { user: Rootuser }) {
+  updateName(
+    @Param('id') id: string,
+    @Body() updateBankAccountDto: UpdateBankAccountNameDto,
+    @Req() req: Request & { user: Rootuser },
+  ) {
     const { user } = req;
     return this.bankAccountsService.updateName(+id, updateBankAccountDto);
   }
@@ -56,6 +63,12 @@ export class BankAccountsController {
   ) {
     const { user } = req;
     return this.bankAccountsService.updateTransaction(+id, updateBankAccountDto);
+  }
+
+  @Patch('transaction/:id/status')
+  updateTransactionStatus(@Param('id') id: string, @Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.bankAccountsService.updateTransactionStatus(+id);
   }
 
   @Delete('name/:id')
