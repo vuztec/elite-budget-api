@@ -44,7 +44,6 @@ export class BankAccountsService {
   }
 
   findAllTransactions(user: Rootuser) {
-    // return this.bankTransactionRepo.find({ relations: ['BankAccountName'] });
     return this.bankTransactionRepo
       .createQueryBuilder('transaction')
       .where('transaction.rootid = :id', { id: user.id })
@@ -79,6 +78,14 @@ export class BankAccountsService {
     new_transaction.Description = updateBankAccountDto.Description;
     new_transaction.IsCleared = updateBankAccountDto.IsCleared;
     new_transaction.Type = updateBankAccountDto.Type;
+
+    return this.bankTransactionRepo.save(new_transaction);
+  }
+
+  async updateTransactionStatus(id: number) {
+    const new_transaction = await this.bankTransactionRepo.findOne({ where: { id } });
+
+    new_transaction.IsCleared = !new_transaction.IsCleared;
 
     return this.bankTransactionRepo.save(new_transaction);
   }
