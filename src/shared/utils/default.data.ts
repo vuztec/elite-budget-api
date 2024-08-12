@@ -46,10 +46,10 @@ export const savings_data = [
 ];
 
 export const retirements_data = [
-  { Description: 'Retirement (401k, Roth 401K, 403b) Payroll Deductions' },
-  { Description: 'Retirement (401k, Roth 401K, 403b) Payroll Deductions' },
-  { Description: 'Retirement (401k, Roth 401K, 403b) Prior Job' },
-  { Description: 'Retirement (401k, Roth 401K, 403b) Prior Job' },
+  { Description: 'Retirement (401k, Roth 401k, 403b) Payroll Deductions' },
+  { Description: 'Retirement (401k, Roth 401k, 403b) Payroll Deductions' },
+  { Description: 'Retirement (401k, Roth 401k, 403b) Prior Job' },
+  { Description: 'Retirement (401k, Roth 401k, 403b) Prior Job' },
   { Description: 'IRA' },
   { Description: 'IRA' },
   { Description: 'IRA' },
