@@ -164,7 +164,7 @@ export const expenses_data = [
   { Category: EXPENSES_CATEGORY.CHARITY, Description: 'Charities #4' },
   { Category: EXPENSES_CATEGORY.CHARITY, Description: 'Charities #5' },
   { Category: EXPENSES_CATEGORY.CHARITY, Description: 'Religious Organizations' },
-  { Category: EXPENSES_CATEGORY.CHARITY, Description: 'Other' },
+  { Category: EXPENSES_CATEGORY.CHARITY, Description: 'Enter' },
   { Category: EXPENSES_CATEGORY.CHARITY, Description: 'Enter' },
   { Category: EXPENSES_CATEGORY.CHARITY, Description: 'Enter' },
   { Category: EXPENSES_CATEGORY.CHARITY, Description: 'Enter' },

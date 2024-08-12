@@ -1,5 +1,5 @@
 import { Owner, PAYMENT_METHOD, SAV_RET_TYPE } from '@/shared/enums/enum';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateSavingsRetirementDto {
   @IsString()
@@ -9,7 +9,8 @@ export class CreateSavingsRetirementDto {
   MarketValue: Number;
 
   @IsNumber()
-  MonthlyBudget: Number;
+  @IsOptional()
+  MonthlyBudget?: Number;
 
   @IsString()
   Description: string;
@@ -18,9 +19,11 @@ export class CreateSavingsRetirementDto {
   NickName: string;
 
   @IsString()
+  @IsOptional()
   PaymentMethod: PAYMENT_METHOD;
 
   @IsString()
+  @IsOptional()
   DueDate: string;
 
   @IsString()
