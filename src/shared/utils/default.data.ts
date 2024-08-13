@@ -349,7 +349,6 @@ export const goals_data = [
   { Category: DEBT_CATEGORY.OTHER_DEBT, Percentage: 0.0, Type: GOAL_TYPE.DEBT },
   { Category: DEBT_CATEGORY.PERSONAL_LOAN, Percentage: 0.0, Type: GOAL_TYPE.DEBT },
   { Category: DEBT_CATEGORY.STUDENT_LOAN, Percentage: 0.0, Type: GOAL_TYPE.DEBT },
-  { Category: DEBT_CATEGORY.CREDIT_CARD, Percentage: 0.0, Type: GOAL_TYPE.DEBT },
   { Category: EXPENSES_CATEGORY.CHILDREN, Percentage: 0.0, Type: GOAL_TYPE.EXPENSE },
   { Category: EXPENSES_CATEGORY.CHARITY, Percentage: 10.0, Type: GOAL_TYPE.EXPENSE },
   { Category: EXPENSES_CATEGORY.HOUSING, Percentage: 35.0, Type: GOAL_TYPE.EXPENSE },
