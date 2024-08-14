@@ -33,6 +33,7 @@ export class BankAccountsService {
     new_transaction.Date = createBankAccountDto.Date;
     new_transaction.Description = createBankAccountDto.Description;
     new_transaction.IsCleared = createBankAccountDto.IsCleared;
+    new_transaction.Taxable = createBankAccountDto.Taxable;
     new_transaction.Type = createBankAccountDto.Type;
     new_transaction.Root = user;
 
@@ -77,6 +78,7 @@ export class BankAccountsService {
     new_transaction.Date = updateBankAccountDto.Date;
     new_transaction.Description = updateBankAccountDto.Description;
     new_transaction.IsCleared = updateBankAccountDto.IsCleared;
+    new_transaction.Taxable = updateBankAccountDto.Taxable;
     new_transaction.Type = updateBankAccountDto.Type;
 
     return this.bankTransactionRepo.save(new_transaction);

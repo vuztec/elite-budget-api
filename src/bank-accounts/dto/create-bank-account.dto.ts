@@ -29,6 +29,9 @@ export class CreateBankAccountTransactionDto {
   @IsBoolean()
   IsCleared: boolean;
 
+  @IsBoolean()
+  Taxable: boolean;
+
   @IsNumber()
   BankName: number;
 }

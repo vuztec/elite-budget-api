@@ -21,9 +21,13 @@ export class BankAccountTransaction extends CustomBaseEntity {
   @ApiProperty()
   Amount: Number;
 
-  @Column({ type: 'boolean' })
+  @Column({ type: 'boolean', default: false })
   @ApiProperty()
   IsCleared: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  @ApiProperty()
+  Taxable: boolean;
 
   @ManyToOne(() => BankAccountName, (bankAccountName) => bankAccountName.transactions, { onDelete: 'CASCADE' })
   @ApiProperty()
