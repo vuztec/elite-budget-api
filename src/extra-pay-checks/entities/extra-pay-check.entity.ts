@@ -12,7 +12,7 @@ export class ExtraPayCheck extends CustomBaseEntity {
   @ApiProperty()
   PartnerAmount: Number;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'date', nullable: true })
   @ApiProperty()
   Date: Date;
 }
