@@ -71,6 +71,12 @@ export class BankAccountsController {
     return this.bankAccountsService.updateTransactionStatus(+id);
   }
 
+  @Patch('transaction/:id/tax')
+  updateTransactionTax(@Param('id') id: string, @Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.bankAccountsService.updateTransactionTax(+id);
+  }
+
   @Delete('name/:id')
   removeName(@Param('id') id: string) {
     return this.bankAccountsService.removeName(+id);

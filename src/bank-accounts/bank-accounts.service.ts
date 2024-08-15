@@ -92,6 +92,14 @@ export class BankAccountsService {
     return this.bankTransactionRepo.save(new_transaction);
   }
 
+  async updateTransactionTax(id: number) {
+    const new_transaction = await this.bankTransactionRepo.findOne({ where: { id } });
+
+    new_transaction.Taxable = !new_transaction.Taxable;
+
+    return this.bankTransactionRepo.save(new_transaction);
+  }
+
   async removeName(id: number) {
     return this.bankNameRepo.delete(id);
   }
