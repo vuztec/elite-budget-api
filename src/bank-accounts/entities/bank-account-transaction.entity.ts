@@ -6,7 +6,7 @@ import { BankAccountName } from './bank-account-name.entity';
 
 @Entity()
 export class BankAccountTransaction extends CustomBaseEntity {
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'date' })
   @ApiProperty()
   Date: Date;
 
