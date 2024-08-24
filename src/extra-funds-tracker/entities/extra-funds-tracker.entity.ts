@@ -12,7 +12,7 @@ export class ExtraFundsTracker extends CustomBaseEntity {
   @ApiProperty()
   Description: string;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'date' })
   @ApiProperty()
   Date: Date;
 
