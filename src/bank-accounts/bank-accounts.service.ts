@@ -49,6 +49,7 @@ export class BankAccountsService {
       .createQueryBuilder('transaction')
       .where('transaction.rootid = :id', { id: user.id })
       .leftJoinAndSelect('transaction.BankAccountName', 'BankAccountName')
+      .orderBy('transaction.Date', 'ASC')
       .getMany();
   }
 
