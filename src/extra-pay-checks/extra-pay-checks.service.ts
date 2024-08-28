@@ -23,7 +23,11 @@ export class ExtraPayChecksService {
   }
 
   findAll(user: Rootuser) {
-    return this.payCheckRepo.createQueryBuilder('pay').where('pay.rootid = :id', { id: user.id }).getMany();
+    return this.payCheckRepo
+      .createQueryBuilder('pay')
+      .where('pay.rootid = :id', { id: user.id })
+      .orderBy('pay.Date', 'ASC')
+      .getMany();
   }
 
   findOne(id: number) {
