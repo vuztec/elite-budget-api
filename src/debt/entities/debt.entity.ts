@@ -8,11 +8,11 @@ export class Debt extends CustomBaseEntity {
   @Column({ type: 'enum', enum: Owner, default: null })
   Owner: Owner;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: null })
   @ApiProperty()
   LoanBalance: Number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: null })
   @ApiProperty()
   MonthlyBudget: Number;
 

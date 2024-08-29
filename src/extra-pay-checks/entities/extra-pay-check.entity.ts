@@ -4,11 +4,11 @@ import { Column, Entity } from 'typeorm';
 
 @Entity()
 export class ExtraPayCheck extends CustomBaseEntity {
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: null })
   @ApiProperty()
   SelfAmount: Number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: null })
   @ApiProperty()
   PartnerAmount: Number;
 

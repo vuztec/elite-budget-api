@@ -19,11 +19,11 @@ export class Income extends CustomBaseEntity {
   @ApiProperty()
   NickName: String;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: null })
   @ApiProperty()
   GrossAmount: Number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: null })
   @ApiProperty()
   NetAmount: Number;
 }
