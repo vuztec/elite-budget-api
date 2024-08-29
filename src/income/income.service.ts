@@ -47,8 +47,8 @@ export class IncomeService {
   async remove(id: number) {
     const new_income = await this.incomeRepo.findOne({ where: { id } });
     new_income.Frequency = Frequency.MONTHLY;
-    new_income.GrossAmount = 0;
-    new_income.NetAmount = 0;
+    new_income.GrossAmount = null;
+    new_income.NetAmount = null;
     new_income.NickName = '';
 
     return this.incomeRepo.save(new_income);

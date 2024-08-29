@@ -55,8 +55,8 @@ export class DebtService {
     const new_debt = await this.debtRepo.findOne({ where: { id } });
 
     new_debt.DueDate = '01';
-    new_debt.LoanBalance = 0;
-    new_debt.MonthlyBudget = 0;
+    new_debt.LoanBalance = null;
+    new_debt.MonthlyBudget = null;
     new_debt.NickName = '';
     new_debt.PaymentMethod = PAYMENT_METHOD.AUTO_DEBIT;
 

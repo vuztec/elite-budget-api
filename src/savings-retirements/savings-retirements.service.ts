@@ -59,8 +59,8 @@ export class SavingsRetirementsService {
     const new_sav_ret = await this.saveRetRep.findOne({ where: { id } });
 
     new_sav_ret.DueDate = '01';
-    new_sav_ret.MarketValue = 0;
-    new_sav_ret.MonthlyBudget = 0;
+    new_sav_ret.MarketValue = null;
+    new_sav_ret.MonthlyBudget = null;
     // new_sav_ret.Owner = updateSavingsRetirementDto.Owner;
     new_sav_ret.PaymentMethod = PAYMENT_METHOD.AUTO_DEBIT;
     new_sav_ret.NickName = '';

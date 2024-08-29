@@ -54,9 +54,9 @@ export class ExpensesService {
     const new_expense = await this.expenseRepo.findOne({ where: { id } });
 
     new_expense.DueDate = '01';
-    new_expense.LoanBalance = 0;
-    new_expense.MonthlyBudget = 0;
-    new_expense.MarketValue = 0;
+    new_expense.LoanBalance = null;
+    new_expense.MonthlyBudget = null;
+    new_expense.MarketValue = null;
     new_expense.PaymentMethod = PAYMENT_METHOD.AUTO_DEBIT;
     new_expense.NickName = null;
     new_expense.Owner = null;

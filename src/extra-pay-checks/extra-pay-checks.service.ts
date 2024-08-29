@@ -47,8 +47,8 @@ export class ExtraPayChecksService {
   async remove(id: number) {
     const new_pay = await this.payCheckRepo.findOne({ where: { id } });
 
-    new_pay.PartnerAmount = 0;
-    new_pay.SelfAmount = 0;
+    new_pay.PartnerAmount = null;
+    new_pay.SelfAmount = null;
     new_pay.Date = null;
 
     return this.payCheckRepo.save(new_pay);
