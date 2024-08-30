@@ -10,7 +10,7 @@ export class Goal extends CustomBaseEntity {
 
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   @ApiProperty()
-  Percentage: Number;
+  Percentage: number;
 
   @Column({ type: 'enum', enum: { ...DEBT_CATEGORY, ...EXPENSES_CATEGORY, ...MAIN_CATEGORY } })
   Category: DEBT_CATEGORY | EXPENSES_CATEGORY | MAIN_CATEGORY;

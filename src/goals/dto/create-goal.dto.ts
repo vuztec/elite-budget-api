@@ -6,5 +6,5 @@ export class CreateGoalDto {
   // Category: MAIN_CATEGORY | DEBT_CATEGORY | EXPENSES_CATEGORY;
 
   @IsNumber()
-  Percentage: Number;
+  Percentage: number;
 }

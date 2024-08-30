@@ -3,8 +3,10 @@ import { IncomeService } from './income.service';
 import { CreateIncomeDto } from './dto/create-income.dto';
 import { UpdateIncomeDto } from './dto/update-income.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('income')
+@ApiTags('Income')
 export class IncomeController {
   constructor(private readonly incomeService: IncomeService) {}
 

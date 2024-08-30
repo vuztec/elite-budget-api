@@ -2,10 +2,10 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateExtraPayCheckDto {
   @IsNumber()
-  SelfAmount: Number;
+  SelfAmount: number;
 
   @IsNumber()
-  PartnerAmount: Number;
+  PartnerAmount: number;
 
   @IsString()
   @IsOptional()

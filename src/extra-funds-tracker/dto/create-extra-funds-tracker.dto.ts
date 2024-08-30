@@ -15,10 +15,10 @@ export class CreateExtraFundsTrackerDto {
   Type: TRANSACTION_TYPE;
 
   @IsNumber()
-  Amount: Number;
+  Amount: number;
 }
 
 export class CreateBalanceDto {
   @IsNumber()
-  Balance: Number;
+  Balance: number;
 }

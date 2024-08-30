@@ -3,8 +3,10 @@ import { JointSplitService } from './joint-split.service';
 import { CreateJointSplitDto } from './dto/create-joint-split.dto';
 import { UpdateJointSplitDto } from './dto/update-joint-split.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('joint-split')
+@ApiTags('Joint Split')
 export class JointSplitController {
   constructor(private readonly jointSplitService: JointSplitService) {}
 
@@ -26,7 +28,11 @@ export class JointSplitController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateJointSplitDto: UpdateJointSplitDto, @Req() req: Request & { user: Rootuser }) {
+  update(
+    @Param('id') id: string,
+    @Body() updateJointSplitDto: UpdateJointSplitDto,
+    @Req() req: Request & { user: Rootuser },
+  ) {
     const { user } = req;
     return this.jointSplitService.update(+id, updateJointSplitDto);
   }

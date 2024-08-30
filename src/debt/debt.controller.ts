@@ -3,8 +3,10 @@ import { DebtService } from './debt.service';
 import { CreateDebtDto } from './dto/create-debt.dto';
 import { UpdateDebtDto } from './dto/update-debt.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('debt')
+@ApiTags('Debt')
 export class DebtController {
   constructor(private readonly debtService: DebtService) {}
 

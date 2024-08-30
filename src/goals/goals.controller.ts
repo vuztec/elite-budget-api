@@ -4,13 +4,19 @@ import { CreateGoalDto } from './dto/create-goal.dto';
 import { UpdateGoalDto } from './dto/update-goal.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 import { GOAL_TYPE } from '@/shared/enums/enum';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('goals')
+@ApiTags('Goals')
 export class GoalsController {
   constructor(private readonly goalsService: GoalsService) {}
 
   @Post()
-  create(@Body() createGoalDto: CreateGoalDto, @Req() req: Request & { user: Rootuser }, @Query('type') type: GOAL_TYPE) {
+  create(
+    @Body() createGoalDto: CreateGoalDto,
+    @Req() req: Request & { user: Rootuser },
+    @Query('type') type: GOAL_TYPE,
+  ) {
     const { user } = req;
     return this.goalsService.create(createGoalDto, user, type);
   }

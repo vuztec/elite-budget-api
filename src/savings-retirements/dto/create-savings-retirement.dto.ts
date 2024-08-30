@@ -6,11 +6,11 @@ export class CreateSavingsRetirementDto {
   Owner: Owner;
 
   @IsNumber()
-  MarketValue: Number;
+  MarketValue: number;
 
   @IsNumber()
   @IsOptional()
-  MonthlyBudget?: Number;
+  MonthlyBudget?: number;
 
   @IsString()
   Description: string;

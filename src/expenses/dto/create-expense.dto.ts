@@ -7,14 +7,14 @@ export class CreateExpenseDto {
 
   @IsNumber()
   @IsOptional()
-  MarketValue: Number;
+  MarketValue: number;
 
   @IsNumber()
   @IsOptional()
-  LoanBalance: Number;
+  LoanBalance: number;
 
   @IsNumber()
-  MonthlyBudget: Number;
+  MonthlyBudget: number;
 
   @IsString()
   Description: string;

@@ -3,8 +3,10 @@ import { ExtraPayChecksService } from './extra-pay-checks.service';
 import { CreateExtraPayCheckDto } from './dto/create-extra-pay-check.dto';
 import { UpdateExtraPayCheckDto } from './dto/update-extra-pay-check.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('extra-pay-checks')
+@ApiTags('Extra Pay Checks')
 export class ExtraPayChecksController {
   constructor(private readonly extraPayChecksService: ExtraPayChecksService) {}
 

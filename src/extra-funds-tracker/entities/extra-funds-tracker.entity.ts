@@ -21,5 +21,5 @@ export class ExtraFundsTracker extends CustomBaseEntity {
 
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   @ApiProperty()
-  Amount: Number;
+  Amount: number;
 }

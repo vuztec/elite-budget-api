@@ -22,11 +22,11 @@ export class Rootuser extends CustomBaseEntity {
 
   @ApiProperty()
   @Column()
-  PartnerAge: Number;
+  PartnerAge: number;
 
   @ApiProperty()
   @Column()
-  SelfAge: Number;
+  SelfAge: number;
 
   @ApiProperty()
   @Column()

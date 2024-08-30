@@ -6,5 +6,5 @@ import { Column, Entity } from 'typeorm';
 export class ExcessBalance extends CustomBaseEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   @ApiProperty()
-  Balance: Number;
+  Balance: number;
 }

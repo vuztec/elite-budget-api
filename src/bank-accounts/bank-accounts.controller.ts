@@ -3,8 +3,10 @@ import { BankAccountsService } from './bank-accounts.service';
 import { CreateBankAccountNameDto, CreateBankAccountTransactionDto } from './dto/create-bank-account.dto';
 import { UpdateBankAccountNameDto, UpdateBankAccountTransactionDto } from './dto/update-bank-account.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('bank-accounts')
+@ApiTags('Bank Accounts')
 export class BankAccountsController {
   constructor(private readonly bankAccountsService: BankAccountsService) {}
 

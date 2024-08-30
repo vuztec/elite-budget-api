@@ -6,10 +6,10 @@ export class CreateDebtDto {
   Owner: Owner;
 
   @IsNumber()
-  LoanBalance: Number;
+  LoanBalance: number;
 
   @IsNumber()
-  MonthlyBudget: Number;
+  MonthlyBudget: number;
 
   @IsString()
   Description: string;

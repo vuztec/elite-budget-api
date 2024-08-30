@@ -9,7 +9,7 @@ export class CreateBankAccountNameDto {
   Name: string;
 
   @IsNumber()
-  OpeningBalance: Number;
+  OpeningBalance: number;
 }
 
 export class CreateBankAccountTransactionDto {
@@ -24,7 +24,7 @@ export class CreateBankAccountTransactionDto {
   Type: TRANSACTION_TYPE;
 
   @IsNumber()
-  Amount: Number;
+  Amount: number;
 
   @IsBoolean()
   IsCleared: boolean;

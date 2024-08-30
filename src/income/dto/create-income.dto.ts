@@ -15,8 +15,8 @@ export class CreateIncomeDto {
   NickName: string;
 
   @IsNumber()
-  GrossAmount: Number;
+  GrossAmount: number;
 
   @IsNumber()
-  NetAmount: Number;
+  NetAmount: number;
 }

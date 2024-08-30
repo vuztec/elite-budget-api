@@ -3,8 +3,10 @@ import { ExpensesService } from './expenses.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('expenses')
+@ApiTags('Expense')
 export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}
 
@@ -26,7 +28,11 @@ export class ExpensesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExpenseDto: UpdateExpenseDto, @Req() req: Request & { user: Rootuser }) {
+  update(
+    @Param('id') id: string,
+    @Body() updateExpenseDto: UpdateExpenseDto,
+    @Req() req: Request & { user: Rootuser },
+  ) {
     const { user } = req;
     return this.expensesService.update(+id, updateExpenseDto);
   }

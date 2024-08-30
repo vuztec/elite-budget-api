@@ -10,11 +10,11 @@ export class SavingsRetirement extends CustomBaseEntity {
 
   @Column({ type: 'decimal', precision: 10, scale: 2, default: null })
   @ApiProperty()
-  MarketValue: Number;
+  MarketValue: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, default: null })
   @ApiProperty()
-  MonthlyBudget: Number;
+  MonthlyBudget: number;
 
   @Column()
   @ApiProperty()

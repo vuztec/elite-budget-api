@@ -37,8 +37,8 @@ export class CreateRootuserDto {
   DateFormat: string;
 
   @IsNumber()
-  PartnerAge: Number;
+  PartnerAge: number;
 
   @IsNumber()
-  SelfAge: Number;
+  SelfAge: number;
 }

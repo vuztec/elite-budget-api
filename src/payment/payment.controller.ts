@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/
 import { PaymentService } from './payment.service';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('payment')
+@ApiTags('Payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 

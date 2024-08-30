@@ -19,7 +19,7 @@ export class BankAccountTransaction extends CustomBaseEntity {
 
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   @ApiProperty()
-  Amount: Number;
+  Amount: number;
 
   @Column({ type: 'boolean', default: false })
   @ApiProperty()

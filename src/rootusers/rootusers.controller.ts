@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { RootusersService } from './rootusers.service';
 import { CreateRootuserDto } from './dto/create-rootuser.dto';
 import { UpdateRootuserDto } from './dto/update-rootuser.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('rootusers')
+@ApiTags('User')
 export class RootusersController {
   constructor(private readonly rootusersService: RootusersService) {}
 

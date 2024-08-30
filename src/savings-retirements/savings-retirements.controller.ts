@@ -4,8 +4,10 @@ import { CreateSavingsRetirementDto } from './dto/create-savings-retirement.dto'
 import { UpdateSavingsRetirementDto } from './dto/update-savings-retirement.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 import { SAV_RET_TYPE } from '@/shared/enums/enum';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('savings-retirements')
+@ApiTags('Savings and Retirements')
 export class SavingsRetirementsController {
   constructor(private readonly savingsRetirementsService: SavingsRetirementsService) {}
 
