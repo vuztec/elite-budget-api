@@ -102,8 +102,9 @@ export class PaymentService {
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     try {
-      console.log(' Web hook calling --------- ', body);
+      console.log(' Web hook calling --------- ', webhookSecret);
       const event = this.stripe.webhooks.constructEvent(body, sig, webhookSecret);
+      // const event: Stripe.Event = body.data.object;
 
       console.log('Event ------- : ', event);
 
@@ -124,6 +125,7 @@ export class PaymentService {
           console.log(`Unhandled event type ${event.type}`);
       }
     } catch (err) {
+      console.log('Error : ', err);
       return { error: `Webhook Error: ${err.message}` };
     }
 
