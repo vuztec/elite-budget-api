@@ -50,9 +50,12 @@ export class PaymentController {
   }
 
   @Post('invoice')
-  createInvoiceCharge(@Req() req: Request & { user: Rootuser }) {
+  createInvoiceCharge(
+    @Req() req: Request & { user: Rootuser },
+    @Body() createPaymentMethodDto: CreatePaymentMethodDto,
+  ) {
     const { user } = req;
-    return this.paymentService.createInvoiceAndChargeCustomer(user);
+    return this.paymentService.createInvoiceAndChargeCustomer(user, createPaymentMethodDto.PaymentMethodId);
   }
 
   @Get()
@@ -78,8 +81,8 @@ export class PaymentController {
     return this.paymentService.update(user);
   }
 
-  @Delete(':id')
+  @Delete('/payment-method/:id')
   remove(@Param('id') id: string) {
-    return this.paymentService.remove(+id);
+    return this.paymentService.remove(id);
   }
 }

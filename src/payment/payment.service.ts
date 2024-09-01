@@ -76,7 +76,7 @@ export class PaymentService {
     });
   }
 
-  async createInvoiceAndChargeCustomer(user: Rootuser) {
+  async createInvoiceAndChargeCustomer(user: Rootuser, paymentMethodId?: string) {
     // Create an invoice item
 
     // Create and finalize the invoice
@@ -94,7 +94,7 @@ export class PaymentService {
 
     await this.stripe.invoices.finalizeInvoice(invoice.id);
 
-    return this.stripe.invoices.pay(invoice.id);
+    return this.stripe.invoices.pay(invoice.id, paymentMethodId && { payment_method: paymentMethodId });
   }
 
   async stripeWebhook(request, rawBody) {
@@ -102,15 +102,9 @@ export class PaymentService {
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     try {
-      console.log(' Webhook secret --------- ', webhookSecret);
-      console.log(' Webhook sig --------- ', sig);
-      console.log(' Webhook raw --------- ', rawBody);
-      console.log(' Webhook body --------- ', request.body);
       // const parsedBody = JSON.stringify(request.body, null, 2);
       const event = this.stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
       // const event: Stripe.Event = body.data.object;
-
-      console.log('Event ------- : ', event);
 
       switch (event.type) {
         case 'invoice.payment_failed':
@@ -145,7 +139,9 @@ export class PaymentService {
       user.StripeId = await this.createCustomer(user);
       await this.rootuserRepo.save(user);
     }
-    return this.stripe.customers.listPaymentMethods(user.StripeId);
+    const cards = await this.stripe.customers.listPaymentMethods(user.StripeId);
+
+    return cards.data;
   }
 
   findOne(id: number) {
@@ -164,7 +160,7 @@ export class PaymentService {
     return await this.rootuserRepo.save(new_user);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} payment`;
+  remove(id: string) {
+    return this.stripe.paymentMethods.detach(id);
   }
 }
