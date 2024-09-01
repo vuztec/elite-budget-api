@@ -97,13 +97,13 @@ export class PaymentService {
     return this.stripe.invoices.pay(invoice.id);
   }
 
-  async stripeWebhook(request: Request, body) {
+  async stripeWebhook(request, body) {
     const sig = request.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     try {
       console.log(' Web hook calling --------- ', webhookSecret);
-      const event = this.stripe.webhooks.constructEvent(body, sig, webhookSecret);
+      const event = this.stripe.webhooks.constructEvent(request.body, sig, webhookSecret);
       // const event: Stripe.Event = body.data.object;
 
       console.log('Event ------- : ', event);
