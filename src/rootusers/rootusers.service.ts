@@ -5,7 +5,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Rootuser } from './entities/rootuser.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { debt_data, expenses_data, goals_data, income_data, retirements_data, savings_data } from '@/shared/utils/default.data';
+import {
+  debt_data,
+  expenses_data,
+  goals_data,
+  income_data,
+  retirements_data,
+  savings_data,
+} from '@/shared/utils/default.data';
 import { Income } from '@/income/entities/income.entity';
 import { SavingsRetirement } from '@/savings-retirements/entities/savings-retirement.entity';
 import { SAV_RET_TYPE } from '@/shared/enums/enum';
@@ -13,6 +20,7 @@ import { Debt } from '@/debt/entities/debt.entity';
 import { Expense } from '@/expenses/entities/expense.entity';
 import { ExtraPayCheck } from '@/extra-pay-checks/entities/extra-pay-check.entity';
 import { Goal } from '@/goals/entities/goal.entity';
+import { PaymentService } from '@/payment/payment.service';
 
 @Injectable()
 export class RootusersService {
@@ -24,6 +32,7 @@ export class RootusersService {
     @InjectRepository(Expense) private readonly expenseRepo: Repository<Expense>,
     @InjectRepository(ExtraPayCheck) private readonly payCheckRepo: Repository<ExtraPayCheck>,
     @InjectRepository(Goal) private readonly goalRepo: Repository<Goal>,
+    private readonly paymentService: PaymentService,
   ) {}
 
   async create(createRootuserDto: CreateRootuserDto) {
@@ -37,7 +46,7 @@ export class RootusersService {
     new_user.Separator = createRootuserDto.Separator;
 
     new_user.Password = await bcrypt.hash(createRootuserDto.Password, Number(process.env.SALT));
-
+    new_user.StripeId = await this.paymentService.createCustomer(new_user);
     const user = await this.rootuserRepo.save(new_user);
 
     income_data.map(async (data) => {
