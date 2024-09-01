@@ -101,31 +101,30 @@ export class PaymentService {
     const sig = request.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-    console.log('Signature - ------ ', sig);
-
-    let event;
-
     try {
-      event = this.stripe.webhooks.constructEvent(body, sig, webhookSecret);
+      console.log(' Web hook calling --------- ');
+      const event = this.stripe.webhooks.constructEvent(body, sig, webhookSecret);
+
+      console.log('Event ------- : ', event);
+
+      switch (event.type) {
+        case 'invoice.payment_failed':
+          const invoice = event.data.object as Stripe.Invoice;
+          console.log(`Payment failed for invoice: ${invoice.id}`);
+          // Handle the payment failure (e.g., notify customer, retry, etc.)
+          break;
+        case 'invoice.paid':
+          const invoicePaid = event.data.object as Stripe.Invoice;
+          const user = await this.rootuserRepo.findOne({ where: { StripeId: invoicePaid.customer.toString() } });
+          await this.update(user);
+          console.log(`Payment paid for invoice : ${invoice.id}`);
+          // Then define and call a function to handle the event invoice.paid
+          break;
+        default:
+          console.log(`Unhandled event type ${event.type}`);
+      }
     } catch (err) {
       return { error: `Webhook Error: ${err.message}` };
-    }
-
-    switch (event.type) {
-      case 'invoice.payment_failed':
-        const invoice = event.data.object as Stripe.Invoice;
-        console.log(`Payment failed for invoice: ${invoice.id}`);
-        // Handle the payment failure (e.g., notify customer, retry, etc.)
-        break;
-      case 'invoice.paid':
-        const invoicePaid = event.data.object as Stripe.Invoice;
-        const user = await this.rootuserRepo.findOne({ where: { StripeId: invoicePaid.customer.toString() } });
-        await this.update(user);
-        console.log(`Payment paid for invoice : ${invoice.id}`);
-        // Then define and call a function to handle the event invoice.paid
-        break;
-      default:
-        console.log(`Unhandled event type ${event.type}`);
     }
 
     return { received: true };
