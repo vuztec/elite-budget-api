@@ -102,7 +102,7 @@ export class PaymentService {
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     try {
-      console.log(' Web hook calling --------- ');
+      console.log(' Web hook calling --------- ', body);
       const event = this.stripe.webhooks.constructEvent(body, sig, webhookSecret);
 
       console.log('Event ------- : ', event);
