@@ -114,15 +114,15 @@ export class PaymentService {
 
       switch (event.type) {
         case 'invoice.payment_failed':
-          const invoice = event.data.object as Stripe.Invoice;
-          console.log(`Payment failed for invoice: ${invoice.id}`);
+          const invoiceFailed = event.data.object as Stripe.Invoice;
+          console.log(`Payment failed for invoice: ${invoiceFailed.id}`);
           // Handle the payment failure (e.g., notify customer, retry, etc.)
           break;
         case 'invoice.paid':
           const invoicePaid = event.data.object as Stripe.Invoice;
           const user = await this.rootuserRepo.findOne({ where: { StripeId: invoicePaid.customer.toString() } });
           await this.update(user);
-          console.log(`Payment paid for invoice : ${invoice.id}`);
+          console.log(`Payment paid for invoice : ${invoicePaid.id}`);
           // Then define and call a function to handle the event invoice.paid
           break;
         default:
