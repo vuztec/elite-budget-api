@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { CreatePaymentDto } from './dto/create-payment.dto';
+import { CreatePaymentMethodDto } from './dto/create-payment-method.dto';
+import { CreatePriceDto } from './dto/create-price.dto';
 
 @Controller('payment')
 @ApiTags('Payment')
@@ -10,15 +13,58 @@ export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
   @Post()
-  create() {
+  create(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
     return this.paymentService.create();
   }
 
-  // @Body() createPaymentDto: CreatePaymentDto
+  @Post('payment-method')
+  createPaymentMethod(
+    @Req() req: Request & { user: Rootuser },
+    @Body() createPaymentMethodDto: CreatePaymentMethodDto,
+  ) {
+    const { user } = req;
+    return this.paymentService.addCustomerPaymentMethod(user, createPaymentMethodDto);
+  }
+
+  @Post('price')
+  createPrice(@Body() createPriceDto: CreatePriceDto) {
+    return this.paymentService.createPrice(createPriceDto);
+  }
+
+  @Post('subscription')
+  createSubscription(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.paymentService.createSubscription(user);
+  }
+
+  @Post('charge/:id')
+  chargeCustomer(@Req() req: Request & { user: Rootuser }, @Query('id') id: string) {
+    const { user } = req;
+    return this.paymentService.chargeCustomer(user, id);
+  }
+
+  @Post('webhook')
+  stripeWebhook(@Req() request: Request, @Body() webhookBody) {
+    return this.paymentService.stripeWebhook(request, webhookBody);
+  }
+
+  @Post('invoice')
+  createInvoiceCharge(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.paymentService.createInvoiceAndChargeCustomer(user);
+  }
 
   @Get()
-  findAll() {
+  findAll(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
     return this.paymentService.findAll();
+  }
+
+  @Get('payment-methods')
+  findAllPaymentMethods(@Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.paymentService.findAllPaymentMethods(user);
   }
 
   @Get(':id')
@@ -29,7 +75,7 @@ export class PaymentController {
   @Patch()
   update(@Body() updatePaymentDto: UpdatePaymentDto, @Req() req: Request & { user: Rootuser }) {
     const { user } = req;
-    return this.paymentService.update(updatePaymentDto, user);
+    return this.paymentService.update(user);
   }
 
   @Delete(':id')

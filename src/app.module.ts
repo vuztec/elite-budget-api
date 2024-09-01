@@ -6,6 +6,7 @@ import * as path from 'path';
 import { JwtModule } from '@nestjs/jwt';
 import { TerminusModule } from '@nestjs/terminus';
 import { DataSource } from 'typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -68,6 +69,7 @@ export const jwtConfig = {
     TypeOrmModule.forRoot(typeOrmConfig),
     I18nModule.forRoot(i18nConfig),
     JwtModule.register(jwtConfig),
+    ScheduleModule.forRoot(),
     TerminusModule,
     LoggerModule,
     RootusersModule,
@@ -94,6 +96,7 @@ export class AppModule implements NestModule {
       .exclude(
         { path: '/auth/login', method: RequestMethod.POST },
         { path: '/auth/signup', method: RequestMethod.POST },
+        { path: '/payment/price', method: RequestMethod.POST },
       )
       .forRoutes({
         path: '*',
