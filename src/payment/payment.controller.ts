@@ -45,8 +45,8 @@ export class PaymentController {
   }
 
   @Post('webhook')
-  stripeWebhook(@Req() request: Request, @Body() webhookBody) {
-    return this.paymentService.stripeWebhook(request, webhookBody);
+  stripeWebhook(@Req() request: Request) {
+    return this.paymentService.stripeWebhook(request);
   }
 
   @Post('invoice')
