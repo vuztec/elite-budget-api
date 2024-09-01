@@ -103,7 +103,7 @@ export class PaymentService {
 
     try {
       console.log(' Web hook calling --------- ', webhookSecret);
-      const event = this.stripe.webhooks.constructEvent(request.body, sig, webhookSecret);
+      const event = this.stripe.webhooks.constructEvent(request.body.toString(), sig, webhookSecret);
       // const event: Stripe.Event = body.data.object;
 
       console.log('Event ------- : ', event);
