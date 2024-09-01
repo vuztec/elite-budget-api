@@ -110,7 +110,6 @@ export class PaymentService {
         case 'invoice.payment_failed':
           const invoiceFailed = event.data.object as Stripe.Invoice;
           console.log(`Payment failed for invoice: ${invoiceFailed.id}`);
-          // Handle the payment failure (e.g., notify customer, retry, etc.)
           break;
         case 'invoice.paid':
           const invoicePaid = event.data.object as Stripe.Invoice;
