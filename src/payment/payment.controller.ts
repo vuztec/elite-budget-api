@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query, RawBodyRequest } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
@@ -45,8 +45,8 @@ export class PaymentController {
   }
 
   @Post('webhook')
-  stripeWebhook(@Req() request: Request) {
-    return this.paymentService.stripeWebhook(request);
+  stripeWebhook(@Req() request: Request, @Req() req: RawBodyRequest<Request>) {
+    return this.paymentService.stripeWebhook(request, req.rawBody);
   }
 
   @Post('invoice')
