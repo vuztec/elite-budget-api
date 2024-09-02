@@ -88,11 +88,11 @@ export class Rootuser extends CustomBaseEntity {
   @ApiProperty()
   IsExpired: boolean;
 
-  @Column({ type: 'enum', enum: PACKAGE })
+  @Column({ type: 'enum', enum: PACKAGE, default: PACKAGE.PREMIUM })
   @ApiProperty()
   Package: PACKAGE;
 
-  @Column({ type: 'enum', enum: PLAN })
+  @Column({ type: 'enum', enum: PLAN, default: PLAN.YEARLY })
   @ApiProperty()
   Plan: PLAN;
 
