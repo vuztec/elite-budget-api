@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
 import { RootusersService } from './rootusers.service';
 import { CreateRootuserDto } from './dto/create-rootuser.dto';
-import { UpdateRootuserDto } from './dto/update-rootuser.dto';
+import { UpdateRootuserDto, UpdateUserAutoRenewalDto } from './dto/update-rootuser.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Rootuser } from './entities/rootuser.entity';
 
 @Controller('rootusers')
 @ApiTags('User')
@@ -22,6 +23,15 @@ export class RootusersController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.rootusersService.findOne(+id);
+  }
+
+  @Patch('renewal')
+  updateAutoRenewal(
+    @Req() req: Request & { user: Rootuser },
+    @Body() updateUserAutoRenewalDto: UpdateUserAutoRenewalDto,
+  ) {
+    const { user } = req;
+    return this.rootusersService.updateAutoRenewal(user.id, updateUserAutoRenewalDto);
   }
 
   @Patch(':id')

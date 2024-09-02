@@ -148,15 +148,23 @@ export class PaymentService {
   }
 
   async update(user: Rootuser) {
-    const new_user = await this.rootuserRepo.findOne({ where: { id: user.id } });
+    // const new_user = await this.rootuserRepo.findOne({ where: { id: user.id } });
 
-    new_user.Package = PACKAGE.PREMIUM;
-    new_user.Payment = true;
-    new_user.Plan = PLAN.YEARLY;
-    new_user.SubscribeDate = new Date();
-    new_user.IsExpired = false;
+    user.Package = PACKAGE.PREMIUM;
+    user.Payment = true;
+    user.Plan = PLAN.YEARLY;
+    user.SubscribeDate = new Date();
+    user.IsExpired = false;
 
-    return await this.rootuserRepo.save(new_user);
+    return await this.rootuserRepo.save(user);
+  }
+
+  async expireUserPackage(user: Rootuser) {
+    user.IsExpired = true;
+    user.Payment = false;
+
+    await this.rootuserRepo.save(user);
+    console.log(`User id ${user.id} and ${user.FullName} subscription has expired.`);
   }
 
   remove(id: string) {

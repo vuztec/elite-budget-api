@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRootuserDto } from './dto/create-rootuser.dto';
-import { UpdateRootuserDto } from './dto/update-rootuser.dto';
+import { UpdateRootuserDto, UpdateUserAutoRenewalDto } from './dto/update-rootuser.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Rootuser } from './entities/rootuser.entity';
 import { Repository } from 'typeorm';
@@ -44,6 +44,8 @@ export class RootusersService {
     new_user.DateFormat = createRootuserDto.DateFormat;
     new_user.Currency = createRootuserDto.Currency;
     new_user.Separator = createRootuserDto.Separator;
+    new_user.SelfAge = createRootuserDto.SelfAge;
+    new_user.PartnerAge = createRootuserDto.PartnerAge;
 
     new_user.Password = await bcrypt.hash(createRootuserDto.Password, Number(process.env.SALT));
     new_user.StripeId = await this.paymentService.createCustomer(new_user);
@@ -139,7 +141,15 @@ export class RootusersService {
     new_user.Currency = updateRootuserDto.Currency;
     new_user.Separator = updateRootuserDto.Separator;
 
-    return await this.rootuserRepo.save(new_user);
+    return this.rootuserRepo.save(new_user);
+  }
+
+  async updateAutoRenewal(id: number, updateUserAutoRenewalDto: UpdateUserAutoRenewalDto) {
+    const new_user = await this.findOne(id);
+
+    new_user.Auto_Renewal = updateUserAutoRenewalDto.Auto_Renewal;
+
+    return this.rootuserRepo.save(new_user);
   }
 
   remove(id: number) {

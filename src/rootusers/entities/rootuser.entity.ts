@@ -78,6 +78,10 @@ export class Rootuser extends CustomBaseEntity {
 
   @Column({ type: 'boolean', default: false })
   @ApiProperty()
+  Auto_Renewal: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  @ApiProperty()
   Payment: boolean;
 
   @Column({ type: 'boolean', default: false })

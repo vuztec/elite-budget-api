@@ -3,12 +3,14 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { PaymentService } from './payment.service';
 
 @Injectable()
 export class SubscriptionService {
   constructor(
     @InjectRepository(Rootuser)
     private readonly userRepository: Repository<Rootuser>,
+    private readonly paymentService: PaymentService,
   ) {}
 
   // This cron job runs every day at midnight
@@ -28,11 +30,21 @@ export class SubscriptionService {
       oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
 
       if (today >= oneYearLater) {
-        user.IsExpired = true;
-        user.Payment = false;
-
-        await this.userRepository.save(user);
-        console.log(`User id ${user.id} and ${user.FullName} subscription has expired.`);
+        try {
+          if (user.Auto_Renewal) {
+            const invoice = await this.paymentService.createInvoiceAndChargeCustomer(user);
+            if (invoice.status === 'paid') await this.paymentService.update(user);
+            else {
+              await this.paymentService.expireUserPackage(user);
+            }
+          } else {
+            await this.paymentService.expireUserPackage(user);
+            console.log(`User id ${user.id} and ${user.FullName} subscription has expired.`);
+          }
+        } catch (error) {
+          await this.paymentService.expireUserPackage(user);
+          console.log('Error : ', error);
+        }
       }
     });
   }
