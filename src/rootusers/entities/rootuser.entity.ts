@@ -84,7 +84,7 @@ export class Rootuser extends CustomBaseEntity {
   @ApiProperty()
   Payment: boolean;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: 'boolean', default: true })
   @ApiProperty()
   IsExpired: boolean;
 
