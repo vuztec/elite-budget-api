@@ -50,9 +50,9 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # sudo docker stop ${{env.CONTAINER_NAME}}
-            # sudo docker rm ${{env.CONTAINER_NAME}}
+            sudo docker stop ${{env.CONTAINER_NAME}}
+            sudo docker rm ${{env.CONTAINER_NAME}}
             sudo docker login -u AWS -p $(aws ecr get-login-password --region ${{ env.AWS_REGION }}) ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}
             sudo docker pull ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG}}
             sudo docker run -d --name ${{env.CONTAINER_NAME}} -e NODE_ENV="production" -e DATABASE_URL="${{ secrets.DATABASE_URL }}" -e SALT="${{ secrets.SALT }}" -e JWT_SECRET="${{ secrets.JWT_SECRET }}" -e STRIPE_SECRET_KEY="${{ secrets.STRIPE_SECRET_KEY }}" -e STRIPE_WEBHOOK_SECRET="${{ secrets.STRIPE_WEBHOOK_SECRET }}" -p 8000:8000 ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG}}
-            # sudo docker rmi $(sudo docker images -q --filter "dangling=true")
+            sudo docker rmi $(sudo docker images -q --filter "dangling=true")
