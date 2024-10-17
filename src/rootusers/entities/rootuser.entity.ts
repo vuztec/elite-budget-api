@@ -88,6 +88,10 @@ export class Rootuser extends CustomBaseEntity {
   @ApiProperty()
   IsExpired: boolean;
 
+  @Column({ type: 'boolean', default: false })
+  @ApiProperty()
+  IsAdmin: boolean;
+
   @Column({ type: 'enum', enum: PACKAGE, default: PACKAGE.PREMIUM })
   @ApiProperty()
   Package: PACKAGE;
