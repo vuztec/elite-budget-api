@@ -25,7 +25,26 @@ export class AuthMiddleware implements NestMiddleware {
       } else if (token.startsWith('Bearer ')) {
         let payload = await this.jwtService.verifyAsync(token.split(' ')[1]);
 
-        let user = await this.usersRepository.createQueryBuilder('user').where('user.id = :id', { id: payload.id }).getOne();
+        let user = await this.usersRepository
+          .createQueryBuilder('user')
+          .where('user.id = :id', { id: payload.id })
+          .getOne();
+        // Calculate trial period (15 days from JoinDate)
+        const currentDate = new Date();
+        const trialEndDate = new Date(user.JoinDate);
+        trialEndDate.setDate(trialEndDate.getDate() + 15);
+
+        // Check if the trial period is still active
+        if (currentDate <= trialEndDate) {
+          req['user'] = user;
+          return next(); // Allow user during the trial period
+        }
+
+        // After trial period, check payment and expiration status
+        if (!user.Payment || user.IsExpired) {
+          // Subscription expired or payment not made, return empty array response
+          return res.status(200).json([]);
+        }
 
         req['user'] = user;
         next();

@@ -46,6 +46,7 @@ export class RootusersService {
     new_user.Separator = createRootuserDto.Separator;
     new_user.SelfAge = createRootuserDto.SelfAge;
     new_user.PartnerAge = createRootuserDto.PartnerAge;
+    new_user.JoinDate = new Date();
 
     new_user.Password = await bcrypt.hash(createRootuserDto.Password, Number(process.env.SALT));
     new_user.StripeId = await this.paymentService.createCustomer(new_user);

@@ -102,4 +102,10 @@ export class Rootuser extends CustomBaseEntity {
   })
   @ApiProperty()
   SubscribeDate: Date;
+
+  @Column({
+    type: 'datetime',
+  })
+  @ApiProperty()
+  JoinDate: Date;
 }
