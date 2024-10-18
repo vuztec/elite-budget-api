@@ -26,6 +26,7 @@ import { AuthModule } from './auth/auth.module';
 import { ExtraPayChecksModule } from './extra-pay-checks/extra-pay-checks.module';
 import { GoalsModule } from './goals/goals.module';
 import { PaymentModule } from './payment/payment.module';
+import { CouponsModule } from './coupons/coupons.module';
 
 import 'dotenv/config';
 
@@ -84,6 +85,7 @@ export const jwtConfig = {
     ExtraPayChecksModule,
     GoalsModule,
     PaymentModule,
+    CouponsModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],
