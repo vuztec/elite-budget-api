@@ -1,4 +1,4 @@
-import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateCouponDto {
   @IsString()
@@ -10,13 +10,4 @@ export class CreateCouponDto {
 
   @IsNumber()
   Percentage: number;
-
-  @IsDateString()
-  StartDate: Date;
-
-  @IsDateString()
-  EndDate: Date;
-
-  @IsNumber()
-  Qty: number;
 }
