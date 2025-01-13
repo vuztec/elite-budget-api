@@ -25,10 +25,6 @@ export class CouponsService {
 
     new_coupon.Description = createCouponDto.Description;
     new_coupon.Percentage = createCouponDto.Percentage;
-    new_coupon.Qty = createCouponDto.Qty;
-
-    new_coupon.StartDate = createCouponDto.StartDate;
-    new_coupon.EndDate = createCouponDto.EndDate;
 
     new_coupon.CreatedAt = new Date();
 
@@ -49,7 +45,7 @@ export class CouponsService {
   }
 
   async update(id: number, updateCouponDto: UpdateCouponDto) {
-    const new_coupon = new Coupon();
+    const new_coupon = await this.couponsRepo.findOne({ where: { id } });
 
     if (updateCouponDto.Code) new_coupon.Code = updateCouponDto.Code;
     else {
@@ -63,10 +59,6 @@ export class CouponsService {
 
     new_coupon.Description = updateCouponDto.Description;
     new_coupon.Percentage = updateCouponDto.Percentage;
-    new_coupon.Qty = updateCouponDto.Qty;
-
-    new_coupon.StartDate = updateCouponDto.StartDate;
-    new_coupon.EndDate = updateCouponDto.EndDate;
 
     new_coupon.UpdatedAt = new Date();
 

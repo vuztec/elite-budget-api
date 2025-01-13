@@ -15,16 +15,4 @@ export class Coupon extends CustomBaseEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   @ApiProperty()
   Percentage: number;
-
-  @Column({ type: 'datetime' })
-  @ApiProperty()
-  StartDate: Date;
-
-  @Column({ type: 'datetime' })
-  @ApiProperty()
-  EndDate: Date;
-
-  @Column({ nullable: true, default: 0 })
-  @ApiProperty()
-  Qty: number;
 }
