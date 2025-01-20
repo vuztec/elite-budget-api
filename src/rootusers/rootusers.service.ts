@@ -41,11 +41,11 @@ export class RootusersService {
     new_user.FullName = createRootuserDto.FullName;
     new_user.Email = createRootuserDto.Email;
     new_user.Country = createRootuserDto.Country;
-    new_user.DateFormat = createRootuserDto.DateFormat;
-    new_user.Currency = createRootuserDto.Currency;
     new_user.Separator = createRootuserDto.Separator;
-    new_user.SelfAge = createRootuserDto.SelfAge;
-    new_user.PartnerAge = createRootuserDto.PartnerAge;
+    if (createRootuserDto.DateFormat) new_user.DateFormat = createRootuserDto.DateFormat;
+    if (createRootuserDto.Currency) new_user.Currency = createRootuserDto.Currency;
+    if (createRootuserDto.SelfAge) new_user.SelfAge = createRootuserDto.SelfAge;
+    if (createRootuserDto.PartnerAge) new_user.PartnerAge = createRootuserDto.PartnerAge;
 
     new_user.CreatedAt = new Date();
 

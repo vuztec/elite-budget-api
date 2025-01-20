@@ -46,23 +46,23 @@ export class Rootuser extends CustomBaseEntity {
   @ApiProperty()
   Country: string;
 
-  @Column()
+  @Column({ nullable: true })
   @ApiProperty()
   Province: string;
 
-  @Column()
+  @Column({ nullable: true })
   @ApiProperty()
   City: string;
 
-  @Column()
+  @Column({ nullable: true })
   @ApiProperty()
   Address: string;
 
-  @Column()
+  @Column({ default: '$' })
   @ApiProperty()
   Currency: string;
 
-  @Column()
+  @Column({ default: 'yyyy-MM-dd' })
   @ApiProperty()
   DateFormat: string;
 

@@ -31,14 +31,18 @@ export class CreateRootuserDto {
   Address: string;
 
   @IsString()
+  @IsOptional()
   Currency: string;
 
   @IsString()
+  @IsOptional()
   DateFormat: string;
 
   @IsNumber()
+  @IsOptional()
   PartnerAge: number;
 
   @IsNumber()
+  @IsOptional()
   SelfAge: number;
 }
