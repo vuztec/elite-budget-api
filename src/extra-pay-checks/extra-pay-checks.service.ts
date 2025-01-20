@@ -16,6 +16,7 @@ export class ExtraPayChecksService {
     new_pay.PartnerAmount = createExtraPayCheckDto.PartnerAmount;
     new_pay.SelfAmount = createExtraPayCheckDto.SelfAmount;
     new_pay.Date = createExtraPayCheckDto.Date;
+    new_pay.IsDateKnown = createExtraPayCheckDto.IsDateKnown;
 
     new_pay.Root = user;
 
@@ -40,6 +41,7 @@ export class ExtraPayChecksService {
     new_pay.PartnerAmount = updateExtraPayCheckDto.PartnerAmount;
     new_pay.SelfAmount = updateExtraPayCheckDto.SelfAmount;
     new_pay.Date = updateExtraPayCheckDto.Date;
+    new_pay.IsDateKnown = updateExtraPayCheckDto.IsDateKnown;
 
     return this.payCheckRepo.save(new_pay);
   }

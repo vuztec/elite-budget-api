@@ -22,6 +22,7 @@ export class ExtraFundsTrackerService {
     new_fund.Description = createExtraFundsTrackerDto.Description;
     new_fund.Owner = createExtraFundsTrackerDto.Owner;
     new_fund.Type = createExtraFundsTrackerDto.Type;
+    new_fund.IsDateKnown = createExtraFundsTrackerDto.IsDateKnown;
 
     new_fund.Root = user;
 
@@ -48,6 +49,7 @@ export class ExtraFundsTrackerService {
     new_fund.Description = updateExtraFundsTrackerDto.Description;
     new_fund.Owner = updateExtraFundsTrackerDto.Owner;
     new_fund.Type = updateExtraFundsTrackerDto.Type;
+    new_fund.IsDateKnown = updateExtraFundsTrackerDto.IsDateKnown;
 
     return this.fundRepo.save(new_fund);
   }

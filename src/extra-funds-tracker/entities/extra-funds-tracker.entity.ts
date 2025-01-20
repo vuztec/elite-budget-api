@@ -16,6 +16,10 @@ export class ExtraFundsTracker extends CustomBaseEntity {
   @ApiProperty()
   Date: Date;
 
+  @Column({ type: 'boolean', default: true })
+  @ApiProperty()
+  IsDateKnown: boolean;
+
   @Column({ type: 'enum', enum: TRANSACTION_TYPE, default: TRANSACTION_TYPE.CREDIT })
   Type: TRANSACTION_TYPE;
 

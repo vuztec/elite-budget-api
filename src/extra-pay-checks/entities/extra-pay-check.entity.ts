@@ -15,4 +15,8 @@ export class ExtraPayCheck extends CustomBaseEntity {
   @Column({ type: 'date', nullable: true })
   @ApiProperty()
   Date: Date;
+
+  @Column({ type: 'boolean', default: true })
+  @ApiProperty()
+  IsDateKnown: boolean;
 }

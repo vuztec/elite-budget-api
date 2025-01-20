@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateExtraPayCheckDto {
   @IsNumber()
@@ -10,4 +10,7 @@ export class CreateExtraPayCheckDto {
   @IsString()
   @IsOptional()
   Date: Date;
+
+  @IsBoolean()
+  IsDateKnown: boolean;
 }

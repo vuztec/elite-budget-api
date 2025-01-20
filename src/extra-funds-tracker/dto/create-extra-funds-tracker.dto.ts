@@ -1,5 +1,5 @@
 import { Owner, TRANSACTION_TYPE } from '@/shared/enums/enum';
-import { IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 
 export class CreateExtraFundsTrackerDto {
   @IsString()
@@ -10,6 +10,9 @@ export class CreateExtraFundsTrackerDto {
 
   @IsString()
   Date: Date;
+
+  @IsBoolean()
+  IsDateKnown: boolean;
 
   @IsString()
   Type: TRANSACTION_TYPE;
