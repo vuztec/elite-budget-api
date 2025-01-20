@@ -30,6 +30,9 @@ export class CreateBankAccountTransactionDto {
   IsCleared: boolean;
 
   @IsBoolean()
+  IsDateKnown: boolean;
+
+  @IsBoolean()
   Taxable: boolean;
 
   @IsNumber()

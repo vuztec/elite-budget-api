@@ -29,6 +29,7 @@ export class BankAccountsService {
     const new_transaction = new BankAccountTransaction();
 
     new_transaction.Amount = createBankAccountDto.Amount;
+    new_transaction.IsDateKnown = createBankAccountDto.IsDateKnown;
     new_transaction.BankAccountName = await this.bankNameRepo.findOneBy({ id: createBankAccountDto.BankName });
     new_transaction.Date = createBankAccountDto.Date;
     new_transaction.Description = createBankAccountDto.Description;
@@ -79,6 +80,7 @@ export class BankAccountsService {
     new_transaction.Date = updateBankAccountDto.Date;
     new_transaction.Description = updateBankAccountDto.Description;
     new_transaction.IsCleared = updateBankAccountDto.IsCleared;
+    new_transaction.IsDateKnown = updateBankAccountDto.IsDateKnown;
     new_transaction.Taxable = updateBankAccountDto.Taxable;
     new_transaction.Type = updateBankAccountDto.Type;
 

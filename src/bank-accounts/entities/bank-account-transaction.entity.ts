@@ -25,6 +25,10 @@ export class BankAccountTransaction extends CustomBaseEntity {
   @ApiProperty()
   IsCleared: boolean;
 
+  @Column({ type: 'boolean', default: true })
+  @ApiProperty()
+  IsDateKnown: boolean;
+
   @Column({ type: 'boolean', default: false })
   @ApiProperty()
   Taxable: boolean;
