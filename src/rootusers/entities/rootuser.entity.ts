@@ -16,8 +16,7 @@ export class Rootuser extends CustomBaseEntity {
   @IsEmail()
   Email: string;
 
-  @Column({ unique: true })
-  @Index()
+  @Column({ default: null, nullable: true })
   @ApiProperty()
   StripeId: string;
 
