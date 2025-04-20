@@ -39,14 +39,16 @@ export class PaymentService {
 
     // Check if the trial period is still active
     if (currentDate <= trialEndDate) {
-      await this.stripe.customers.update(user.StripeId, {
+      const customer = await this.stripe.customers.update(user.StripeId, {
         invoice_settings: {
           default_payment_method: createPaymentDto.PaymentMethodId,
         },
       });
       user.Payment = true;
       user.IsExpired = false;
-      return this.rootuserRepo.save(user);
+      const updateduser = await this.rootuserRepo.save(user);
+
+      return { customer, user: updateduser };
     } else
       return this.stripe.customers.update(user.StripeId, {
         invoice_settings: {
