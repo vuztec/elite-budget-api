@@ -81,6 +81,12 @@ export class PaymentController {
     return this.paymentService.update(user);
   }
 
+  @Patch('payment-method')
+  updatePaymentMethod(@Body() UpdatePaymentDto: CreatePaymentMethodDto, @Req() req: Request & { user: Rootuser }) {
+    const { user } = req;
+    return this.paymentService.updatePaymentMethod(user, UpdatePaymentDto.PaymentMethodId);
+  }
+
   @Delete('/payment-method/:id')
   remove(@Param('id') id: string) {
     return this.paymentService.remove(id);

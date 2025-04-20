@@ -32,7 +32,7 @@ export class AuthMiddleware implements NestMiddleware {
         // Calculate trial period (15 days from JoinDate)
         const currentDate = new Date();
         const trialEndDate = new Date(user.CreatedAt);
-        trialEndDate.setDate(trialEndDate.getDate() + 15);
+        trialEndDate.setDate(trialEndDate.getDate() + 14);
 
         // Check if the trial period is still active
         if (currentDate <= trialEndDate) {

@@ -33,11 +33,26 @@ export class PaymentService {
 
     await this.stripe.paymentMethods.attach(createPaymentDto.PaymentMethodId, { customer: user.StripeId });
 
-    return this.stripe.customers.update(user.StripeId, {
-      invoice_settings: {
-        default_payment_method: createPaymentDto.PaymentMethodId,
-      },
-    });
+    const currentDate = new Date();
+    const trialEndDate = new Date(user.CreatedAt);
+    trialEndDate.setDate(trialEndDate.getDate() + 14);
+
+    // Check if the trial period is still active
+    if (currentDate <= trialEndDate) {
+      await this.stripe.customers.update(user.StripeId, {
+        invoice_settings: {
+          default_payment_method: createPaymentDto.PaymentMethodId,
+        },
+      });
+      user.Payment = true;
+      user.IsExpired = false;
+      return this.rootuserRepo.save(user);
+    } else
+      return this.stripe.customers.update(user.StripeId, {
+        invoice_settings: {
+          default_payment_method: createPaymentDto.PaymentMethodId,
+        },
+      });
   }
 
   createPrice(createPriceDto: CreatePriceDto) {
@@ -139,8 +154,9 @@ export class PaymentService {
       await this.rootuserRepo.save(user);
     }
     const cards = await this.stripe.customers.listPaymentMethods(user.StripeId);
+    const customer = await this.stripe.customers.retrieve(user.StripeId);
 
-    return cards.data;
+    return { cards: cards.data, customer };
   }
 
   findOne(id: number) {
@@ -157,6 +173,14 @@ export class PaymentService {
     user.IsExpired = false;
 
     return await this.rootuserRepo.save(user);
+  }
+
+  async updatePaymentMethod(user: Rootuser, PaymentMethodId: string) {
+    return this.stripe.customers.update(user.StripeId, {
+      invoice_settings: {
+        default_payment_method: PaymentMethodId,
+      },
+    });
   }
 
   async expireUserPackage(user: Rootuser) {
