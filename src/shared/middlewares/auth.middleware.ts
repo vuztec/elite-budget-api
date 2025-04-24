@@ -30,6 +30,11 @@ export class AuthMiddleware implements NestMiddleware {
           .where('user.id = :id', { id: payload.id })
           .getOne();
         // Calculate trial period (15 days from JoinDate)
+
+        if (req.path.startsWith('/api/auth/me')) {
+          req['user'] = user;
+          return next();
+        }
         const currentDate = new Date();
         const trialEndDate = new Date(user.CreatedAt);
         trialEndDate.setDate(trialEndDate.getDate() + 14);
