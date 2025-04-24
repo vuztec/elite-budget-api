@@ -155,10 +155,13 @@ export class PaymentService {
       user.StripeId = await this.createCustomer(user);
       await this.rootuserRepo.save(user);
     }
-    const cards = await this.stripe.customers.listPaymentMethods(user.StripeId);
-    const customer = await this.stripe.customers.retrieve(user.StripeId);
 
-    return { cards: cards.data, customer };
+    if (user.StripeId) {
+      const cards = await this.stripe.customers.listPaymentMethods(user.StripeId);
+      const customer = await this.stripe.customers.retrieve(user.StripeId);
+
+      return { cards: cards.data, customer };
+    } else return [];
   }
 
   findOne(id: number) {
