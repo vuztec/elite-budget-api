@@ -75,7 +75,7 @@ export class Rootuser extends CustomBaseEntity {
   @ApiProperty()
   IsGoogle: boolean;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: 'boolean', default: true })
   @ApiProperty()
   Auto_Renewal: boolean;
 
