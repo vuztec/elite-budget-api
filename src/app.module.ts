@@ -27,8 +27,10 @@ import { ExtraPayChecksModule } from './extra-pay-checks/extra-pay-checks.module
 import { GoalsModule } from './goals/goals.module';
 import { PaymentModule } from './payment/payment.module';
 import { CouponsModule } from './coupons/coupons.module';
+import { OtpModule } from './otp/otp.module';
 
 import 'dotenv/config';
+import { PinpointModule } from './pinpoint/pinpoint.module';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -86,6 +88,8 @@ export const jwtConfig = {
     GoalsModule,
     PaymentModule,
     CouponsModule,
+    OtpModule,
+    PinpointModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],
@@ -97,6 +101,7 @@ export class AppModule implements NestModule {
       .apply(AuthMiddleware)
       .exclude(
         { path: '/auth/login', method: RequestMethod.POST },
+        { path: '/otp/verify', method: RequestMethod.POST },
         { path: '/auth/signup', method: RequestMethod.POST },
         { path: '/payment/webhook', method: RequestMethod.POST },
       )

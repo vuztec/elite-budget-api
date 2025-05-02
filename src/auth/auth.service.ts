@@ -6,11 +6,17 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
+import { Otp } from '@/otp/entities/otp.entity';
+import { generateOtp } from '@/shared/utils/general';
+import { generateOtpEmailHtml } from '@/pinpoint/templates/opt-email';
+import { PinpointService } from '@/pinpoint/pinpoint.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(Rootuser) private userRepo: Repository<Rootuser>,
+    @InjectRepository(Otp) private readonly otpRepos: Repository<Otp>,
+    private pinpointService: PinpointService,
     private jwtService: JwtService,
   ) {}
 
@@ -27,17 +33,34 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials.');
     }
 
-    const payload = {
-      id: user.id,
-      UserType: user.UserType,
-      Email: user.Email,
-    };
-    const jwt = await this.jwtService.signAsync(payload);
+    // Invalidate all unused OTPs for this email
+    await this.otpRepos.update({ Email: user.Email, IsUsed: false }, { IsUsed: true });
 
-    return {
-      user,
-      jwt,
-    };
+    const code = generateOtp();
+
+    const otp = this.otpRepos.create({
+      Email: user.Email,
+      Code: code,
+      ExpiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes expiry
+    });
+
+    const html = generateOtpEmailHtml(code);
+
+    await this.pinpointService.sendEmail(user.Email, html);
+
+    return await this.otpRepos.save(otp);
+
+    // const payload = {
+    //   id: user.id,
+    //   UserType: user.UserType,
+    //   Email: user.Email,
+    // };
+    // const jwt = await this.jwtService.signAsync(payload);
+
+    // return {
+    //   user,
+    //   jwt,
+    // };
   }
 
   findAll() {
