@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto, UpdatePasswordDto } from './dto/update-auth.dto';
+import { ChangePasswordDto, ForgetPasswordDto, UpdateAuthDto, UpdatePasswordDto } from './dto/update-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
@@ -87,6 +87,66 @@ export class AuthService {
     user.Password = await bcrypt.hash(updateUserDto.NewPassword, Number(process.env.SALT));
 
     return this.userRepo.save(user);
+  }
+
+  async forgetPassword(dt: ForgetPasswordDto) {
+    const user = await this.userRepo.findOneBy({ Email: dt.Email });
+
+    if (!user) {
+      throw new NotFoundException('User not found.'); // Or UnauthorizedException, based on your security policy
+    }
+
+    // Invalidate all unused OTPs for this email
+    await this.otpRepos.update({ Email: user.Email, IsUsed: false }, { IsUsed: true });
+
+    const code = generateOtp();
+
+    const otp = this.otpRepos.create({
+      Email: user.Email,
+      Code: code,
+      ExpiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes expiry
+    });
+
+    const html = generateOtpEmailHtml(code);
+
+    await this.pinpointService.sendEmail(user.Email, html);
+
+    return await this.otpRepos.save(otp);
+  }
+
+  async resetPassword(updateUserDto: ChangePasswordDto) {
+    const otp = await this.otpRepos.findOne({
+      where: { id: updateUserDto.otpId },
+    });
+
+    if (!otp || !otp.IsUsed || otp.ExpiresAt < new Date()) {
+      throw new UnauthorizedException('OTP verification required or expired.');
+    }
+
+    const user = await this.userRepo.findOne({ where: { Email: otp.Email } });
+
+    if (!user) {
+      throw new NotFoundException('User not found.');
+    }
+
+    user.Password = await bcrypt.hash(updateUserDto.Password, Number(process.env.SALT));
+    await this.userRepo.save(user);
+
+    // Invalidate all other OTPs for that context
+    await this.otpRepos.update({ Email: otp.Email, IsUsed: false }, { IsUsed: true });
+
+    const payload = {
+      id: user.id,
+      UserType: user.UserType,
+      Email: user.Email,
+    };
+
+    const jwt = await this.jwtService.signAsync(payload);
+
+    return {
+      user,
+      jwt,
+    };
   }
 
   update(id: number, updateAuthDto: UpdateAuthDto) {

@@ -28,6 +28,8 @@ export class OtpService {
     otp.IsUsed = true;
     await this.otpRepos.save(otp);
 
+    if (dto.type === 'reset') return otp;
+
     const user = await this.userRepo.findOneBy({ Email: dto.Email });
 
     const payload = {
