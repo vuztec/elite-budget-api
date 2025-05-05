@@ -106,6 +106,7 @@ export class AppModule implements NestModule {
         { path: '/auth/forget-password', method: RequestMethod.POST },
         { path: '/auth/reset-password', method: RequestMethod.PATCH },
         { path: '/payment/webhook', method: RequestMethod.POST },
+        { path: '/otp', method: RequestMethod.GET },
       )
       .forRoutes({
         path: '*',
