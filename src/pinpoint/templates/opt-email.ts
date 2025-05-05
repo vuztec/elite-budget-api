@@ -8,7 +8,7 @@ export const generateOtpEmailHtml = (OTP_CODE: string) => `
   <body style="font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 20px;">
     <table width="100%" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden;">
       <tr>
-        <td style="background-color: #1e40af; color: white; padding: 20px; text-align: center;">
+        <td style="background-color: #000000; color: white; padding: 20px; text-align: center;">
           <h2>Elite Cash Flow Products</h2>
         </td>
       </tr>
@@ -17,10 +17,10 @@ export const generateOtpEmailHtml = (OTP_CODE: string) => `
           <p>Hi there,</p>
           <p>We received a request to verify your login for <strong>Elite Cash Flow Products</strong>.</p>
           <p>Your One-Time Password (OTP) is:</p>
-          <p style="font-size: 24px; font-weight: bold; letter-spacing: 2px; color: #1e40af; text-align: center;">
+          <p style="font-size: 24px; font-weight: bold; letter-spacing: 2px; color: #000000; text-align: center;">
             ${OTP_CODE}
           </p>
-          <p>This code will expire in 5 minutes.</p>
+          <p>This OTP will expire in 5 minutes.</p>
           <p>If you didn’t request this, please ignore this email.</p>
           <br />
           <p>Thanks,<br /><strong>Elite Cash Flow Products Team</strong></p>
