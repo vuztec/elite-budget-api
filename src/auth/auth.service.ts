@@ -86,7 +86,7 @@ export class AuthService {
 
     user.Password = await bcrypt.hash(updateUserDto.NewPassword, Number(process.env.SALT));
 
-    return this.userRepo.save(user);
+    return await this.userRepo.save(user);
   }
 
   async forgetPassword(dt: ForgetPasswordDto) {

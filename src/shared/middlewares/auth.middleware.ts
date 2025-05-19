@@ -31,7 +31,11 @@ export class AuthMiddleware implements NestMiddleware {
           .getOne();
         // Calculate trial period (15 days from JoinDate)
 
-        if (req.path.startsWith('/api/auth/me')) {
+        if (
+          req.path.startsWith('/api/auth/me') ||
+          req.path.startsWith('/api/auth/password') ||
+          req.path.startsWith('/api/rootusers/')
+        ) {
           req['user'] = user;
           return next();
         }
