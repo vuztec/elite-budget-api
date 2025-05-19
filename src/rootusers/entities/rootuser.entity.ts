@@ -101,7 +101,8 @@ export class Rootuser extends CustomBaseEntity {
 
   @Column({
     type: 'datetime',
-    default: () => 'CURRENT_TIMESTAMP',
+    nullable: true,
+    default: null,
   })
   @ApiProperty()
   SubscribeDate: Date;
