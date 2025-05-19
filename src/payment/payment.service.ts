@@ -33,12 +33,8 @@ export class PaymentService {
 
     await this.stripe.paymentMethods.attach(createPaymentDto.PaymentMethodId, { customer: user.StripeId });
 
-    const currentDate = new Date();
-    const trialEndDate = new Date(user.CreatedAt);
-    trialEndDate.setDate(trialEndDate.getDate() + 14);
-
     // Check if the trial period is still active
-    if (currentDate <= trialEndDate) {
+    if (createPaymentDto.isTrial) {
       const customer = await this.stripe.customers.update(user.StripeId, {
         invoice_settings: {
           default_payment_method: createPaymentDto.PaymentMethodId,
@@ -46,6 +42,8 @@ export class PaymentService {
       });
       user.Payment = true;
       user.IsExpired = false;
+      user.CreatedAt = new Date();
+      user.SubscribeDate = new Date();
       const updateduser = await this.rootuserRepo.save(user);
 
       return { customer, user: updateduser };
