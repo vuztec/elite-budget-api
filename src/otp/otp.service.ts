@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOtpDto, VerifyOtpDto } from './dto/create-otp.dto';
 import { UpdateOtpDto } from './dto/update-otp.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -42,7 +42,7 @@ export class OtpService {
       where: { Email: dto.Email, Code: dto.Code, IsUsed: false },
     });
 
-    if (!otp) return false;
+    if (!otp) throw new NotFoundException('Incorrect OTP'); // Or UnauthorizedException, based on your security policy
 
     const isExpired = otp.ExpiresAt < new Date();
     if (isExpired) return false;
