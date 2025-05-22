@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateRootuserDto } from './dto/create-rootuser.dto';
 import { UpdateRootuserDto, UpdateUserAutoRenewalDto } from './dto/update-rootuser.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -36,6 +36,14 @@ export class RootusersService {
   ) {}
 
   async create(createRootuserDto: CreateRootuserDto) {
+    const isUserExist = await this.rootuserRepo.findOneBy({
+      Email: createRootuserDto.Email,
+    });
+
+    if (isUserExist) {
+      throw new ForbiddenException('User already exists');
+    }
+
     const new_user = new Rootuser();
 
     new_user.FullName = createRootuserDto.FullName;
