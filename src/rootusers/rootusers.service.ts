@@ -135,7 +135,7 @@ export class RootusersService {
   }
 
   findAll() {
-    return this.rootuserRepo.find();
+    return this.rootuserRepo.find({ where: { IsTrash: false } });
   }
 
   findOne(id: number) {
@@ -177,6 +177,6 @@ export class RootusersService {
   }
 
   remove(id: number) {
-    return this.rootuserRepo.delete(id);
+    return this.rootuserRepo.update(id, { IsTrash: true });
   }
 }

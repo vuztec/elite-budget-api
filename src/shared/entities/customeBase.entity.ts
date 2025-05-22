@@ -1,8 +1,9 @@
-import { CreateDateColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { Rootuser } from '@/rootusers/entities/rootuser.entity';
+import { IsBoolean } from 'class-validator';
 
 export abstract class CustomBaseEntity {
   @PrimaryGeneratedColumn()
@@ -23,6 +24,9 @@ export abstract class CustomBaseEntity {
   @Exclude()
   @ApiHideProperty()
   UpdatedAt: Date;
+
+  @Column({ type: 'boolean', default: false })
+  IsTrash: boolean;
 
   @ManyToOne(() => Rootuser, (user) => user)
   @ApiProperty()
