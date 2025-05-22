@@ -46,6 +46,7 @@ export class RootusersService {
     if (createRootuserDto.Currency) new_user.Currency = createRootuserDto.Currency;
     if (createRootuserDto.SelfAge) new_user.SelfAge = createRootuserDto.SelfAge;
     if (createRootuserDto.PartnerAge) new_user.PartnerAge = createRootuserDto.PartnerAge;
+    if (createRootuserDto.Status) new_user.Status = createRootuserDto.Status;
 
     new_user.CreatedAt = new Date();
 
@@ -134,14 +135,23 @@ export class RootusersService {
   async update(id: number, updateRootuserDto: UpdateRootuserDto) {
     const new_user = await this.findOne(id);
 
-    new_user.FullName = updateRootuserDto.FullName;
-    new_user.SelfAge = updateRootuserDto.SelfAge;
-    new_user.PartnerAge = updateRootuserDto.PartnerAge;
-    new_user.Email = updateRootuserDto.Email;
-    new_user.Country = updateRootuserDto.Country;
-    new_user.DateFormat = updateRootuserDto.DateFormat;
-    new_user.Currency = updateRootuserDto.Currency;
-    new_user.Separator = updateRootuserDto.Separator;
+    if (updateRootuserDto.FullName) new_user.FullName = updateRootuserDto.FullName;
+
+    if (updateRootuserDto.SelfAge) new_user.SelfAge = updateRootuserDto.SelfAge;
+
+    if (updateRootuserDto.PartnerAge) new_user.PartnerAge = updateRootuserDto.PartnerAge;
+
+    if (updateRootuserDto.Email) new_user.Email = updateRootuserDto.Email;
+
+    if (updateRootuserDto.Country) new_user.Country = updateRootuserDto.Country;
+
+    if (updateRootuserDto.DateFormat) new_user.DateFormat = updateRootuserDto.DateFormat;
+
+    if (updateRootuserDto.Currency) new_user.Currency = updateRootuserDto.Currency;
+
+    if (updateRootuserDto.Separator) new_user.Separator = updateRootuserDto.Separator;
+
+    if (updateRootuserDto.Status) new_user.Status = updateRootuserDto.Status;
 
     return this.rootuserRepo.save(new_user);
   }
