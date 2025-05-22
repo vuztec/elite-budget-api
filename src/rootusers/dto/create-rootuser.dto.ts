@@ -1,5 +1,5 @@
 import { Status } from '@/shared/enums/enum';
-import { IsEmail, IsEnum, IsNumber, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsBoolean, IsEmail, IsEnum, IsNumber, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateRootuserDto {
   @IsString()
@@ -46,6 +46,10 @@ export class CreateRootuserDto {
   @IsNumber()
   @IsOptional()
   SelfAge: number;
+
+  @IsBoolean()
+  @IsOptional()
+  FreeAccess: boolean;
 
   @IsEnum(Status)
   @IsOptional()

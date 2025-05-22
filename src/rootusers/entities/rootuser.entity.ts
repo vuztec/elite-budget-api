@@ -81,6 +81,10 @@ export class Rootuser extends CustomBaseEntity {
 
   @Column({ type: 'boolean', default: false })
   @ApiProperty()
+  FreeAccess: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  @ApiProperty()
   Payment: boolean;
 
   @Column({ type: 'boolean', default: true })

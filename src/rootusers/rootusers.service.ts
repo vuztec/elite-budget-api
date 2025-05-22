@@ -42,6 +42,8 @@ export class RootusersService {
     new_user.Email = createRootuserDto.Email;
     new_user.Country = createRootuserDto.Country;
     new_user.Separator = createRootuserDto.Separator;
+
+    if (createRootuserDto.FreeAccess !== undefined) new_user.FreeAccess = createRootuserDto.FreeAccess;
     if (createRootuserDto.DateFormat) new_user.DateFormat = createRootuserDto.DateFormat;
     if (createRootuserDto.Currency) new_user.Currency = createRootuserDto.Currency;
     if (createRootuserDto.SelfAge) new_user.SelfAge = createRootuserDto.SelfAge;
@@ -152,6 +154,8 @@ export class RootusersService {
     if (updateRootuserDto.Separator) new_user.Separator = updateRootuserDto.Separator;
 
     if (updateRootuserDto.Status) new_user.Status = updateRootuserDto.Status;
+
+    if (updateRootuserDto.FreeAccess !== undefined) new_user.FreeAccess = updateRootuserDto.FreeAccess;
 
     return this.rootuserRepo.save(new_user);
   }
