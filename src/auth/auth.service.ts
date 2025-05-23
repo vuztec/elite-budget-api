@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { ChangePasswordDto, ForgetPasswordDto, UpdateAuthDto, UpdatePasswordDto } from './dto/update-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,6 +10,7 @@ import { Otp } from '@/otp/entities/otp.entity';
 import { generateOtp } from '@/shared/utils/general';
 import { generateOtpEmailHtml } from '@/pinpoint/templates/opt-email';
 import { PinpointService } from '@/pinpoint/pinpoint.service';
+import { Status } from '@/shared/enums/enum';
 
 @Injectable()
 export class AuthService {
@@ -29,9 +30,9 @@ export class AuthService {
 
     const isMatch = await bcrypt.compare(AuthDto.Password, user.Password);
 
-    if (!isMatch) {
-      throw new UnauthorizedException('Invalid credentials.');
-    }
+    if (!isMatch) throw new UnauthorizedException('Invalid credentials.');
+
+    if (user.Status === Status.INACTIVE) throw new ForbiddenException('User is inactive.');
 
     // Invalidate all unused OTPs for this email
     await this.otpRepos.update({ Email: user.Email, IsUsed: false }, { IsUsed: true });
