@@ -15,7 +15,7 @@ import {
 } from '@/shared/utils/default.data';
 import { Income } from '@/income/entities/income.entity';
 import { SavingsRetirement } from '@/savings-retirements/entities/savings-retirement.entity';
-import { SAV_RET_TYPE } from '@/shared/enums/enum';
+import { SAV_RET_TYPE, Status } from '@/shared/enums/enum';
 import { Debt } from '@/debt/entities/debt.entity';
 import { Expense } from '@/expenses/entities/expense.entity';
 import { ExtraPayCheck } from '@/extra-pay-checks/entities/extra-pay-check.entity';
@@ -164,6 +164,32 @@ export class RootusersService {
     if (updateRootuserDto.Status) new_user.Status = updateRootuserDto.Status;
 
     if (updateRootuserDto.FreeAccess !== undefined) new_user.FreeAccess = updateRootuserDto.FreeAccess;
+
+    return this.rootuserRepo.save(new_user);
+  }
+
+  async updateStatus(id: number) {
+    const new_user = await this.findOne(id);
+
+    if (new_user.Status === Status.ACTIVE) {
+      new_user.Status = Status.INACTIVE;
+    } else {
+      new_user.Status = Status.ACTIVE;
+    }
+
+    new_user.UpdatedAt = new Date();
+
+    return this.rootuserRepo.save(new_user);
+  }
+
+  async updateFreeAccess(id: number) {
+    const new_user = await this.findOne(id);
+
+    if (new_user.FreeAccess) {
+      new_user.FreeAccess = false;
+    } else {
+      new_user.FreeAccess = true;
+    }
 
     return this.rootuserRepo.save(new_user);
   }

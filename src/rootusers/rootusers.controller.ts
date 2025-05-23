@@ -34,6 +34,16 @@ export class RootusersController {
     return this.rootusersService.updateAutoRenewal(user.id, updateUserAutoRenewalDto);
   }
 
+  @Patch(':id/FreeAccess')
+  updateFreeAccess(@Param('id') id: string) {
+    return this.rootusersService.updateFreeAccess(+id);
+  }
+
+  @Patch(':id/Status')
+  updateStatus(@Param('id') id: string) {
+    return this.rootusersService.updateStatus(+id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRootuserDto: UpdateRootuserDto) {
     return this.rootusersService.update(+id, updateRootuserDto);
