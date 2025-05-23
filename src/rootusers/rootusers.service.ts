@@ -41,7 +41,7 @@ export class RootusersService {
     });
 
     if (isUserExist) {
-      throw new ForbiddenException('User already exists');
+      throw new ForbiddenException('User already exists with this email address');
     }
 
     const new_user = new Rootuser();
