@@ -44,7 +44,7 @@ export class AuthMiddleware implements NestMiddleware {
         trialEndDate.setDate(trialEndDate.getDate() + 14);
 
         // Check if the trial period is still active
-        if (currentDate <= trialEndDate) {
+        if (currentDate <= trialEndDate || user.FreeAccess) {
           req['user'] = user;
           return next(); // Allow user during the trial period
         }
