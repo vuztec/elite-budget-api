@@ -15,7 +15,7 @@ export enum PLAN {
 
 export enum Status {
   ACTIVE = 'Active',
-  INACTIVE = 'In-Active',
+  INACTIVE = 'Inactive',
 }
 
 export enum Owner {
