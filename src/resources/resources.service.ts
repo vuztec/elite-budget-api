@@ -14,7 +14,7 @@ export class ResourcesService {
   }
 
   findAll() {
-    return this.resourcesRepo.find();
+    return this.resourcesRepo.find({ relations: ['CreatedBy', 'UpdatedBy'] });
   }
 
   findOne(id: number) {
