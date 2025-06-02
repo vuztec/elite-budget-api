@@ -15,6 +15,9 @@ export class Resource {
   @Column({ default: null, nullable: true })
   Name: string;
 
+  @Column({ default: null, nullable: true })
+  Type: string;
+
   @CreateDateColumn({
     type: 'datetime',
     default: () => 'CURRENT_TIMESTAMP',
