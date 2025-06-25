@@ -70,6 +70,11 @@ export class PaymentController {
     return this.paymentService.findAllPaymentMethods(user);
   }
 
+  @Get('coupons')
+  findAllCoupons() {
+    return this.paymentService.findAllCoupons();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.paymentService.findOne(+id);

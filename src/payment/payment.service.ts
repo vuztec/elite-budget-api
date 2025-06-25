@@ -162,6 +162,10 @@ export class PaymentService {
     } else return [];
   }
 
+  async findAllCoupons() {
+    return this.stripe.coupons.list();
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} payment`;
   }
