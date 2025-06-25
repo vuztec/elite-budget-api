@@ -59,7 +59,7 @@ export class ExpensesService {
     new_expense.MarketValue = null;
     new_expense.PaymentMethod = PAYMENT_METHOD.AUTO_DEBIT;
     new_expense.NickName = null;
-    new_expense.Owner = null;
+    // new_expense.Owner = null;
 
     return this.expenseRepo.save(new_expense);
   }
