@@ -383,6 +383,8 @@ export const goals_data = [
   { Category: EXPENSES_CATEGORY.RENTAL_PROPERTY, Percentage: 0.0, Type: GOAL_TYPE.EXPENSE },
   { Category: EXPENSES_CATEGORY.TRANSPORTATION, Percentage: 10.0, Type: GOAL_TYPE.EXPENSE },
   { Category: EXPENSES_CATEGORY.VACATIONS, Percentage: 0.0, Type: GOAL_TYPE.EXPENSE },
+  { Category: EXPENSES_CATEGORY.JOINT_CONTRIBUTION, Percentage: 0.0, Type: GOAL_TYPE.EXPENSE },
+  { Category: EXPENSES_CATEGORY.ALIMONY, Percentage: 0.0, Type: GOAL_TYPE.EXPENSE },
   { Category: MAIN_CATEGORY.EXPENSES, Percentage: 80.0, Type: GOAL_TYPE.MAIN },
   { Category: MAIN_CATEGORY.DEBTS, Percentage: 0.0, Type: GOAL_TYPE.MAIN },
   { Category: MAIN_CATEGORY.RETIREMENT, Percentage: 15.0, Type: GOAL_TYPE.MAIN },
