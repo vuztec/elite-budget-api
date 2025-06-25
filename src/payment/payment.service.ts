@@ -91,17 +91,44 @@ export class PaymentService {
     });
   }
 
-  async createInvoiceAndChargeCustomer(user: Rootuser, paymentMethodId?: string) {
+  async createInvoiceAndChargeCustomer(user: Rootuser, dto?: CreatePaymentMethodDto) {
     // Create an invoice item
+    const baseAmount = Math.round(7.99 * 12 * 100); // e.g., $95.88 in cents
+    let discountAmount = 0;
+
+    // Handle coupon manually
+    if (dto?.Coupon) {
+      const coupon = await this.stripe.coupons.retrieve(dto.Coupon);
+
+      if (coupon.valid) {
+        if (coupon.amount_off) {
+          // Fixed amount discount
+          discountAmount = coupon.amount_off;
+        } else if (coupon.percent_off) {
+          // Percentage discount
+          discountAmount = Math.round(baseAmount * (coupon.percent_off / 100));
+        }
+
+        // Optional: clamp discount to not exceed baseAmount
+        if (discountAmount > baseAmount) {
+          discountAmount = baseAmount;
+        }
+      }
+    }
+
+    const finalAmount = baseAmount - discountAmount;
 
     // Create and finalize the invoice
     const invoice = await this.stripe.invoices.create({
       customer: user.StripeId,
       collection_method: 'charge_automatically', // Automatically charge the payment method on file
     });
+
+    const amount = Math.round(7.99 * 12 * 100);
+
     await this.stripe.invoiceItems.create({
       customer: user.StripeId,
-      amount: Math.round(7.99 * 12 * 100), // Amount in cents
+      amount: finalAmount, // Amount in cents
       currency: 'usd',
       description: 'Subscription renewal',
       invoice: invoice.id,
@@ -109,7 +136,7 @@ export class PaymentService {
 
     await this.stripe.invoices.finalizeInvoice(invoice.id);
 
-    return this.stripe.invoices.pay(invoice.id, paymentMethodId && { payment_method: paymentMethodId });
+    return this.stripe.invoices.pay(invoice.id, dto.PaymentMethodId && { payment_method: dto.PaymentMethodId });
   }
 
   async stripeWebhook(request, rawBody) {

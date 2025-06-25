@@ -55,7 +55,7 @@ export class PaymentController {
     @Body() createPaymentMethodDto: CreatePaymentMethodDto,
   ) {
     const { user } = req;
-    return this.paymentService.createInvoiceAndChargeCustomer(user, createPaymentMethodDto.PaymentMethodId);
+    return this.paymentService.createInvoiceAndChargeCustomer(user, createPaymentMethodDto);
   }
 
   @Get()
