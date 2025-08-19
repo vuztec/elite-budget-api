@@ -40,10 +40,10 @@ export class PaymentService {
           default_payment_method: createPaymentDto.PaymentMethodId,
         },
       });
-      user.Payment = true;
-      user.IsExpired = false;
-      user.CreatedAt = new Date();
-      user.SubscribeDate = new Date();
+      // user.Payment = true;
+      // user.IsExpired = false;
+      // user.CreatedAt = new Date();
+      // user.SubscribeDate = new Date();
       const updateduser = await this.rootuserRepo.save(user);
 
       return { customer, user: updateduser };
