@@ -33,7 +33,10 @@ export class SubscriptionService {
       const trialEndDate = new Date(user.CreatedAt);
       trialEndDate.setDate(trialEndDate.getDate() + 14);
 
-      if (today >= oneYearLater || today >= trialEndDate) {
+      const created_date = new Date(user.CreatedAt).toDateString();
+      const subscribe_date = new Date(user.SubscribeDate).toDateString();
+
+      if (today >= oneYearLater || (created_date === subscribe_date && today >= trialEndDate)) {
         try {
           if (user.Auto_Renewal) {
             const invoice = await this.paymentService.createInvoiceAndChargeCustomer(user);
