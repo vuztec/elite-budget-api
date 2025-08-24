@@ -140,7 +140,7 @@ export class PaymentService {
 
     await this.stripe.invoices.finalizeInvoice(invoice.id);
 
-    return this.stripe.invoices.pay(invoice.id, dto.PaymentMethodId && { payment_method: dto.PaymentMethodId });
+    return this.stripe.invoices.pay(invoice.id, dto?.PaymentMethodId && { payment_method: dto?.PaymentMethodId });
   }
 
   async stripeWebhook(request, rawBody) {
