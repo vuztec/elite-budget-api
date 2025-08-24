@@ -20,9 +20,9 @@ export class SubscriptionService {
 
     // Find users with yearly plans that are not yet expired
     const users = await this.userRepository.find({
-      // where: {
-      //   IsExpired: false,
-      // },
+      where: {
+        IsExpired: true,
+      },
     });
 
     users.forEach(async (user) => {
