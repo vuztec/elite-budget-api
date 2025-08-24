@@ -6,11 +6,15 @@ import { ApiTags } from '@nestjs/swagger';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { CreatePaymentMethodDto } from './dto/create-payment-method.dto';
 import { CreatePriceDto } from './dto/create-price.dto';
+import { SubscriptionService } from './subscription.service';
 
 @Controller('payment')
 @ApiTags('Payment')
 export class PaymentController {
-  constructor(private readonly paymentService: PaymentService) {}
+  constructor(
+    private readonly paymentService: PaymentService,
+    private readonly subscriptionService: SubscriptionService,
+  ) {}
 
   @Post()
   create(@Req() req: Request & { user: Rootuser }) {
@@ -62,6 +66,11 @@ export class PaymentController {
   findAll(@Req() req: Request & { user: Rootuser }) {
     const { user } = req;
     return this.paymentService.findAll();
+  }
+
+  @Get('renew')
+  checkSubscription() {
+    return this.subscriptionService.handleSubscriptionCheck();
   }
 
   @Get('payment-methods')
