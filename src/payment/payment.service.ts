@@ -118,15 +118,11 @@ export class PaymentService {
 
     const finalAmount = baseAmount - discountAmount;
 
-    console.log('Final Amount to be charged: ', finalAmount);
-
     // Create and finalize the invoice
     const invoice = await this.stripe.invoices.create({
       customer: user.StripeId,
       collection_method: 'charge_automatically', // Automatically charge the payment method on file
     });
-
-    console.log('INvoice. :', invoice.status);
 
     const amount = Math.round(7.99 * 12 * 100);
 
