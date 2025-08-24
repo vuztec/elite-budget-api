@@ -30,25 +30,25 @@ export class SubscriptionService {
       const oneYearLater = new Date(user.SubscribeDate);
       oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
 
-      if (today >= oneYearLater) {
-        try {
-          if (user.Auto_Renewal) {
-            const invoice = await this.paymentService.createInvoiceAndChargeCustomer(user);
+      // if (today >= oneYearLater) {
+      try {
+        if (user.Auto_Renewal) {
+          const invoice = await this.paymentService.createInvoiceAndChargeCustomer(user);
 
-            console.log(`User id ${user.id} and ${user.FullName} subscription renewal attempted.`);
-            if (invoice.status === 'paid') await this.paymentService.update(user);
-            else {
-              await this.paymentService.expireUserPackage(user);
-            }
-          } else {
+          console.log(`User id ${user.id} and ${user.FullName} subscription renewal attempted.`);
+          if (invoice.status === 'paid') await this.paymentService.update(user);
+          else {
             await this.paymentService.expireUserPackage(user);
-            console.log(`User id ${user.id} and ${user.FullName} subscription has expired.`);
           }
-        } catch (error) {
+        } else {
           await this.paymentService.expireUserPackage(user);
-          console.log('Error : ', error);
+          console.log(`User id ${user.id} and ${user.FullName} subscription has expired.`);
         }
+      } catch (error) {
+        await this.paymentService.expireUserPackage(user);
+        console.log('Error : ', error);
       }
+      // }
     });
   }
 }
