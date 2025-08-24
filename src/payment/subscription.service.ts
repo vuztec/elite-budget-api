@@ -22,6 +22,7 @@ export class SubscriptionService {
     const users = await this.userRepository.find({
       where: {
         IsExpired: true,
+        Auto_Renewal: true,
       },
     });
 
