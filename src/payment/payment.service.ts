@@ -117,7 +117,7 @@ export class PaymentService {
       }
     } else if (user?.Coupon) {
       const coupon = await this.stripe.coupons.retrieve(user.Coupon);
-
+      discountAmount = 0;
       if (coupon.valid) {
         if (coupon.amount_off) {
           // Fixed amount discount
@@ -146,7 +146,7 @@ export class PaymentService {
       customer: user.StripeId,
       amount: finalAmount, // Amount in cents
       currency: 'usd',
-      description: 'Subscription renewal',
+      description: `Subscription renewal for the user id ${user.id} and email ${user.Email}`,
       invoice: invoice.id,
     });
 
