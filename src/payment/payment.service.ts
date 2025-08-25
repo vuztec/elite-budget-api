@@ -42,6 +42,7 @@ export class PaymentService {
       });
       // user.Payment = true;
       // user.IsExpired = false;
+      user.Coupon = createPaymentDto.Coupon;
       user.CreatedAt = new Date();
       user.SubscribeDate = new Date();
       const updateduser = await this.rootuserRepo.save(user);
@@ -123,8 +124,6 @@ export class PaymentService {
       customer: user.StripeId,
       collection_method: 'charge_automatically', // Automatically charge the payment method on file
     });
-
-    const amount = Math.round(7.99 * 12 * 100);
 
     await this.stripe.invoiceItems.create({
       customer: user.StripeId,

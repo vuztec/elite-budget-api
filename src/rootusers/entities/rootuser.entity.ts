@@ -110,4 +110,8 @@ export class Rootuser extends CustomBaseEntity {
   })
   @ApiProperty()
   SubscribeDate: Date;
+
+  @Column({ nullable: true, default: null })
+  @ApiProperty()
+  Coupon: string;
 }
