@@ -115,6 +115,23 @@ export class PaymentService {
           discountAmount = baseAmount;
         }
       }
+    } else if (user?.Coupon) {
+      const coupon = await this.stripe.coupons.retrieve(user.Coupon);
+
+      if (coupon.valid) {
+        if (coupon.amount_off) {
+          // Fixed amount discount
+          discountAmount = coupon.amount_off;
+        } else if (coupon.percent_off) {
+          // Percentage discount
+          discountAmount = Math.round(baseAmount * (coupon.percent_off / 100));
+        }
+
+        // Optional: clamp discount to not exceed baseAmount
+        if (discountAmount > baseAmount) {
+          discountAmount = baseAmount;
+        }
+      }
     }
 
     const finalAmount = baseAmount - discountAmount;
