@@ -43,10 +43,9 @@ export class SubscriptionService {
       if (today >= oneYearLater || (user.SubscribeDate && created_date === subscribe_date && today >= trialEndDate)) {
         try {
           if (user.Auto_Renewal) {
-            console.log(`User id ${user.id} and ${user.FullName} subscription renewal attempted.`);
-            // const invoice = await this.paymentService.createInvoiceAndChargeCustomer(user);
+            const invoice = await this.paymentService.createInvoiceAndChargeCustomer(user);
 
-            // console.log(`User id ${user.id} and ${user.FullName} subscription renewal attempted.`);
+            console.log(`User id ${user.id} and ${user.FullName} subscription renewal attempted.`);
             // if (invoice.status === 'paid') await this.paymentService.update(user);
             // else {
             //   await this.paymentService.expireUserPackage(user);
