@@ -209,9 +209,19 @@ export class PaymentService {
     return this.stripe.coupons.list();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} payment`;
+  async findAllStripeCustomers() {
+    return this.stripe.customers.list();
   }
+
+  async findAllTransactionOfcustomer(id: string) {
+    return this.stripe.invoices.list({
+      customer: id,
+    });
+  }
+
+  // findOne(id: number) {
+  //   return `This action returns a #${id} payment`;
+  // }
 
   async update(user: Rootuser) {
     // const new_user = await this.rootuserRepo.findOne({ where: { id: user.id } });

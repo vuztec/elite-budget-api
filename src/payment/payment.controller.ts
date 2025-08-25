@@ -84,10 +84,20 @@ export class PaymentController {
     return this.paymentService.findAllCoupons();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.paymentService.findOne(+id);
+  @Get('stripe/customers')
+  findAllStripeCustomers() {
+    return this.paymentService.findAllStripeCustomers();
   }
+
+  @Get('stripe/customers/:id/transactions')
+  findAllTransactionOfcustomer(@Param('id') id: string) {
+    return this.paymentService.findAllTransactionOfcustomer(id);
+  }
+
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.paymentService.findOne(+id);
+  // }
 
   @Patch()
   update(@Body() updatePaymentDto: UpdatePaymentDto, @Req() req: Request & { user: Rootuser }) {
