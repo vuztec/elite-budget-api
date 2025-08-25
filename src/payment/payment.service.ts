@@ -206,16 +206,17 @@ export class PaymentService {
   }
 
   async findAllCoupons() {
-    return this.stripe.coupons.list();
+    return this.stripe.coupons.list({ limit: 1000 });
   }
 
   async findAllStripeCustomers() {
-    return this.stripe.customers.list();
+    return this.stripe.customers.list({ limit: 1000 });
   }
 
   async findAllTransactionOfcustomer(id: string) {
     return this.stripe.invoices.list({
       customer: id,
+      limit: 1000,
     });
   }
 
