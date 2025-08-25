@@ -136,25 +136,23 @@ export class PaymentService {
 
     const finalAmount = baseAmount - discountAmount;
 
-    console.log('Final amount : ', finalAmount);
+    // Create and finalize the invoice
+    const invoice = await this.stripe.invoices.create({
+      customer: user.StripeId,
+      collection_method: 'charge_automatically', // Automatically charge the payment method on file
+    });
 
-    // // Create and finalize the invoice
-    // const invoice = await this.stripe.invoices.create({
-    //   customer: user.StripeId,
-    //   collection_method: 'charge_automatically', // Automatically charge the payment method on file
-    // });
+    await this.stripe.invoiceItems.create({
+      customer: user.StripeId,
+      amount: finalAmount, // Amount in cents
+      currency: 'usd',
+      description: `Subscription renewal for the user id ${user.id} and email ${user.Email}`,
+      invoice: invoice.id,
+    });
 
-    // await this.stripe.invoiceItems.create({
-    //   customer: user.StripeId,
-    //   amount: finalAmount, // Amount in cents
-    //   currency: 'usd',
-    //   description: `Subscription renewal for the user id ${user.id} and email ${user.Email}`,
-    //   invoice: invoice.id,
-    // });
+    await this.stripe.invoices.finalizeInvoice(invoice.id);
 
-    // await this.stripe.invoices.finalizeInvoice(invoice.id);
-
-    // return this.stripe.invoices.pay(invoice.id, dto?.PaymentMethodId && { payment_method: dto?.PaymentMethodId });
+    return this.stripe.invoices.pay(invoice.id, dto?.PaymentMethodId && { payment_method: dto?.PaymentMethodId });
   }
 
   async stripeWebhook(request, rawBody) {

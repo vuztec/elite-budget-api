@@ -46,10 +46,10 @@ export class SubscriptionService {
             const invoice = await this.paymentService.createInvoiceAndChargeCustomer(user);
 
             console.log(`User id ${user.id} and ${user.FullName} subscription renewal attempted.`);
-            // if (invoice.status === 'paid') await this.paymentService.update(user);
-            // else {
-            //   await this.paymentService.expireUserPackage(user);
-            // }
+            if (invoice.status === 'paid') await this.paymentService.update(user);
+            else {
+              await this.paymentService.expireUserPackage(user);
+            }
           } else {
             await this.paymentService.expireUserPackage(user);
             console.log(`User id ${user.id} and ${user.FullName} subscription has expired.`);
