@@ -2,7 +2,7 @@ import { Rootuser } from '@/rootusers/entities/rootuser.entity';
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { PaymentService } from './payment.service';
 
 @Injectable()
@@ -26,6 +26,7 @@ export class SubscriptionService {
         Auto_Renewal: true,
         IsTrash: false,
         FreeAccess: false,
+        SubscribeDate: Not(IsNull()),
       },
     });
 
