@@ -110,6 +110,7 @@ export class AppModule implements NestModule {
         { path: '/payment/webhook', method: RequestMethod.POST },
         { path: '/otp', method: RequestMethod.GET },
         { path: '/payment/renew', method: RequestMethod.GET },
+        { path: '/payment/coupons', method: RequestMethod.GET },
         // { path: '/payment/coupons', method: RequestMethod.GET },
         { path: '/otp', method: RequestMethod.POST },
       )

@@ -57,6 +57,7 @@ export class RootusersService {
     if (createRootuserDto.SelfAge) new_user.SelfAge = createRootuserDto.SelfAge;
     if (createRootuserDto.PartnerAge) new_user.PartnerAge = createRootuserDto.PartnerAge;
     if (createRootuserDto.Status) new_user.Status = createRootuserDto.Status;
+    if (createRootuserDto.Coupon) new_user.Coupon = createRootuserDto.Coupon;
 
     new_user.CreatedAt = new Date();
 

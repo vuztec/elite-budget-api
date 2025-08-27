@@ -39,6 +39,10 @@ export class CreateRootuserDto {
   @IsOptional()
   DateFormat: string;
 
+  @IsString()
+  @IsOptional()
+  Coupon: string;
+
   @IsNumber()
   @IsOptional()
   PartnerAge: number;
