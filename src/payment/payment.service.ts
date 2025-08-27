@@ -42,6 +42,7 @@ export class PaymentService {
       });
       // user.Payment = true;
       // user.IsExpired = false;
+      user.Coupon = createPaymentDto.Coupon;
       user.CreatedAt = new Date();
       user.SubscribeDate = new Date();
       const updateduser = await this.rootuserRepo.save(user);
