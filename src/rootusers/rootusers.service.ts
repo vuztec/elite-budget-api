@@ -135,7 +135,7 @@ export class RootusersService {
   }
 
   findAll() {
-    return this.rootuserRepo.find({ where: { IsTrash: false } });
+    return this.rootuserRepo.find();
   }
 
   findOne(id: number) {
