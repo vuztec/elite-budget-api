@@ -51,7 +51,7 @@ export class AuthMiddleware implements NestMiddleware {
         }
 
         // After trial period, check payment and expiration status
-        if (!user.Payment || user.IsExpired) {
+        if ((!user.Payment || user.IsExpired) && !user.FreeAccess) {
           // Subscription expired or payment not made, return empty array response
           return res.status(200).json([]);
         }
