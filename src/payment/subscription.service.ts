@@ -33,9 +33,10 @@ export class SubscriptionService {
     users.forEach(async (user) => {
       const oneYearLater = new Date(user.SubscribeDate);
       oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+      oneYearLater.setDate(oneYearLater.getDate() - 1);
 
       const trialEndDate = new Date(user.SubscribeDate);
-      trialEndDate.setDate(trialEndDate.getDate() + 14);
+      trialEndDate.setDate(trialEndDate.getDate() + 13);
 
       const created_date = new Date(user.CreatedAt).toDateString();
       const subscribe_date = user?.SubscribeDate ? new Date(user.SubscribeDate).toDateString() : null;
