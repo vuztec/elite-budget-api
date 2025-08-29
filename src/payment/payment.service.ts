@@ -99,38 +99,46 @@ export class PaymentService {
 
     // Handle coupon manually
     if (dto?.Coupon) {
-      const coupon = await this.stripe.coupons.retrieve(dto.Coupon);
+      try {
+        const coupon = await this.stripe.coupons.retrieve(dto.Coupon);
 
-      if (coupon.valid) {
-        if (coupon.amount_off) {
-          // Fixed amount discount
-          discountAmount = coupon.amount_off;
-        } else if (coupon.percent_off) {
-          // Percentage discount
-          discountAmount = Math.round(baseAmount * (coupon.percent_off / 100));
-        }
+        if (coupon.valid) {
+          if (coupon.amount_off) {
+            // Fixed amount discount
+            discountAmount = coupon.amount_off;
+          } else if (coupon.percent_off) {
+            // Percentage discount
+            discountAmount = Math.round(baseAmount * (coupon.percent_off / 100));
+          }
 
-        // Optional: clamp discount to not exceed baseAmount
-        if (discountAmount > baseAmount) {
-          discountAmount = baseAmount;
+          // Optional: clamp discount to not exceed baseAmount
+          if (discountAmount > baseAmount) {
+            discountAmount = baseAmount;
+          }
         }
+      } catch (error) {
+        console.log('Error retrieving coupon: ', error);
       }
     } else if (user?.Coupon) {
-      const coupon = await this.stripe.coupons.retrieve(user.Coupon);
-      discountAmount = 0;
-      if (coupon.valid) {
-        if (coupon.amount_off) {
-          // Fixed amount discount
-          discountAmount = coupon.amount_off;
-        } else if (coupon.percent_off) {
-          // Percentage discount
-          discountAmount = Math.round(baseAmount * (coupon.percent_off / 100));
-        }
+      try {
+        const coupon = await this.stripe.coupons.retrieve(user.Coupon);
+        discountAmount = 0;
+        if (coupon.valid) {
+          if (coupon.amount_off) {
+            // Fixed amount discount
+            discountAmount = coupon.amount_off;
+          } else if (coupon.percent_off) {
+            // Percentage discount
+            discountAmount = Math.round(baseAmount * (coupon.percent_off / 100));
+          }
 
-        // Optional: clamp discount to not exceed baseAmount
-        if (discountAmount > baseAmount) {
-          discountAmount = baseAmount;
+          // Optional: clamp discount to not exceed baseAmount
+          if (discountAmount > baseAmount) {
+            discountAmount = baseAmount;
+          }
         }
+      } catch (error) {
+        console.log('Error retrieving coupon: ', error);
       }
     }
 
@@ -155,7 +163,7 @@ export class PaymentService {
     return this.stripe.invoices.pay(invoice.id, dto?.PaymentMethodId && { payment_method: dto?.PaymentMethodId });
   }
 
-  async stripeWebhook(request, rawBody) {
+  async stripeWebhook(request: any, rawBody: any) {
     const sig = request.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
