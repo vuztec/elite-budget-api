@@ -154,7 +154,7 @@ export class PaymentService {
       customer: user.StripeId,
       amount: finalAmount, // Amount in cents
       currency: 'usd',
-      description: `Subscription renewal for the user id ${user.id} and email ${user.Email}`,
+      description: `Subscription renewal for the email ${user.Email}`,
       invoice: invoice.id,
     });
 
@@ -259,7 +259,7 @@ export class PaymentService {
     user.Payment = false;
 
     await this.rootuserRepo.save(user);
-    console.log(`User id ${user.id} and ${user.FullName} subscription has expired.`);
+    console.log(`User ${user.Email} subscription has expired.`);
   }
 
   remove(id: string) {
