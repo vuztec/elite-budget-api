@@ -32,6 +32,7 @@ import { OtpModule } from './otp/otp.module';
 import 'dotenv/config';
 import { PinpointModule } from './pinpoint/pinpoint.module';
 import { ResourcesModule } from './resources/resources.module';
+import { AuditModule } from './audit/audit.module';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -92,6 +93,7 @@ export const jwtConfig = {
     OtpModule,
     PinpointModule,
     ResourcesModule,
+    AuditModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

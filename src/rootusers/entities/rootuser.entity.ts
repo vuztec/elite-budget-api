@@ -2,7 +2,8 @@ import { CustomBaseEntity } from '@/shared/entities/customeBase.entity';
 import { PACKAGE, PLAN, Status, UserType } from '@/shared/enums/enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, Length } from 'class-validator';
-import { Column, Entity, Index } from 'typeorm';
+import { Column, Entity, Index, OneToMany } from 'typeorm';
+import { Audit } from '@/audit/entities/audit.entity';
 
 @Entity()
 export class Rootuser extends CustomBaseEntity {
@@ -114,4 +115,8 @@ export class Rootuser extends CustomBaseEntity {
   @Column({ nullable: true, default: null })
   @ApiProperty()
   Coupon: string;
+
+  @OneToMany(() => Audit, (audit) => audit.User)
+  @ApiProperty({ type: () => [Audit] })
+  Audits: Audit[];
 }

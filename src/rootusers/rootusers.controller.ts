@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Request } from '@nestjs/common';
 import { RootusersService } from './rootusers.service';
 import { CreateRootuserDto } from './dto/create-rootuser.dto';
 import { UpdateRootuserDto, UpdateUserAutoRenewalDto } from './dto/update-rootuser.dto';
@@ -26,12 +26,12 @@ export class RootusersController {
   }
 
   @Patch('renewal')
-  updateAutoRenewal(
-    @Req() req: Request & { user: Rootuser },
-    @Body() updateUserAutoRenewalDto: UpdateUserAutoRenewalDto,
-  ) {
+  updateAutoRenewal(@Request() req: any, @Body() updateUserAutoRenewalDto: UpdateUserAutoRenewalDto) {
     const { user } = req;
-    return this.rootusersService.updateAutoRenewal(user.id, updateUserAutoRenewalDto);
+    const ipAddress = req.ip || req.connection?.remoteAddress || 'unknown';
+    const userAgent = req.headers['user-agent'] || 'unknown';
+
+    return this.rootusersService.updateAutoRenewal(user.id, updateUserAutoRenewalDto, ipAddress, userAgent);
   }
 
   @Patch(':id/FreeAccess')

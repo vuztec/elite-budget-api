@@ -21,6 +21,8 @@ import { Expense } from '@/expenses/entities/expense.entity';
 import { ExtraPayCheck } from '@/extra-pay-checks/entities/extra-pay-check.entity';
 import { Goal } from '@/goals/entities/goal.entity';
 import { PaymentService } from '@/payment/payment.service';
+import { AuditService } from '@/audit/audit.service';
+import { Audit } from '@/audit/entities/audit.entity';
 
 @Injectable()
 export class RootusersService {
@@ -32,7 +34,9 @@ export class RootusersService {
     @InjectRepository(Expense) private readonly expenseRepo: Repository<Expense>,
     @InjectRepository(ExtraPayCheck) private readonly payCheckRepo: Repository<ExtraPayCheck>,
     @InjectRepository(Goal) private readonly goalRepo: Repository<Goal>,
+    @InjectRepository(Audit) private readonly auditRepo: Repository<Audit>,
     private readonly paymentService: PaymentService,
+    private readonly auditService: AuditService,
   ) {}
 
   async create(createRootuserDto: CreateRootuserDto) {
@@ -134,8 +138,21 @@ export class RootusersService {
     return user;
   }
 
-  findAll() {
-    return this.rootuserRepo.find();
+  async findAll() {
+    const query = this.rootuserRepo
+      .createQueryBuilder('user')
+      .leftJoinAndSelect(
+        'user.Audits',
+        'audit',
+        `audit.ActionDate = (
+          SELECT MAX(a2.ActionDate) 
+          FROM audit a2 
+          WHERE a2.user_id = user.id
+        )`,
+      )
+      .orderBy('user.id', 'ASC');
+
+    return await query.getMany();
   }
 
   findOne(id: number) {
@@ -194,12 +211,36 @@ export class RootusersService {
     return this.rootuserRepo.save(new_user);
   }
 
-  async updateAutoRenewal(id: number, updateUserAutoRenewalDto: UpdateUserAutoRenewalDto) {
+  async updateAutoRenewal(
+    id: number,
+    updateUserAutoRenewalDto: UpdateUserAutoRenewalDto,
+    ipAddress?: string,
+    userAgent?: string,
+  ) {
     const new_user = await this.findOne(id);
+    const oldAutoRenewalStatus = new_user.Auto_Renewal;
 
     new_user.Auto_Renewal = updateUserAutoRenewalDto.Auto_Renewal;
 
-    return this.rootuserRepo.save(new_user);
+    const savedUser = await this.rootuserRepo.save(new_user);
+
+    // Log the audit trail if the auto renewal status actually changed
+    if (oldAutoRenewalStatus !== updateUserAutoRenewalDto.Auto_Renewal) {
+      try {
+        await this.auditService.logAutoRenewalChange(
+          id,
+          updateUserAutoRenewalDto.Auto_Renewal,
+          ipAddress,
+          userAgent,
+          `Auto renewal ${updateUserAutoRenewalDto.Auto_Renewal ? 'enabled' : 'disabled'} by user`,
+        );
+      } catch (error) {
+        console.error('Failed to log audit trail:', error);
+        // Don't fail the main operation if audit logging fails
+      }
+    }
+
+    return savedUser;
   }
 
   remove(id: number) {
