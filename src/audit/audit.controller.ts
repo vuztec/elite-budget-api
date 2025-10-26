@@ -35,7 +35,7 @@ export class AuditController {
   @Get('user/:userId')
   @ApiOperation({ summary: 'Get audit records for a specific user' })
   @ApiResponse({ status: 200, description: 'List of audit records for the user', type: [Audit] })
-  findByUser(@Param('userId', ParseIntPipe) userId: number): Promise<Audit[]> {
+  findByUser(@Param('userId', ParseIntPipe) userId: number) {
     return this.auditService.findByUser(userId);
   }
 

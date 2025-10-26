@@ -65,12 +65,14 @@ export class AuditService {
     });
   }
 
-  async findByUser(userId: number): Promise<Audit[]> {
-    return this.auditRepository.find({
+  async findByUser(userId: number) {
+    const result = await this.auditRepository.find({
       where: { User: { id: userId } },
       relations: ['User'],
       order: { ActionDate: 'DESC' },
     });
+
+    return result;
   }
 
   async findOne(id: number): Promise<Audit> {
