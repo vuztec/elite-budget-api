@@ -16,7 +16,7 @@ export class PaymentService {
     this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   }
 
-  async create(coupon?: string) {
+  async create(user: Rootuser, coupon?: string) {
     const baseAmount = Math.round(7.99 * 12 * 100); // $95.88 in cents
     let finalAmount = baseAmount;
     let appliedCoupon = null;
@@ -47,6 +47,8 @@ export class PaymentService {
       amount: finalAmount,
       currency: 'USD',
       metadata: {
+        userId: user.id,
+        email: user.Email,
         originalAmount: baseAmount.toString(),
         ...(appliedCoupon && {
           coupon: coupon,
@@ -210,6 +212,10 @@ export class PaymentService {
     const invoice = await this.stripe.invoices.create({
       customer: user.StripeId,
       collection_method: 'charge_automatically', // Automatically charge the payment method on file
+      metadata: {
+        userId: user.id,
+        email: user.Email,
+      },
     });
 
     await this.stripe.invoiceItems.create({
@@ -218,6 +224,9 @@ export class PaymentService {
       currency: 'usd',
       description: `Subscription renewal for the email ${user.Email}`,
       invoice: invoice.id,
+      metadata: {
+        userId: user.id,
+      },
     });
 
     await this.stripe.invoices.finalizeInvoice(invoice.id);
@@ -242,6 +251,18 @@ export class PaymentService {
           const user = await this.rootuserRepo.findOne({ where: { StripeId: invoicePaid.customer.toString() } });
           await this.update(user);
           console.log(`Payment paid for invoice : ${invoicePaid.id}`);
+          break;
+        case 'payment_intent.succeeded':
+          const paymentIntent = event.data.object as Stripe.PaymentIntent;
+          console.log(`PaymentIntent succeeded: ${paymentIntent.id}`);
+          const userId = paymentIntent.metadata.userId;
+          if (userId) {
+            const user = await this.rootuserRepo.findOne({ where: { id: Number(userId) } });
+            if (user) {
+              await this.update(user);
+              console.log(`User ${user.Email} updated after successful payment intent.`);
+            }
+          }
           break;
         default:
           console.log(`Unhandled event type ${event.type}`);

@@ -19,7 +19,7 @@ export class PaymentController {
   @Post()
   create(@Req() req: Request & { user: Rootuser }, @Body() createPaymentDto: CreatePaymentDto) {
     const { user } = req;
-    return this.paymentService.create(createPaymentDto.coupon);
+    return this.paymentService.create(user, createPaymentDto.coupon);
   }
 
   @Post('payment-method')
