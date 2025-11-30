@@ -16,8 +16,62 @@ export class PaymentService {
     this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   }
 
-  create() {
-    return this.stripe.paymentIntents.create({ amount: Math.round(7.99 * 12 * 100), currency: 'USD' });
+  async create(coupon?: string) {
+    const baseAmount = Math.round(7.99 * 12 * 100); // $95.88 in cents
+    let finalAmount = baseAmount;
+    let appliedCoupon = null;
+
+    if (coupon) {
+      try {
+        appliedCoupon = await this.stripe.coupons.retrieve(coupon);
+
+        if (appliedCoupon.valid) {
+          if (appliedCoupon.amount_off) {
+            // Fixed amount discount
+            finalAmount = Math.max(0, baseAmount - appliedCoupon.amount_off);
+          } else if (appliedCoupon.percent_off) {
+            // Percentage discount
+            const discountAmount = Math.round((baseAmount * appliedCoupon.percent_off) / 100);
+            finalAmount = Math.max(0, baseAmount - discountAmount);
+          }
+        }
+      } catch (error) {
+        console.log('Invalid coupon provided:', coupon);
+        // Continue with base amount if coupon is invalid
+      }
+    }
+
+    console.log(`Base Amount: ${baseAmount}, Final Amount after coupon: ${finalAmount}`);
+
+    const paymentIntentData: any = {
+      amount: finalAmount,
+      currency: 'USD',
+      metadata: {
+        originalAmount: baseAmount.toString(),
+        ...(appliedCoupon && {
+          coupon: coupon,
+          discountType: appliedCoupon.amount_off ? 'fixed' : 'percentage',
+          discountValue: (appliedCoupon.amount_off || appliedCoupon.percent_off).toString(),
+        }),
+      },
+    };
+
+    const paymentIntent = await this.stripe.paymentIntents.create(paymentIntentData);
+
+    return {
+      client_secret: paymentIntent.client_secret,
+      amount: finalAmount,
+      originalAmount: baseAmount,
+      appliedCoupon: appliedCoupon
+        ? {
+            id: appliedCoupon.id,
+            name: appliedCoupon.name,
+            amount_off: appliedCoupon.amount_off,
+            percent_off: appliedCoupon.percent_off,
+            valid: appliedCoupon.valid,
+          }
+        : null,
+    };
   }
 
   async createCustomer(user: Rootuser) {
@@ -221,7 +275,13 @@ export class PaymentService {
   async findAllCoupons() {
     const coupons = await this.stripe.coupons.list({ limit: 1000 });
 
-    return coupons;
+    // Filter to only return valid coupons
+    const validCoupons = coupons.data.filter((coupon) => coupon.valid);
+
+    return {
+      ...coupons,
+      data: validCoupons,
+    };
   }
 
   async findAllStripeCustomers() {
