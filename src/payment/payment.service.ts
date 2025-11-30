@@ -104,10 +104,10 @@ export class PaymentService {
     //   return { customer, user: updateduser };
     // } else
 
-    if (createPaymentDto.Coupon) {
-      user.Coupon = createPaymentDto.Coupon;
-      await this.rootuserRepo.save(user);
-    }
+    // if (createPaymentDto.Coupon) {
+    //   user.Coupon = createPaymentDto.Coupon;
+    //   await this.rootuserRepo.save(user);
+    // }
     return this.stripe.customers.update(user.StripeId, {
       invoice_settings: {
         default_payment_method: createPaymentDto.PaymentMethodId,
