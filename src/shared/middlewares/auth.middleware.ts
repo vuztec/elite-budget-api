@@ -29,7 +29,6 @@ export class AuthMiddleware implements NestMiddleware {
           .createQueryBuilder('user')
           .where('user.id = :id', { id: payload.id })
           .getOne();
-        // Calculate trial period (15 days from JoinDate)
 
         if (
           req.path.startsWith('/api/auth/me') ||
@@ -42,15 +41,15 @@ export class AuthMiddleware implements NestMiddleware {
           return next();
         }
 
-        const currentDate = new Date();
-        const trialEndDate = new Date(user.CreatedAt);
-        trialEndDate.setDate(trialEndDate.getDate() + 14);
+        // const currentDate = new Date();
+        // const trialEndDate = new Date(user.CreatedAt);
+        // trialEndDate.setDate(trialEndDate.getDate() + 14);
 
-        // Check if the trial period is still active
-        if (currentDate <= trialEndDate || user.FreeAccess) {
-          req['user'] = user;
-          return next(); // Allow user during the trial period
-        }
+        // // Check if the trial period is still active
+        // if (currentDate <= trialEndDate || user.FreeAccess) {
+        //   req['user'] = user;
+        //   return next(); // Allow user during the trial period
+        // }
 
         // After trial period, check payment and expiration status
         if ((!user.Payment || user.IsExpired) && !user.FreeAccess) {
