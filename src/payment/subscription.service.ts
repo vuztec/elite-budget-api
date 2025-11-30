@@ -13,12 +13,10 @@ export class SubscriptionService {
     private readonly paymentService: PaymentService,
   ) {}
 
-  // This cron job runs every day at midnight
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async handleSubscriptionCheck() {
     const today = new Date();
 
-    // Find users with yearly plans that are not yet expired
     const users = await this.userRepository.find({
       where: {
         Payment: false,
@@ -47,19 +45,72 @@ export class SubscriptionService {
             const invoice = await this.paymentService.createInvoiceAndChargeCustomer(user);
 
             console.log(`User id ${user.id} and ${user.FullName} subscription renewal attempted.`);
-            if (invoice.status === 'paid') await this.paymentService.update(user);
-            else {
-              await this.paymentService.expireUserPackage(user);
+            if (invoice.status === 'paid') {
+              await this.userRepository.update(user.id, {
+                ConsecutivePaymentFailures: 0,
+                LastPaymentFailureDate: null,
+              });
+              await this.paymentService.update(user);
+              console.log(`User id ${user.id} and ${user.FullName} subscription renewal successful.`);
+            } else {
+              await this.handlePaymentFailure(user);
             }
           } else {
             await this.paymentService.expireUserPackage(user);
             console.log(`User id ${user.id} and ${user.FullName} subscription has expired.`);
           }
         } catch (error) {
-          await this.paymentService.expireUserPackage(user);
-          console.log('Error : ', error);
+          await this.handlePaymentFailure(user);
+          console.log('Payment Error for user', user.id, ':', error);
         }
       }
+    });
+  }
+
+  private async handlePaymentFailure(user: Rootuser): Promise<void> {
+    const failureCount = (user.ConsecutivePaymentFailures || 0) + 1;
+    const today = new Date();
+
+    await this.userRepository.update(user.id, {
+      ConsecutivePaymentFailures: failureCount,
+      LastPaymentFailureDate: today,
+    });
+
+    if (failureCount >= 3) {
+      await this.userRepository.update(user.id, {
+        Auto_Renewal: false,
+      });
+
+      console.log(`User id ${user.id} (${user.FullName}) auto-renewal disabled due to 3 consecutive payment failures.`);
+
+      await this.paymentService.expireUserPackage(user);
+    } else {
+      console.log(
+        `User id ${user.id} (${user.FullName}) payment failure ${failureCount}/3. Auto-renewal still enabled.`,
+      );
+
+      await this.paymentService.expireUserPackage(user);
+    }
+  }
+
+  async resetPaymentFailures(userId: string): Promise<void> {
+    await this.userRepository.update(userId, {
+      ConsecutivePaymentFailures: 0,
+      LastPaymentFailureDate: null,
+    });
+    console.log(`Payment failure count reset for user ${userId}`);
+  }
+
+  async getUsersWithPaymentFailures(minFailures: number = 1): Promise<Rootuser[]> {
+    return this.userRepository.find({
+      where: {
+        ConsecutivePaymentFailures: minFailures,
+        Auto_Renewal: true,
+      },
+      order: {
+        ConsecutivePaymentFailures: 'DESC',
+        LastPaymentFailureDate: 'DESC',
+      },
     });
   }
 }

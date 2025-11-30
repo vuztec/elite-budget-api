@@ -116,6 +116,18 @@ export class Rootuser extends CustomBaseEntity {
   @ApiProperty()
   Coupon: string;
 
+  @Column({ type: 'int', default: 0 })
+  @ApiProperty()
+  ConsecutivePaymentFailures: number;
+
+  @Column({
+    type: 'datetime',
+    nullable: true,
+    default: null,
+  })
+  @ApiProperty()
+  LastPaymentFailureDate: Date;
+
   @OneToMany(() => Audit, (audit) => audit.User)
   @ApiProperty({ type: () => [Audit] })
   Audits: Audit[];

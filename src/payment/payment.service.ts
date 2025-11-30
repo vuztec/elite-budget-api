@@ -34,26 +34,26 @@ export class PaymentService {
     await this.stripe.paymentMethods.attach(createPaymentDto.PaymentMethodId, { customer: user.StripeId });
 
     // Check if the trial period is still active
-    if (createPaymentDto.isTrial) {
-      const customer = await this.stripe.customers.update(user.StripeId, {
-        invoice_settings: {
-          default_payment_method: createPaymentDto.PaymentMethodId,
-        },
-      });
-      // user.Payment = true;
-      // user.IsExpired = false;
-      user.Coupon = createPaymentDto.Coupon;
-      user.CreatedAt = new Date();
-      user.SubscribeDate = new Date();
-      const updateduser = await this.rootuserRepo.save(user);
+    // if (createPaymentDto.isTrial) {
+    //   const customer = await this.stripe.customers.update(user.StripeId, {
+    //     invoice_settings: {
+    //       default_payment_method: createPaymentDto.PaymentMethodId,
+    //     },
+    //   });
+    //   // user.Payment = true;
+    //   // user.IsExpired = false;
+    //   user.Coupon = createPaymentDto.Coupon;
+    //   user.CreatedAt = new Date();
+    //   user.SubscribeDate = new Date();
+    //   const updateduser = await this.rootuserRepo.save(user);
 
-      return { customer, user: updateduser };
-    } else
-      return this.stripe.customers.update(user.StripeId, {
-        invoice_settings: {
-          default_payment_method: createPaymentDto.PaymentMethodId,
-        },
-      });
+    //   return { customer, user: updateduser };
+    // } else
+    return this.stripe.customers.update(user.StripeId, {
+      invoice_settings: {
+        default_payment_method: createPaymentDto.PaymentMethodId,
+      },
+    });
   }
 
   createPrice(createPriceDto: CreatePriceDto) {

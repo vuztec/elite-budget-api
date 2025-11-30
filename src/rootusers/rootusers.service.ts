@@ -222,6 +222,10 @@ export class RootusersService {
 
     new_user.Auto_Renewal = updateUserAutoRenewalDto.Auto_Renewal;
 
+    if (updateUserAutoRenewalDto.Auto_Renewal) {
+      new_user.ConsecutivePaymentFailures = 0;
+    }
+
     const savedUser = await this.rootuserRepo.save(new_user);
 
     // Log the audit trail if the auto renewal status actually changed
