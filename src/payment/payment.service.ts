@@ -15,7 +15,7 @@ export class PaymentService {
   constructor(@InjectRepository(Rootuser) private readonly rootuserRepo: Repository<Rootuser>) {
     this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   }
-  // createPaymentDto: CreatePaymentDto
+
   create() {
     return this.stripe.paymentIntents.create({ amount: Math.round(7.99 * 12 * 100), currency: 'USD' });
   }
@@ -132,9 +132,6 @@ export class PaymentService {
         const coupon = await this.stripe.coupons.retrieve(user.Coupon);
         discountAmount = 0;
         if (coupon.valid) {
-          user.Coupon = dto.Coupon;
-          await this.rootuserRepo.save(user);
-
           if (coupon.amount_off) {
             // Fixed amount discount
             discountAmount = coupon.amount_off;
@@ -179,9 +176,7 @@ export class PaymentService {
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     try {
-      // const parsedBody = JSON.stringify(request.body, null, 2);
       const event = this.stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
-      // const event: Stripe.Event = body.data.object;
 
       switch (event.type) {
         case 'invoice.payment_failed':
@@ -193,7 +188,6 @@ export class PaymentService {
           const user = await this.rootuserRepo.findOne({ where: { StripeId: invoicePaid.customer.toString() } });
           await this.update(user);
           console.log(`Payment paid for invoice : ${invoicePaid.id}`);
-          // Then define and call a function to handle the event invoice.paid
           break;
         default:
           console.log(`Unhandled event type ${event.type}`);
