@@ -35,6 +35,7 @@ export class AuthMiddleware implements NestMiddleware {
           req.path.startsWith('/api/auth/password') ||
           req.path.startsWith('/api/rootusers') ||
           req.path.startsWith('/api/resources') ||
+          req.path.startsWith('/api/payment/coupons') ||
           req.path.startsWith('/api/audit')
         ) {
           req['user'] = user;

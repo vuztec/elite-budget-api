@@ -219,7 +219,9 @@ export class PaymentService {
   }
 
   async findAllCoupons() {
-    return this.stripe.coupons.list({ limit: 1000 });
+    const coupons = await this.stripe.coupons.list({ limit: 1000 });
+
+    return coupons;
   }
 
   async findAllStripeCustomers() {
