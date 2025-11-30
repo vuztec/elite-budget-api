@@ -155,6 +155,15 @@ export class PaymentService {
 
   async createInvoiceAndChargeCustomer(user: Rootuser, dto?: CreatePaymentMethodDto) {
     // Create an invoice item
+
+    const userPaymentMethods = await this.stripe.customers.listPaymentMethods(user.StripeId, {
+      type: 'card',
+    });
+
+    if (userPaymentMethods.data.length === 0 && !dto?.PaymentMethodId) {
+      throw new Error('No payment method available for the customer.');
+    }
+
     const baseAmount = Math.round(7.99 * 12 * 100); // e.g., $95.88 in cents
     let discountAmount = 0;
 
