@@ -15,9 +15,65 @@ export class PaymentService {
   constructor(@InjectRepository(Rootuser) private readonly rootuserRepo: Repository<Rootuser>) {
     this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   }
-  // createPaymentDto: CreatePaymentDto
-  create() {
-    return this.stripe.paymentIntents.create({ amount: Math.round(7.99 * 12 * 100), currency: 'USD' });
+
+  async create(user: Rootuser, coupon?: string) {
+    const baseAmount = Math.round(7.99 * 12 * 100); // $95.88 in cents
+    let finalAmount = baseAmount;
+    let appliedCoupon = null;
+
+    if (coupon) {
+      try {
+        appliedCoupon = await this.stripe.coupons.retrieve(coupon);
+
+        if (appliedCoupon.valid) {
+          if (appliedCoupon.amount_off) {
+            // Fixed amount discount
+            finalAmount = Math.max(0, baseAmount - appliedCoupon.amount_off);
+          } else if (appliedCoupon.percent_off) {
+            // Percentage discount
+            const discountAmount = Math.round((baseAmount * appliedCoupon.percent_off) / 100);
+            finalAmount = Math.max(0, baseAmount - discountAmount);
+          }
+        }
+      } catch (error) {
+        console.log('Invalid coupon provided:', coupon);
+        // Continue with base amount if coupon is invalid
+      }
+    }
+
+    console.log(`Base Amount: ${baseAmount}, Final Amount after coupon: ${finalAmount}`);
+
+    const paymentIntentData: any = {
+      amount: finalAmount,
+      currency: 'USD',
+      metadata: {
+        userId: user.id,
+        email: user.Email,
+        originalAmount: baseAmount.toString(),
+        ...(appliedCoupon && {
+          coupon: coupon,
+          discountType: appliedCoupon.amount_off ? 'fixed' : 'percentage',
+          discountValue: (appliedCoupon.amount_off || appliedCoupon.percent_off).toString(),
+        }),
+      },
+    };
+
+    const paymentIntent = await this.stripe.paymentIntents.create(paymentIntentData);
+
+    return {
+      client_secret: paymentIntent.client_secret,
+      amount: finalAmount,
+      originalAmount: baseAmount,
+      appliedCoupon: appliedCoupon
+        ? {
+            id: appliedCoupon.id,
+            name: appliedCoupon.name,
+            amount_off: appliedCoupon.amount_off,
+            percent_off: appliedCoupon.percent_off,
+            valid: appliedCoupon.valid,
+          }
+        : null,
+    };
   }
 
   async createCustomer(user: Rootuser) {
@@ -34,26 +90,31 @@ export class PaymentService {
     await this.stripe.paymentMethods.attach(createPaymentDto.PaymentMethodId, { customer: user.StripeId });
 
     // Check if the trial period is still active
-    if (createPaymentDto.isTrial) {
-      const customer = await this.stripe.customers.update(user.StripeId, {
-        invoice_settings: {
-          default_payment_method: createPaymentDto.PaymentMethodId,
-        },
-      });
-      // user.Payment = true;
-      // user.IsExpired = false;
-      user.Coupon = createPaymentDto.Coupon;
-      user.CreatedAt = new Date();
-      user.SubscribeDate = new Date();
-      const updateduser = await this.rootuserRepo.save(user);
+    // if (createPaymentDto.isTrial) {
+    //   const customer = await this.stripe.customers.update(user.StripeId, {
+    //     invoice_settings: {
+    //       default_payment_method: createPaymentDto.PaymentMethodId,
+    //     },
+    //   });
+    //   // user.Payment = true;
+    //   // user.IsExpired = false;
+    //   user.Coupon = createPaymentDto.Coupon;
+    //   user.CreatedAt = new Date();
+    //   user.SubscribeDate = new Date();
+    //   const updateduser = await this.rootuserRepo.save(user);
 
-      return { customer, user: updateduser };
-    } else
-      return this.stripe.customers.update(user.StripeId, {
-        invoice_settings: {
-          default_payment_method: createPaymentDto.PaymentMethodId,
-        },
-      });
+    //   return { customer, user: updateduser };
+    // } else
+
+    // if (createPaymentDto.Coupon) {
+    //   user.Coupon = createPaymentDto.Coupon;
+    //   await this.rootuserRepo.save(user);
+    // }
+    return this.stripe.customers.update(user.StripeId, {
+      invoice_settings: {
+        default_payment_method: createPaymentDto.PaymentMethodId,
+      },
+    });
   }
 
   createPrice(createPriceDto: CreatePriceDto) {
@@ -94,6 +155,15 @@ export class PaymentService {
 
   async createInvoiceAndChargeCustomer(user: Rootuser, dto?: CreatePaymentMethodDto) {
     // Create an invoice item
+
+    const userPaymentMethods = await this.stripe.customers.listPaymentMethods(user.StripeId, {
+      type: 'card',
+    });
+
+    if (userPaymentMethods.data.length === 0 && !dto?.PaymentMethodId) {
+      throw new Error('No payment method available for the customer.');
+    }
+
     const baseAmount = Math.round(7.99 * 12 * 100); // e.g., $95.88 in cents
     let discountAmount = 0;
 
@@ -103,6 +173,9 @@ export class PaymentService {
         const coupon = await this.stripe.coupons.retrieve(dto.Coupon);
 
         if (coupon.valid) {
+          user.Coupon = dto.Coupon;
+          await this.rootuserRepo.save(user);
+
           if (coupon.amount_off) {
             // Fixed amount discount
             discountAmount = coupon.amount_off;
@@ -148,6 +221,10 @@ export class PaymentService {
     const invoice = await this.stripe.invoices.create({
       customer: user.StripeId,
       collection_method: 'charge_automatically', // Automatically charge the payment method on file
+      metadata: {
+        userId: user.id,
+        email: user.Email,
+      },
     });
 
     await this.stripe.invoiceItems.create({
@@ -156,6 +233,9 @@ export class PaymentService {
       currency: 'usd',
       description: `Subscription renewal for the email ${user.Email}`,
       invoice: invoice.id,
+      metadata: {
+        userId: user.id,
+      },
     });
 
     await this.stripe.invoices.finalizeInvoice(invoice.id);
@@ -168,9 +248,7 @@ export class PaymentService {
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     try {
-      // const parsedBody = JSON.stringify(request.body, null, 2);
       const event = this.stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
-      // const event: Stripe.Event = body.data.object;
 
       switch (event.type) {
         case 'invoice.payment_failed':
@@ -182,7 +260,18 @@ export class PaymentService {
           const user = await this.rootuserRepo.findOne({ where: { StripeId: invoicePaid.customer.toString() } });
           await this.update(user);
           console.log(`Payment paid for invoice : ${invoicePaid.id}`);
-          // Then define and call a function to handle the event invoice.paid
+          break;
+        case 'payment_intent.succeeded':
+          const paymentIntent = event.data.object as Stripe.PaymentIntent;
+          console.log(`PaymentIntent succeeded: ${paymentIntent.id}`);
+          const userId = paymentIntent.metadata.userId;
+          if (userId) {
+            const user = await this.rootuserRepo.findOne({ where: { id: Number(userId) } });
+            if (user) {
+              await this.update(user);
+              console.log(`User ${user.Email} updated after successful payment intent.`);
+            }
+          }
           break;
         default:
           console.log(`Unhandled event type ${event.type}`);
@@ -214,7 +303,15 @@ export class PaymentService {
   }
 
   async findAllCoupons() {
-    return this.stripe.coupons.list({ limit: 1000 });
+    const coupons = await this.stripe.coupons.list({ limit: 1000 });
+
+    // Filter to only return valid coupons
+    const validCoupons = coupons.data.filter((coupon) => coupon.valid);
+
+    return {
+      ...coupons,
+      data: validCoupons,
+    };
   }
 
   async findAllStripeCustomers() {
