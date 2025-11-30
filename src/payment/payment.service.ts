@@ -49,6 +49,11 @@ export class PaymentService {
 
     //   return { customer, user: updateduser };
     // } else
+
+    if (createPaymentDto.Coupon) {
+      user.Coupon = createPaymentDto.Coupon;
+      await this.rootuserRepo.save(user);
+    }
     return this.stripe.customers.update(user.StripeId, {
       invoice_settings: {
         default_payment_method: createPaymentDto.PaymentMethodId,
@@ -103,6 +108,9 @@ export class PaymentService {
         const coupon = await this.stripe.coupons.retrieve(dto.Coupon);
 
         if (coupon.valid) {
+          user.Coupon = dto.Coupon;
+          await this.rootuserRepo.save(user);
+
           if (coupon.amount_off) {
             // Fixed amount discount
             discountAmount = coupon.amount_off;
@@ -124,6 +132,9 @@ export class PaymentService {
         const coupon = await this.stripe.coupons.retrieve(user.Coupon);
         discountAmount = 0;
         if (coupon.valid) {
+          user.Coupon = dto.Coupon;
+          await this.rootuserRepo.save(user);
+
           if (coupon.amount_off) {
             // Fixed amount discount
             discountAmount = coupon.amount_off;
