@@ -273,6 +273,10 @@ export class PaymentService {
             }
           }
           break;
+        case 'payment_intent.payment_failed':
+          const failedPaymentIntent = event.data.object as Stripe.PaymentIntent;
+          console.log(`PaymentIntent failed: ${failedPaymentIntent.id}`);
+          break;
         default:
           console.log(`Unhandled event type ${event.type}`);
       }
