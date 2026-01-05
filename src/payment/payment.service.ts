@@ -277,6 +277,25 @@ export class PaymentService {
           const failedPaymentIntent = event.data.object as Stripe.PaymentIntent;
           console.log(`PaymentIntent failed: ${failedPaymentIntent.id}`);
           break;
+
+        case 'charge.refunded':
+          const refundedCharge = event.data.object as Stripe.Charge;
+          console.log(`Charge refunded: ${refundedCharge.id}`);
+
+          // Find user by customer ID and update their status
+          if (refundedCharge.customer) {
+            const refundedUser = await this.rootuserRepo.findOne({
+              where: { StripeId: refundedCharge.customer.toString() },
+            });
+
+            if (refundedUser) {
+              refundedUser.IsExpired = true;
+              refundedUser.Payment = false;
+              await this.rootuserRepo.save(refundedUser);
+              console.log(`User ${refundedUser.Email} status updated after refund.`);
+            }
+          }
+          break;
         default:
           console.log(`Unhandled event type ${event.type}`);
       }
