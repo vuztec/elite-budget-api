@@ -36,7 +36,7 @@ export type NotifyOrder = {
   payUrl?: string | null; // internal/admin link or hosted invoice link
 };
 
-const logoUrl = 'https://nmrwback.vuztec.com/public/elite/products_logo_color.png';
+const logoUrl = 'https://nmrwback.vuztec.com/public/elite/product_logo_color.png';
 
 const COMPANY_NAME = 'Elite Cashflow Products';
 const SUBJECT_PREFIX = 'NEW SUBSCRIPTION ORDER';
@@ -215,35 +215,89 @@ export const orderNotifyEmailHtml = (client: NotifyClient, order: NotifyOrder) =
               <tbody>
                 <!-- Header -->
                 <tr>
-                  <td style="padding: 22px 22px 12px 22px;">
+                <td style="padding: 24px 24px 16px 24px;">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
-                      <tbody>
+                    <tbody>
                         <tr>
-                          <td align="left" style="vertical-align: top;">
+                        <!-- Logo -->
+                        <td
+                            align="left"
+                            valign="middle"
+                            style="width: 160px;"
+                        >
                             <img
-                              alt="${esc(COMPANY_NAME)}"
-                              src="${esc(logoUrl)}"
-                              width="156"
-                              style="display:block; outline:none; border:none; text-decoration:none; height:auto;"
+                            alt="${esc(COMPANY_NAME)}"
+                            src="${esc(logoUrl)}"
+                            width="120"
+                            style="
+                                display:block;
+                                outline:none;
+                                border:none;
+                                text-decoration:none;
+                                height:auto;
+                            "
                             />
-                          </td>
-                          <td align="right" style="vertical-align: top;">
-                            <div style="font-size: 12px; letter-spacing: 0.14em; color: ${MUTED}; text-transform: uppercase;">
-                              ${esc(SUBJECT_PREFIX)}
+                        </td>
+
+                        <!-- Title / Meta -->
+                        <td
+                            align="right"
+                            valign="middle"
+                            style="padding-left: 12px;"
+                        >
+                            <div
+                            style="
+                                font-size: 11px;
+                                letter-spacing: 0.18em;
+                                color: ${MUTED};
+                                text-transform: uppercase;
+                                margin-bottom: 4px;
+                            "
+                            >
+                            ${esc(SUBJECT_PREFIX)}
                             </div>
-                            <div style="font-size: 18px; font-weight: 900; margin-top: 6px;">
-                              ${order.invoiceNumber ? `Invoice ${esc(order.invoiceNumber)}` : order.id ? `Order ${esc(order.id)}` : 'Order received'}
+
+                            <div
+                            style="
+                                font-size: 18px;
+                                font-weight: 900;
+                                color: ${INK};
+                                line-height: 1.2;
+                            "
+                            >
+                            ${
+                              order.invoiceNumber
+                                ? `Invoice ${esc(order.invoiceNumber)}`
+                                : order.id
+                                  ? `Order ${esc(order.id)}`
+                                  : 'Order received'
+                            }
                             </div>
-                            <div style="font-size: 12px; color: ${MUTED}; margin-top: 4px;">
-                              ${esc(createdAt)}
+
+                            <div
+                            style="
+                                font-size: 12px;
+                                color: ${MUTED};
+                                margin-top: 4px;
+                            "
+                            >
+                            ${esc(createdAt)}
                             </div>
-                          </td>
+                        </td>
                         </tr>
-                      </tbody>
+                    </tbody>
                     </table>
 
-                    <div style="margin-top: 12px; height: 4px; background: linear-gradient(90deg, ${ACCENT}, rgba(201,162,39,0.15)); border-radius: 999px;"></div>
-                  </td>
+                    <!-- Gold divider -->
+                    <div
+                    style="
+                        margin-top: 14px;
+                        height: 3px;
+                        background: linear-gradient(90deg, ${ACCENT}, rgba(201,162,39,0.2));
+                        border-radius: 999px;
+                    "
+                    ></div>
+                </td>
                 </tr>
 
                 <!-- Summary card -->
