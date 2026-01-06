@@ -258,6 +258,7 @@ export class PaymentService {
         case 'invoice.paid':
           const invoicePaid = event.data.object as Stripe.Invoice;
           const user = await this.rootuserRepo.findOne({ where: { StripeId: invoicePaid.customer.toString() } });
+          const amountPaid = invoicePaid.amount_paid / 100;
           await this.update(user);
           console.log(`Payment paid for invoice : ${invoicePaid.id}`);
           break;
@@ -265,10 +266,12 @@ export class PaymentService {
           const paymentIntent = event.data.object as Stripe.PaymentIntent;
           console.log(`PaymentIntent succeeded: ${paymentIntent.id}`);
           const userId = paymentIntent.metadata.userId;
+
           if (userId) {
+            const amountReceived = paymentIntent.amount_received / 100;
             const user = await this.rootuserRepo.findOne({ where: { id: Number(userId) } });
             if (user) {
-              await this.update(user);
+              await this.update(user, paymentIntent.metadata.coupon);
               console.log(`User ${user.Email} updated after successful payment intent.`);
             }
           }
@@ -354,14 +357,14 @@ export class PaymentService {
   //   return `This action returns a #${id} payment`;
   // }
 
-  async update(user: Rootuser) {
-    // const new_user = await this.rootuserRepo.findOne({ where: { id: user.id } });
-
+  async update(user: Rootuser, coupon?: string) {
     user.Package = PACKAGE.PREMIUM;
     user.Payment = true;
     user.Plan = PLAN.YEARLY;
     user.SubscribeDate = new Date();
     user.IsExpired = false;
+
+    if (coupon) user.Coupon = coupon;
 
     return await this.rootuserRepo.save(user);
   }
