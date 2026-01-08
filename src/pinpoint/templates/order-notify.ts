@@ -117,7 +117,7 @@ function computeTax(subtotalAfterDiscount: number, order: NotifyOrder): number {
 export const orderNotifySubject = (order: NotifyOrder) => {
   const invoiceRef = order.customInvoiceNo || order.invoiceNumber || order.id;
   const inv = invoiceRef ? `Invoice ${invoiceRef}` : 'Order';
-  return `${SUBJECT_PREFIX} • ${COMPANY_NAME} • ${inv}`;
+  return `${SUBJECT_PREFIX} • ${inv}`;
 };
 
 export const orderNotifyEmailHtml = (client: NotifyClient, order: NotifyOrder) => {
@@ -357,7 +357,6 @@ export const orderNotifyEmailHtml = (client: NotifyClient, order: NotifyOrder) =
 
                             <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
                               <tbody>
-                                ${metaLine('Order ID', order.id != null ? String(order.id) : '-')}
                                 ${metaLine('Invoice #', displayInvoiceNumber)}
                                 ${metaLine('Payment provider', order.paymentProvider ? String(order.paymentProvider) : '-')}
                                 ${metaLine('Payment status', order.paymentStatus ? String(order.paymentStatus) : '-')}
@@ -396,9 +395,7 @@ export const orderNotifyEmailHtml = (client: NotifyClient, order: NotifyOrder) =
                                 </tbody>
                               </table>
 
-                              <div style="font-size: 11px; color: ${MUTED}; margin-top: 8px;">
-                                This is an internal notification. For customer questions, contact ${esc(SUPPORT_EMAIL)}.
-                              </div>
+                             
                             </div>
                           </td>
                         </tr>
