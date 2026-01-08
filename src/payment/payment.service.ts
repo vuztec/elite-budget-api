@@ -307,7 +307,7 @@ export class PaymentService {
             const transaction = await this.logInvoiceTransaction(invoicePaid, user, PaymentStatus.SUCCEEDED);
 
             // Send customer invoice email and admin notification
-            await this.sendInvoiceEmails(invoicePaid, user);
+            await this.sendInvoiceEmails(invoicePaid, user, transaction);
 
             // Update transaction with email status
             await this.updateTransactionEmailStatus(transaction.id, true, true);
@@ -331,7 +331,7 @@ export class PaymentService {
               const transaction = await this.logPaymentIntentTransaction(paymentIntent, user, PaymentStatus.SUCCEEDED);
 
               // Send customer payment confirmation and admin notification
-              await this.sendPaymentIntentEmails(paymentIntent, user);
+              await this.sendPaymentIntentEmails(paymentIntent, user, transaction);
 
               // Update transaction with email status
               await this.updateTransactionEmailStatus(transaction.id, true, true);
@@ -502,6 +502,7 @@ export class PaymentService {
   private mapInvoiceToCustomerEmail(
     invoice: Stripe.Invoice,
     user: Rootuser,
+    customInvoiceNo?: string,
   ): { client: InvoiceClient; order: InvoiceOrder } {
     const client: InvoiceClient = {
       fullName: invoice.customer_name || user.FullName,
@@ -541,6 +542,7 @@ export class PaymentService {
 
     const order: InvoiceOrder = {
       invoiceNumber: invoice.number || invoice.id,
+      customInvoiceNo: customInvoiceNo || undefined,
       issuedAt: new Date(invoice.created * 1000),
       dueAt: invoice.due_date ? new Date(invoice.due_date * 1000) : new Date(invoice.created * 1000),
       subtotal: invoice.subtotal / 100, // Convert cents to dollars
@@ -560,6 +562,7 @@ export class PaymentService {
   private mapInvoiceToAdminNotify(
     invoice: Stripe.Invoice,
     user: Rootuser,
+    customInvoiceNo?: string,
   ): { client: NotifyClient; order: NotifyOrder } {
     const client: NotifyClient = {
       fullName: invoice.customer_name || user.FullName,
@@ -588,6 +591,7 @@ export class PaymentService {
     const order: NotifyOrder = {
       id: invoice.id,
       invoiceNumber: invoice.number || invoice.id,
+      customInvoiceNo: customInvoiceNo || undefined,
       createdAt: new Date(invoice.created * 1000),
       currency: invoice.currency.toUpperCase(),
       subtotal: invoice.subtotal / 100,
@@ -600,6 +604,17 @@ export class PaymentService {
     };
 
     return { client, order };
+  }
+
+  /**
+   * Generate invoice number based on transaction ID
+   * Format: ECFP-INV-4234 + transaction.id
+   * Example: transaction id 1 -> ECFP-INV-4235, transaction id 2 -> ECFP-INV-4236
+   */
+  private generateInvoiceNumber(transactionId: number): string {
+    const baseNumber = 4234;
+    const invoiceNumber = baseNumber + transactionId;
+    return `ECFP-INV-${invoiceNumber}`;
   }
 
   /**
@@ -655,7 +670,11 @@ export class PaymentService {
       AdminNotified: false,
     });
 
-    return await this.paymentTransactionRepo.save(transaction);
+    const savedTransaction = await this.paymentTransactionRepo.save(transaction);
+
+    // Generate and save invoice number based on transaction ID
+    savedTransaction.InvoiceNo = this.generateInvoiceNumber(savedTransaction.id);
+    return await this.paymentTransactionRepo.save(savedTransaction);
   }
 
   /**
@@ -698,7 +717,11 @@ export class PaymentService {
       AdminNotified: false,
     });
 
-    return await this.paymentTransactionRepo.save(transaction);
+    const savedTransaction = await this.paymentTransactionRepo.save(transaction);
+
+    // Generate and save invoice number based on transaction ID
+    savedTransaction.InvoiceNo = this.generateInvoiceNumber(savedTransaction.id);
+    return await this.paymentTransactionRepo.save(savedTransaction);
   }
 
   /**
@@ -745,10 +768,14 @@ export class PaymentService {
   /**
    * Send customer invoice email and admin notification
    */
-  private async sendInvoiceEmails(invoice: Stripe.Invoice, user: Rootuser): Promise<void> {
+  private async sendInvoiceEmails(
+    invoice: Stripe.Invoice,
+    user: Rootuser,
+    transaction: PaymentTransaction,
+  ): Promise<void> {
     try {
       // Send customer invoice email
-      const customerEmailData = this.mapInvoiceToCustomerEmail(invoice, user);
+      const customerEmailData = this.mapInvoiceToCustomerEmail(invoice, user, transaction.InvoiceNo);
       const customerHtml = invoiceEmailHtml(customerEmailData.client, customerEmailData.order);
       const customerSubject = invoiceEmailSubject(customerEmailData.order);
 
@@ -764,7 +791,7 @@ export class PaymentService {
       // Send admin notification email
       const adminEmail = 'info@elitecashflowconsulting.com';
       if (adminEmail) {
-        const adminEmailData = this.mapInvoiceToAdminNotify(invoice, user);
+        const adminEmailData = this.mapInvoiceToAdminNotify(invoice, user, transaction.InvoiceNo);
         const adminHtml = orderNotifyEmailHtml(adminEmailData.client, adminEmailData.order);
         const adminSubject = orderNotifySubject(adminEmailData.order);
 
@@ -793,6 +820,7 @@ export class PaymentService {
   private async mapPaymentIntentToCustomerEmail(
     paymentIntent: Stripe.PaymentIntent,
     user: Rootuser,
+    customInvoiceNo?: string,
   ): Promise<{ client: InvoiceClient; order: InvoiceOrder }> {
     // Get billing details from the latest charge
     let billingDetails = null;
@@ -838,6 +866,7 @@ export class PaymentService {
 
     const order: InvoiceOrder = {
       invoiceNumber: paymentIntent.id, // Use payment intent ID as invoice number
+      customInvoiceNo: customInvoiceNo || undefined,
       issuedAt: new Date(paymentIntent.created * 1000),
       dueAt: new Date(paymentIntent.created * 1000),
       subtotal: originalAmount / 100, // Convert cents to dollars
@@ -857,6 +886,7 @@ export class PaymentService {
   private async mapPaymentIntentToAdminNotify(
     paymentIntent: Stripe.PaymentIntent,
     user: Rootuser,
+    customInvoiceNo?: string,
   ): Promise<{ client: NotifyClient; order: NotifyOrder }> {
     // Get billing details from the latest charge
     let billingDetails = null;
@@ -899,6 +929,7 @@ export class PaymentService {
     const order: NotifyOrder = {
       id: paymentIntent.id,
       invoiceNumber: paymentIntent.id,
+      customInvoiceNo: customInvoiceNo || undefined,
       createdAt: new Date(paymentIntent.created * 1000),
       currency: paymentIntent.currency.toUpperCase(),
       subtotal: originalAmount / 100,
@@ -916,10 +947,14 @@ export class PaymentService {
   /**
    * Send customer payment confirmation and admin notification for PaymentIntent
    */
-  private async sendPaymentIntentEmails(paymentIntent: Stripe.PaymentIntent, user: Rootuser): Promise<void> {
+  private async sendPaymentIntentEmails(
+    paymentIntent: Stripe.PaymentIntent,
+    user: Rootuser,
+    transaction: PaymentTransaction,
+  ): Promise<void> {
     try {
       // Send customer invoice email
-      const customerEmailData = await this.mapPaymentIntentToCustomerEmail(paymentIntent, user);
+      const customerEmailData = await this.mapPaymentIntentToCustomerEmail(paymentIntent, user, transaction.InvoiceNo);
       const customerHtml = invoiceEmailHtml(customerEmailData.client, customerEmailData.order);
       const customerSubject = invoiceEmailSubject(customerEmailData.order);
 
@@ -935,7 +970,7 @@ export class PaymentService {
       // Send admin notification email
       const adminEmail = 'info@elitecashflowconsulting.com';
       if (adminEmail) {
-        const adminEmailData = await this.mapPaymentIntentToAdminNotify(paymentIntent, user);
+        const adminEmailData = await this.mapPaymentIntentToAdminNotify(paymentIntent, user, transaction.InvoiceNo);
         const adminHtml = orderNotifyEmailHtml(adminEmailData.client, adminEmailData.order);
         const adminSubject = orderNotifySubject(adminEmailData.order);
 
