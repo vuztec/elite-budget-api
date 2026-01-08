@@ -326,7 +326,7 @@ export const invoiceEmailHtml = (client: InvoiceClient, order: InvoiceOrder) => 
                                 line-height: 1.2;
                               "
                             >
-                              ${esc(order.invoiceNumber)}
+                              ${esc(displayInvoiceNumber)}
                             </div>
 
                             <div

@@ -789,7 +789,8 @@ export class PaymentService {
       console.log(`✅ Customer invoice email sent to ${user.Email}`);
 
       // Send admin notification email
-      const adminEmail = 'info@elitecashflowconsulting.com';
+      // const adminEmail = 'info@elitecashflowconsulting.com';
+      const adminEmail = 'vuztec@gmail.com';
       if (adminEmail) {
         const adminEmailData = this.mapInvoiceToAdminNotify(invoice, user, transaction.InvoiceNo);
         const adminHtml = orderNotifyEmailHtml(adminEmailData.client, adminEmailData.order);
@@ -968,7 +969,8 @@ export class PaymentService {
       console.log(`✅ Customer payment confirmation email sent to ${user.Email}`);
 
       // Send admin notification email
-      const adminEmail = 'info@elitecashflowconsulting.com';
+      // const adminEmail = 'info@elitecashflowconsulting.com';
+      const adminEmail = 'vuztec@gmail.com';
       if (adminEmail) {
         const adminEmailData = await this.mapPaymentIntentToAdminNotify(paymentIntent, user, transaction.InvoiceNo);
         const adminHtml = orderNotifyEmailHtml(adminEmailData.client, adminEmailData.order);
