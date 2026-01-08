@@ -29,8 +29,6 @@ export class PinpointService {
 
     // addresses[ccAddress] = { ChannelType: 'EMAIL' };
 
-    console.log(email, body_text, emailSubject, charset);
-
     const params: any = {
       ApplicationId: projectId,
       MessageRequest: {
