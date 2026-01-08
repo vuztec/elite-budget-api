@@ -47,7 +47,9 @@ export class AuthService {
 
     const html = generateOtpEmailHtml(code);
 
-    await this.pinpointService.sendEmail(user.Email, html, 'Confirmation otp');
+    const body_text = `Your OTP code is ${code}. It will expire in 5 minutes. If you did not request this, please ignore this email.`;
+
+    await this.pinpointService.sendEmail(user.Email, html, 'ECF - OTP Confirmation ', body_text);
 
     return await this.otpRepos.save(otp);
 
@@ -110,7 +112,9 @@ export class AuthService {
 
     const html = generateOtpEmailHtml(code);
 
-    await this.pinpointService.sendEmail(user.Email, html, 'Confirmation otp');
+    const body_text = `Your OTP code is ${code}. It will expire in 5 minutes. If you did not request this, please ignore this email.`;
+
+    await this.pinpointService.sendEmail(user.Email, html, 'ECF - OTP Confirmation ', body_text);
 
     return await this.otpRepos.save(otp);
   }

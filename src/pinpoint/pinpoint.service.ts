@@ -25,7 +25,7 @@ export class PinpointService {
     // The email body for recipients with non-HTML email clients.
 
     // The character encoding for the subject line and message body of the email.
-    var charset = 'UTF-8';
+    const charset = 'UTF-8';
 
     // addresses[ccAddress] = { ChannelType: 'EMAIL' };
 
