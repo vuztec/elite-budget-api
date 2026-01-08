@@ -5,5 +5,6 @@ import { PinpointService } from './pinpoint.service';
 @Module({
   controllers: [],
   providers: [PinpointService],
+  exports: [PinpointService],
 })
 export class PinpointModule {}

@@ -14,15 +14,15 @@ export class PinpointService {
       },
     });
   }
-  async sendEmail(email: string, html: string): Promise<MessageResponse> {
+  async sendEmail(email: string, html: string, subject?: string, body_text?: string): Promise<MessageResponse> {
     // console.log('User : ', this.sms);
     const projectId = process.env.PINPOINT_PROJECT_ID;
 
     const fromAddress = `"Elite Cash Flow Products" <${process.env.PINPOINT_MAIL_USER}>`;
 
     // The subject line of the email.
+    const emailSubject = subject || 'Confirmation OTP';
     // The email body for recipients with non-HTML email clients.
-    const body_text = `Confirmation otp`;
 
     // The character encoding for the subject line and message body of the email.
     var charset = 'UTF-8';
@@ -43,7 +43,7 @@ export class PinpointService {
             SimpleEmail: {
               Subject: {
                 Charset: charset,
-                Data: 'Confirmation OTP',
+                Data: emailSubject,
               },
               HtmlPart: {
                 Charset: charset,

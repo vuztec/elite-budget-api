@@ -47,7 +47,7 @@ export class AuthService {
 
     const html = generateOtpEmailHtml(code);
 
-    await this.pinpointService.sendEmail(user.Email, html);
+    await this.pinpointService.sendEmail(user.Email, html, 'Confirmation otp');
 
     return await this.otpRepos.save(otp);
 
@@ -110,7 +110,7 @@ export class AuthService {
 
     const html = generateOtpEmailHtml(code);
 
-    await this.pinpointService.sendEmail(user.Email, html);
+    await this.pinpointService.sendEmail(user.Email, html, 'Confirmation otp');
 
     return await this.otpRepos.save(otp);
   }

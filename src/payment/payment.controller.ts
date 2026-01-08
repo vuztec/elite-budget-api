@@ -84,6 +84,11 @@ export class PaymentController {
     return this.paymentService.findAllCoupons();
   }
 
+  @Get('transactions')
+  findAllTransactions(@Query('userId') userId?: string) {
+    return this.paymentService.findAllTransactions(userId ? Number(userId) : undefined);
+  }
+
   @Get('stripe/customers')
   findAllStripeCustomers() {
     return this.paymentService.findAllStripeCustomers();
