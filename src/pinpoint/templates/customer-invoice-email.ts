@@ -37,6 +37,7 @@ export type InvoiceCoupon =
 
 export type InvoiceOrder = {
   invoiceNumber: string; // e.g. "VLGXKVCF-0019"
+  customInvoiceNo?: string; // e.g. "ECFP-INV-4235" - custom invoice number
   issuedAt?: Date | string | null;
   dueAt?: Date | string | null;
 
@@ -63,7 +64,7 @@ const logoUrl = 'https://nmrwback.vuztec.com/public/elite/product_logo_color.png
 
 const COMPANY_NAME = 'Elite Cashflow Products';
 const COMPANY_ADDRESS_LINES = ['Bishop Ranch 3', '2603 Camino Ramon, Suite 200', 'San Ramon, CA 94583', 'USA'];
-const SUPPORT_EMAIL = 'support@elitecashflowproducts.com'; // change if needed
+const SUPPORT_EMAIL = 'info@elitecashflowproducts.com'; // change if needed
 
 // Brand accents (gold + clean neutrals to match your references)
 const ACCENT = '#C9A227'; // elegant gold
@@ -137,7 +138,10 @@ function computeTax(subtotalAfterDiscount: number, order: InvoiceOrder): number 
   return subtotalAfterDiscount * rate;
 }
 
-export const invoiceEmailSubject = (order: InvoiceOrder) => `Invoice ${order.invoiceNumber} • ${COMPANY_NAME}`;
+export const invoiceEmailSubject = (order: InvoiceOrder) => {
+  const invoiceRef = order.customInvoiceNo || order.invoiceNumber;
+  return `Invoice ${invoiceRef} • ${COMPANY_NAME}`;
+};
 
 export const invoiceEmailHtml = (client: InvoiceClient, order: InvoiceOrder) => {
   const currency = (order.currency || 'USD').toUpperCase();
@@ -166,6 +170,7 @@ export const invoiceEmailHtml = (client: InvoiceClient, order: InvoiceOrder) => 
 
   const subscriptionName = esc(order.subscriptionName || 'The Budget App Subscription');
   const periodLabel = order.periodLabel ? esc(order.periodLabel) : '';
+  const displayInvoiceNumber = order.customInvoiceNo || order.invoiceNumber;
 
   const payCta = order.payUrl
     ? `

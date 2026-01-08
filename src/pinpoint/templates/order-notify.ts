@@ -16,6 +16,7 @@ export type NotifyCoupon =
 export type NotifyOrder = {
   id?: string | number | null;
   invoiceNumber?: string | null;
+  customInvoiceNo?: string | null; // e.g. "ECFP-INV-4235" - custom invoice number
 
   createdAt?: Date | string | null;
 
@@ -40,7 +41,7 @@ const logoUrl = 'https://nmrwback.vuztec.com/public/elite/product_logo_color.png
 
 const COMPANY_NAME = 'Elite Cashflow Products';
 const SUBJECT_PREFIX = 'NEW SUBSCRIPTION ORDER';
-const SUPPORT_EMAIL = 'support@elitecashflowproducts.com'; // change if needed
+const SUPPORT_EMAIL = 'info@elitecashflowproducts.com'; // change if needed
 
 // Brand accents
 const ACCENT = '#C9A227';
@@ -114,7 +115,8 @@ function computeTax(subtotalAfterDiscount: number, order: NotifyOrder): number {
 }
 
 export const orderNotifySubject = (order: NotifyOrder) => {
-  const inv = order.invoiceNumber ? `Invoice ${order.invoiceNumber}` : order.id ? `Order ${order.id}` : 'Order';
+  const invoiceRef = order.customInvoiceNo || order.invoiceNumber || order.id;
+  const inv = invoiceRef ? `Invoice ${invoiceRef}` : 'Order';
   return `${SUBJECT_PREFIX} • ${COMPANY_NAME} • ${inv}`;
 };
 
@@ -130,6 +132,7 @@ export const orderNotifyEmailHtml = (client: NotifyClient, order: NotifyOrder) =
   const subscriptionName = esc(order.subscriptionName || 'The Budget App Subscription');
   const periodLabel = order.periodLabel ? esc(order.periodLabel) : '';
   const createdAt = fmtDateTime(order.createdAt ?? null) || '-';
+  const displayInvoiceNumber = String(order.customInvoiceNo || order.invoiceNumber || order.id || '-');
 
   const couponRow =
     order.coupon && discount > 0
@@ -266,8 +269,8 @@ export const orderNotifyEmailHtml = (client: NotifyClient, order: NotifyOrder) =
                             "
                             >
                             ${
-                              order.invoiceNumber
-                                ? `Invoice ${esc(order.invoiceNumber)}`
+                              displayInvoiceNumber && displayInvoiceNumber !== '-'
+                                ? `Invoice ${esc(displayInvoiceNumber)}`
                                 : order.id
                                   ? `Order ${esc(order.id)}`
                                   : 'Order received'
@@ -355,7 +358,7 @@ export const orderNotifyEmailHtml = (client: NotifyClient, order: NotifyOrder) =
                             <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
                               <tbody>
                                 ${metaLine('Order ID', order.id != null ? String(order.id) : '-')}
-                                ${metaLine('Invoice #', order.invoiceNumber ? String(order.invoiceNumber) : '-')}
+                                ${metaLine('Invoice #', displayInvoiceNumber)}
                                 ${metaLine('Payment provider', order.paymentProvider ? String(order.paymentProvider) : '-')}
                                 ${metaLine('Payment status', order.paymentStatus ? String(order.paymentStatus) : '-')}
                               </tbody>

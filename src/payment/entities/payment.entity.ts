@@ -21,6 +21,9 @@ export class PaymentTransaction extends CustomBaseEntity {
   @Column({ type: 'varchar', length: 255, unique: true })
   StripePaymentId: string; // Payment Intent ID or Invoice ID
 
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  InvoiceNo: string; // Generated invoice number (e.g., ECFP-INV-4235)
+
   @Column({ type: 'varchar', length: 255, nullable: true })
   StripeChargeId: string; // Charge ID if available
 
