@@ -32,7 +32,7 @@ export class OtpService {
 
     const html = generateOtpEmailHtml(code);
 
-    await this.pinpointService.sendEmail(dto.Email, html);
+    await this.pinpointService.sendEmail(dto.Email, html, 'Confirmation otp');
 
     return await this.otpRepos.save(otp);
   }
