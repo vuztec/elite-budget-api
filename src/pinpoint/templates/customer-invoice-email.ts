@@ -400,27 +400,70 @@ export const invoiceEmailHtml = (client: InvoiceClient, order: InvoiceOrder) => 
                 <!-- Amount Due highlight -->
                 <tr>
                   <td style="padding: 0 22px 10px 22px;">
-                    <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-radius: 14px; overflow: hidden;">
+                    <table
+                      width="100%"
+                      border="0"
+                      cellpadding="0"
+                      cellspacing="0"
+                      role="presentation"
+                      style="
+                        background-color: #FBF4D6; /* richer gold, not yellow */
+                        border: 1px solid #D6B24A;
+                        border-radius: 16px;
+                        overflow: hidden;
+                      "
+                    >
                       <tbody>
                         <tr>
-                          <td style="background: #0B0F19; padding: 18px 18px;">
-                            <div style="color: rgba(255,255,255,0.75); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;">
+                          <td style="padding: 20px 18px; text-align: left;">
+                            <div
+                              style="
+                                color: #8A6E15;
+                                font-size: 11px;
+                                letter-spacing: 0.18em;
+                                text-transform: uppercase;
+                              "
+                            >
                               Amount due
                             </div>
-                            <div style="color: #FFFFFF; font-size: 28px; font-weight: 900; margin-top: 6px;">
-                              ${esc(money(amountDue, currency))}
-                              <span style="font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.7); margin-left: 8px;">${esc(currency)}</span>
+
+                            <div style="margin-top: 10px;">
+                              <span
+                                style="
+                                  color: #000000; /* black number as requested */
+                                  font-size: 28px;
+                                  font-weight: 900;
+                                  letter-spacing: -0.2px;
+                                "
+                              >
+                                ${esc(money(amountDue, currency))}
+                              </span>
+
+                              <span
+                                style="
+                                  font-size: 12px;
+                                  font-weight: 800;
+                                  color: #4B5563;
+                                  margin-left: 8px;
+                                  letter-spacing: 0.08em;
+                                "
+                              >
+                                ${esc(currency)}
+                              </span>
                             </div>
-                            <div style="color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 6px;">
+
+                            <div style="color: #4B5563; font-size: 13px; margin-top: 10px;">
                               Due ${esc(due || issued || 'upon receipt')}
                             </div>
                           </td>
                         </tr>
                       </tbody>
                     </table>
+
                     ${payCta}
                   </td>
                 </tr>
+
 
                 <!-- Line items -->
                 <tr>

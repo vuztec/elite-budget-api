@@ -1,42 +1,3 @@
-// export const generateOtpEmailHtml = (OTP_CODE: string) => `
-// <!DOCTYPE html>
-// <html>
-//   <head>
-//     <meta charset="UTF-8" />
-//     <title>Your OTP Code</title>
-//   </head>
-//   <body style="font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 20px;">
-//     <table width="100%" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden;">
-//       <tr>
-//         <td style="background-color: #000000; color: white; padding: 20px; text-align: center;">
-//           <h2>Elite Cash Flow Products</h2>
-//         </td>
-//       </tr>
-//       <tr>
-//         <td style="padding: 30px;">
-//           <p>Hi there,</p>
-//           <p>We received a request to verify your login for <strong>Elite Cash Flow Products</strong>.</p>
-//           <p>Your One-Time Password (OTP) is:</p>
-//           <p style="font-size: 24px; font-weight: bold; letter-spacing: 2px; color: #000000; text-align: center;">
-//             ${OTP_CODE}
-//           </p>
-//           <p>This OTP will expire in 5 minutes.</p>
-//           <p>If you didn’t request this, please ignore this email.</p>
-//           <br />
-//           <p>Thanks,<br /><strong>Elite Cash Flow Products Team</strong></p>
-//         </td>
-//       </tr>
-//       <tr>
-//         <td style="background-color: #f1f5f9; color: #6b7280; font-size: 12px; text-align: center; padding: 15px;">
-//           © 2025 Elite Cash Flow Products. All rights reserved.
-//         </td>
-//       </tr>
-//     </table>
-//   </body>
-// </html>
-
-// `;
-
 // otp-email.ts
 // Redesigned OTP email (logo + Elite Cashflow Products theme)
 
@@ -202,30 +163,51 @@ export const generateOtpEmailHtml = (OTP_CODE: string, expiresMinutes = 5) => `
                 <!-- OTP Card -->
                 <tr>
                   <td style="padding: 16px 22px 6px 22px;">
-                    <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-radius: 14px; overflow: hidden;">
+                    <table
+                      width="100%"
+                      border="0"
+                      cellpadding="0"
+                      cellspacing="0"
+                      role="presentation"
+                      style="
+                        background-color: #FBF4D6; /* richer gold, not yellow */
+                        border: 1px solid #D6B24A;
+                        border-radius: 16px;
+                      "
+                    >
                       <tbody>
                         <tr>
-                          <td style="background: #0B0F19; padding: 18px 16px; text-align: center;">
-                            <div style="color: rgba(255,255,255,0.75); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;">
-                              Your OTP code
-                            </div>
-
+                          <td style="padding: 22px 16px; text-align: center;">
+                            
+                            <!-- Label -->
                             <div
                               style="
-                                margin-top: 10px;
+                                font-size: 11px;
+                                letter-spacing: 0.18em;
+                                text-transform: uppercase;
+                                color: #8A6E15;
+                                margin-bottom: 10px;
+                              "
+                            >
+                              Your OTP Code
+                            </div>
+
+                            <!-- OTP Number -->
+                            <div
+                              style="
                                 display: inline-block;
-                                background: rgba(255,255,255,0.06);
-                                border: 1px solid rgba(255,255,255,0.14);
+                                background-color: #F2D889; /* deeper gold */
+                                border: 1px solid #C9A227;
                                 border-radius: 14px;
-                                padding: 14px 18px;
+                                padding: 14px 26px;
                               "
                             >
                               <span
                                 style="
-                                  color: #FFFFFF;
                                   font-size: 30px;
                                   font-weight: 900;
                                   letter-spacing: 6px;
+                                  color: #000000; /* BLACK text as requested */
                                   line-height: 1;
                                 "
                               >
@@ -233,15 +215,25 @@ export const generateOtpEmailHtml = (OTP_CODE: string, expiresMinutes = 5) => `
                               </span>
                             </div>
 
-                            <div style="color: rgba(255,255,255,0.7); font-size: 13px; margin-top: 12px;">
+                            <!-- Expiry -->
+                            <div
+                              style="
+                                margin-top: 12px;
+                                font-size: 13px;
+                                color: #4B5563;
+                              "
+                            >
                               Expires in ${esc(expiresMinutes)} minutes
                             </div>
+
                           </td>
                         </tr>
                       </tbody>
                     </table>
                   </td>
                 </tr>
+
+
 
                 <!-- Notes -->
                 <tr>
