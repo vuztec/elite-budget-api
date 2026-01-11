@@ -33,6 +33,7 @@ import 'dotenv/config';
 import { PinpointModule } from './pinpoint/pinpoint.module';
 import { ResourcesModule } from './resources/resources.module';
 import { AuditModule } from './audit/audit.module';
+import { CustomerServiceModule } from './customer-service/customer-service.module';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -94,6 +95,7 @@ export const jwtConfig = {
     PinpointModule,
     ResourcesModule,
     AuditModule,
+    CustomerServiceModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],
@@ -114,6 +116,7 @@ export class AppModule implements NestModule {
         { path: '/payment/renew', method: RequestMethod.GET },
         // { path: '/payment/coupons', method: RequestMethod.GET },
         { path: '/otp', method: RequestMethod.POST },
+        { path: '/customer-service', method: RequestMethod.POST },
       )
       .forRoutes({
         path: '*',
