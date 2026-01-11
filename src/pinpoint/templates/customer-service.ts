@@ -58,7 +58,7 @@ function nl2br(text: string): string {
 }
 
 export const customerServiceEmailSubject = (p: CustomerServicePayload) =>
-  `Customer Service Request • ${COMPANY_NAME} • ${p.subject || 'New message'}`;
+  `Customer Service Request • ${p.subject || 'New message'}`;
 
 export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
   const createdAt = fmtDateTime(props.createdAt) || fmtDateTime(new Date());
