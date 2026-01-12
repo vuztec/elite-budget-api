@@ -1,11 +1,13 @@
 import { Frequency, Owner } from '@/shared/enums/enum';
-import { IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateIncomeDto {
-  @IsString()
+  @IsEnum(Owner)
+  @IsOptional()
   Owner: Owner;
 
-  @IsString()
+  @IsEnum(Frequency)
+  @IsOptional()
   Frequency: Frequency;
 
   @IsString()

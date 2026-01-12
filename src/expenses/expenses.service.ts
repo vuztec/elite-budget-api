@@ -22,6 +22,7 @@ export class ExpensesService {
     new_expense.Owner = createExpenseDto.Owner;
     new_expense.PaymentMethod = createExpenseDto.PaymentMethod;
     new_expense.NickName = createExpenseDto.NickName;
+    new_expense.Frequency = createExpenseDto.Frequency;
 
     new_expense.Root = user;
 
@@ -46,6 +47,9 @@ export class ExpensesService {
     new_expense.Owner = updateExpenseDto.Owner;
     new_expense.PaymentMethod = updateExpenseDto.PaymentMethod;
     new_expense.NickName = updateExpenseDto.NickName;
+
+    if (updateExpenseDto.Description) new_expense.Description = updateExpenseDto.Description;
+    new_expense.Frequency = updateExpenseDto.Frequency;
 
     return this.expenseRepo.save(new_expense);
   }

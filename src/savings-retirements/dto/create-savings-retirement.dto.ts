@@ -1,5 +1,5 @@
-import { Owner, PAYMENT_METHOD, SAV_RET_TYPE } from '@/shared/enums/enum';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { Frequency, Owner, PAYMENT_METHOD, SAV_RET_TYPE } from '@/shared/enums/enum';
+import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateSavingsRetirementDto {
   @IsString()
@@ -28,4 +28,8 @@ export class CreateSavingsRetirementDto {
 
   @IsString()
   Category: SAV_RET_TYPE;
+
+  @IsEnum(Frequency)
+  @IsOptional()
+  Frequency: Frequency;
 }
