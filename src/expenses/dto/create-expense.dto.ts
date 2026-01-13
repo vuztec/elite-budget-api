@@ -1,5 +1,5 @@
-import { Owner, PAYMENT_METHOD } from '@/shared/enums/enum';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { Frequency, Owner, PAYMENT_METHOD } from '@/shared/enums/enum';
+import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateExpenseDto {
   @IsString()
@@ -27,4 +27,8 @@ export class CreateExpenseDto {
 
   @IsString()
   DueDate: string;
+
+  @IsEnum(Frequency)
+  @IsOptional()
+  Frequency: Frequency;
 }

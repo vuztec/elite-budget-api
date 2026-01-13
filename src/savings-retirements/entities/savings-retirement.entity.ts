@@ -1,5 +1,5 @@
 import { CustomBaseEntity } from '@/shared/entities/customeBase.entity';
-import { Owner, PAYMENT_METHOD, SAV_RET_TYPE } from '@/shared/enums/enum';
+import { Frequency, Owner, PAYMENT_METHOD, SAV_RET_TYPE } from '@/shared/enums/enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity } from 'typeorm';
 
@@ -36,4 +36,7 @@ export class SavingsRetirement extends CustomBaseEntity {
 
   @Column({ type: 'enum', enum: SAV_RET_TYPE, default: SAV_RET_TYPE.SAVINGS })
   Category: SAV_RET_TYPE;
+
+  @Column({ type: 'enum', enum: Frequency, default: Frequency.MONTHLY })
+  Frequency: Frequency;
 }

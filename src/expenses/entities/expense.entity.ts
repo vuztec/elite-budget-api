@@ -1,5 +1,5 @@
 import { CustomBaseEntity } from '@/shared/entities/customeBase.entity';
-import { EXPENSES_CATEGORY, Owner, PAYMENT_METHOD } from '@/shared/enums/enum';
+import { EXPENSES_CATEGORY, Frequency, Owner, PAYMENT_METHOD } from '@/shared/enums/enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity } from 'typeorm';
 
@@ -37,4 +37,7 @@ export class Expense extends CustomBaseEntity {
 
   @Column({ type: 'enum', enum: EXPENSES_CATEGORY, default: EXPENSES_CATEGORY.HOUSING })
   Category: EXPENSES_CATEGORY;
+
+  @Column({ type: 'enum', enum: Frequency, default: Frequency.MONTHLY })
+  Frequency: Frequency;
 }

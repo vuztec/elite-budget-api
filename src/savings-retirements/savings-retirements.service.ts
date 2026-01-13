@@ -22,6 +22,7 @@ export class SavingsRetirementsService {
     new_sav_ret.Owner = createSavingsRetirementDto.Owner;
     new_sav_ret.PaymentMethod = createSavingsRetirementDto.PaymentMethod;
     new_sav_ret.NickName = createSavingsRetirementDto.NickName;
+    new_sav_ret.Frequency = createSavingsRetirementDto.Frequency;
 
     new_sav_ret.Type = type;
 
@@ -51,6 +52,9 @@ export class SavingsRetirementsService {
     new_sav_ret.Owner = updateSavingsRetirementDto.Owner;
     new_sav_ret.PaymentMethod = updateSavingsRetirementDto.PaymentMethod;
     new_sav_ret.NickName = updateSavingsRetirementDto.NickName;
+
+    if (updateSavingsRetirementDto.Description) new_sav_ret.Description = updateSavingsRetirementDto.Description;
+    new_sav_ret.Frequency = updateSavingsRetirementDto.Frequency;
 
     return this.saveRetRep.save(new_sav_ret);
   }

@@ -22,6 +22,7 @@ export class DebtService {
     new_debt.PaymentMethod = createDebtDto.PaymentMethod;
     new_debt.NickName = createDebtDto.NickName;
     new_debt.Owner = createDebtDto.Owner;
+    new_debt.Frequency = createDebtDto.Frequency;
 
     new_debt.Root = user;
 
@@ -45,6 +46,9 @@ export class DebtService {
     new_debt.MonthlyBudget = updateDebtDto.MonthlyBudget;
     new_debt.PaymentMethod = updateDebtDto.PaymentMethod;
     new_debt.NickName = updateDebtDto.NickName;
+
+    if (updateDebtDto.Description) new_debt.Description = updateDebtDto.Description;
+    new_debt.Frequency = updateDebtDto.Frequency;
 
     new_debt.Owner = updateDebtDto.Owner;
 

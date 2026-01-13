@@ -1,13 +1,14 @@
-// customer-service.ts
-// Customer Service submission email (internal notification)
+// customer-service-confirmation.ts
+// Customer Service submission confirmation (sent to the customer)
 // HTML template only (no send function)
-// Matches the same premium gold / clean card style used in your other templates.
+// Uses the same premium gold / clean card style as your other templates.
 
 const logoUrl = 'https://nmrwback.vuztec.com/public/elite/product_logo_color.png';
 
 const COMPANY_NAME = 'Elite Cashflow Products';
+const SUPPORT_EMAIL = 'info@elitecashflowproducts.com';
 
-// Theme (consistent with your other templates)
+// Theme
 const ACCENT = '#C9A227';
 const INK = '#111827';
 const MUTED = '#6B7280';
@@ -15,19 +16,17 @@ const BG = '#F3F4F6';
 const CARD = '#FFFFFF';
 const BORDER = '#E5E7EB';
 
-// Gold card palette (same approach used for OTP / invoice / notify highlights)
+// Gold card palette
 const GOLD_BG = '#FBF4D6';
 const GOLD_BORDER = '#D6B24A';
 const GOLD_LABEL = '#8A6E15';
 
-export type CustomerServicePayload = {
-  name: string;
+export type CustomerServiceConfirmationPayload = {
+  name?: string;
   email: string;
-  subject: string;
-  message: string;
-  recaptchaToken?: string; // optional (you noted you may wire it later)
+  subject?: string;
+  ticketId?: string; // optional (if you generate one)
   createdAt?: Date | string; // optional
-  source?: string; // optional (e.g., "web", "app", etc.)
 };
 
 function esc(input: unknown): string {
@@ -37,6 +36,11 @@ function esc(input: unknown): string {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function firstName(fullName?: string): string {
+  const n = String(fullName ?? '').trim();
+  return n ? n.split(/\s+/)[0] : 'there';
 }
 
 function fmtDateTime(d?: Date | string): string {
@@ -52,16 +56,24 @@ function fmtDateTime(d?: Date | string): string {
   });
 }
 
-// Optional helper: keep line breaks in the message
-function nl2br(text: string): string {
-  return esc(text).replace(/\r\n|\n|\r/g, '<br />');
-}
+export const customerServiceConfirmationSubject = (p: CustomerServiceConfirmationPayload) => {
+  const subj = (p.subject || '').trim();
+  return subj ? `We received your request • ${subj}` : `We received your Customer Service request`;
+};
 
-export const customerServiceEmailSubject = (p: CustomerServicePayload) =>
-  `Customer Service Request • ${p.subject || 'New message'}`;
-
-export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
+export const customerServiceConfirmationHtml = (props: CustomerServiceConfirmationPayload) => {
   const createdAt = fmtDateTime(props.createdAt) || fmtDateTime(new Date());
+  const fn = firstName(props.name);
+  const subj = (props.subject || 'Customer Service request').trim();
+  const ticketId = (props.ticketId || '').trim();
+
+  const ticketRow = ticketId
+    ? `
+      <div style="margin-top: 10px; font-size: 13px; color: ${MUTED};">
+        Reference: <span style="color:${INK}; font-weight:700;">${esc(ticketId)}</span>
+      </div>
+    `
+    : '';
 
   return `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -70,7 +82,7 @@ export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
     <meta name="x-apple-disable-message-reformatting" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${esc(customerServiceEmailSubject(props))}</title>
+    <title>${esc(customerServiceConfirmationSubject(props))}</title>
   </head>
 
   <body
@@ -104,13 +116,12 @@ export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
             >
               <tbody>
 
-                <!-- Header (same style as your other templates) -->
+                <!-- Header -->
                 <tr>
                   <td style="padding: 24px 24px 16px 24px;">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
                       <tbody>
                         <tr>
-                          <!-- Logo -->
                           <td align="left" valign="middle" style="width: 160px;">
                             <img
                               alt="${esc(COMPANY_NAME)}"
@@ -120,7 +131,6 @@ export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
                             />
                           </td>
 
-                          <!-- Title / Meta -->
                           <td align="right" valign="middle" style="padding-left: 12px;">
                             <div
                               style="
@@ -142,7 +152,7 @@ export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
                                 line-height: 1.2;
                               "
                             >
-                              New support request
+                              Request received
                             </div>
 
                             <div style="font-size: 12px; color: ${MUTED}; margin-top: 4px;">
@@ -153,7 +163,6 @@ export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
                       </tbody>
                     </table>
 
-                    <!-- Gold divider -->
                     <div
                       style="
                         margin-top: 14px;
@@ -165,16 +174,20 @@ export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
                   </td>
                 </tr>
 
-                <!-- Intro -->
+                <!-- Body copy -->
                 <tr>
-                  <td style="padding: 0 24px 6px 24px;">
-                    <div style="font-size: 14px; line-height: 22px; color: ${MUTED};">
-                      A client submitted the Customer Service form. Details are below.
+                  <td style="padding: 0 24px 4px 24px;">
+                    <div style="font-size: 14px; line-height: 22px; color: ${INK};">
+                      Hi ${esc(fn)},
+                    </div>
+                    <div style="font-size: 14px; line-height: 22px; color: ${MUTED}; margin-top: 6px;">
+                      Thank you for contacting ${esc(COMPANY_NAME)}. We have received your request and a support ticket has been created successfully.
+                      Our team will review your message and get back to you as soon as possible.
                     </div>
                   </td>
                 </tr>
 
-                <!-- Summary highlight (gold, no black) -->
+                <!-- Highlight card -->
                 <tr>
                   <td style="padding: 14px 24px 10px 24px;">
                     <table
@@ -201,17 +214,19 @@ export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
                                 color: ${GOLD_LABEL};
                               "
                             >
-                              Subject
+                              Your request
                             </div>
 
                             <div style="margin-top: 8px;">
-                              <span style="font-size: 18px; font-weight: 900; color: #000000;">
-                                ${esc(props.subject || '—')}
+                              <span style="font-size: 16px; font-weight: 900; color: #000000;">
+                                ${esc(subj)}
                               </span>
                             </div>
 
+                            ${ticketRow}
+
                             <div style="margin-top: 10px; font-size: 13px; color: #4B5563;">
-                              From <b style="color:${INK};">${esc(props.name || '—')}</b> • ${esc(props.email || '—')}
+                              If you need to add more details, reply to this email and we will attach your update to the same ticket.
                             </div>
                           </td>
                         </tr>
@@ -220,7 +235,7 @@ export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
                   </td>
                 </tr>
 
-                <!-- Message ONLY (Contact Details + reCAPTCHA removed) -->
+                <!-- Support note -->
                 <tr>
                   <td style="padding: 6px 24px 0 24px;">
                     <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
@@ -228,7 +243,7 @@ export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
                         <tr>
                           <td style="vertical-align: top;">
                             <div style="font-size: 12px; letter-spacing: 0.12em; color: ${MUTED}; text-transform: uppercase; margin-bottom: 8px;">
-                              Message
+                              Need help sooner?
                             </div>
 
                             <table
@@ -241,12 +256,15 @@ export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
                             >
                               <tbody>
                                 <tr>
-                                  <td style="padding: 14px 14px; font-size: 14px; line-height: 22px; color: ${INK};">
-                                    ${props.message ? nl2br(props.message) : `<span style="color:${MUTED};">No message provided.</span>`}
+                                  <td style="padding: 14px 14px; font-size: 13px; line-height: 20px; color: ${MUTED};">
+                                    Please monitor your inbox (and spam/junk folder) for our response.
+                                    If you have any urgent follow-up, email us at
+                                    <span style="color:${INK}; font-weight:700;">${esc(SUPPORT_EMAIL)}</span>.
                                   </td>
                                 </tr>
                               </tbody>
                             </table>
+
                           </td>
                         </tr>
                       </tbody>
@@ -262,7 +280,7 @@ export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
                         © ${new Date().getFullYear()} ${esc(COMPANY_NAME)}. All rights reserved.
                       </div>
                       <div style="font-size: 11px; color: ${MUTED}; line-height: 16px; margin-top: 6px;">
-                        This is an internal notification generated from the Customer Service form.
+                        This is an automated confirmation that we received your Customer Service request.
                       </div>
                     </div>
                   </td>
@@ -279,4 +297,4 @@ export const customerServiceEmailHtml = (props: CustomerServicePayload) => {
 `;
 };
 
-export default customerServiceEmailHtml;
+export default customerServiceConfirmationHtml;
