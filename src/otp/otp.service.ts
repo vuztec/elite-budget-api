@@ -30,6 +30,8 @@ export class OtpService {
       ExpiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes expiry
     });
 
+    console.log('Generated OTP Code: ', code, ' for email : ', dto.Email); // For debugging purposes
+
     const html = generateOtpEmailHtml(code);
 
     const body_text = `Your OTP code is ${code}. It will expire in 5 minutes. If you did not request this, please ignore this email.`;
