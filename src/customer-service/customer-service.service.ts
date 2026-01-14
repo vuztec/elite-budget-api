@@ -6,6 +6,9 @@ import {
   customerServiceEmailSubject,
 } from '@/pinpoint/templates/customer-service';
 import { CustomerServiceDto } from './dto/customer-service.dto';
+import customerServiceConfirmationHtml, {
+  customerServiceConfirmationSubject,
+} from '@/pinpoint/templates/customer-service-confirmation';
 
 @Injectable()
 export class CustomerServiceService {
@@ -35,10 +38,15 @@ export class CustomerServiceService {
 
       // Generate email HTML and subject
       const emailHtml = customerServiceEmailHtml(payload);
+      const customerEmailHtml = customerServiceConfirmationHtml(payload);
       const emailSubject = customerServiceEmailSubject(payload);
+      const customerEmailSubject = customerServiceConfirmationSubject(payload);
       const emailText = `New customer service request from ${dto.name} (${dto.email}): ${dto.subject}`;
+      const customerEmailText = `Thank you for contacting us, ${dto.name}. We have received your message regarding "${dto.subject}".`;
 
       // Send email to admin
+
+      await this.pinpointService.sendEmail(dto.email, customerEmailHtml, customerEmailSubject, customerEmailText);
       await this.pinpointService.sendEmail(this.adminEmail, emailHtml, emailSubject, emailText);
 
       this.logger.log(`✅ Customer service email sent to admin: ${this.adminEmail}`);
