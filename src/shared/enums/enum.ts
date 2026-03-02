@@ -30,6 +30,7 @@ export enum Frequency {
   YEARLY = 'Yearly',
   BI_WEEKLY = 'Bi-Weekly',
   SEMI_MONTHLY = 'Semi-Monthly',
+  QUARTERLY = 'Quarterly',
 }
 
 export enum PAYMENT_METHOD {
