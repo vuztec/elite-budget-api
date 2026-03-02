@@ -39,7 +39,7 @@ export type NotifyOrder = {
 
 const logoUrl = 'https://nmrwback.vuztec.com/public/elite/product_logo_color.png';
 
-const COMPANY_NAME = 'Elite Cashflow Products';
+const COMPANY_NAME = 'Elite Cash Flow Products';
 const SUBJECT_PREFIX = 'NEW SUBSCRIPTION ORDER';
 const SUPPORT_EMAIL = 'info@elitecashflowproducts.com'; // change if needed
 

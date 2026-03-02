@@ -1,5 +1,5 @@
 // otp-email.ts
-// Redesigned OTP email (logo + Elite Cashflow Products theme)
+// Redesigned OTP email (logo + Elite Cash Flow Products theme)
 
 // Option 1: Use base64 embedded logo to avoid external image warnings
 // Replace this with your actual logo's base64 string
@@ -13,7 +13,7 @@ const logoUrl = 'https://nmrwback.vuztec.com/public/elite/product_logo_color.png
 // Set to true to use base64 embedded logo, false to use external URL
 const USE_EMBEDDED_LOGO = true;
 
-const COMPANY_NAME = 'Elite Cashflow Products';
+const COMPANY_NAME = 'Elite Cash Flow Products';
 
 // Theme
 const ACCENT = '#C9A227'; // elegant gold

@@ -1,5 +1,5 @@
 // invoice.ts
-// Beautiful, responsive Invoice Email (Elite Cashflow Products)
+// Beautiful, responsive Invoice Email (Elite Cash Flow Products)
 // Usage: invoiceEmailHtml(client, order)
 //
 // Notes:
@@ -62,7 +62,7 @@ export type InvoiceOrder = {
 
 const logoUrl = 'https://nmrwback.vuztec.com/public/elite/product_logo_color.png';
 
-const COMPANY_NAME = 'Elite Cashflow Products';
+const COMPANY_NAME = 'Elite Cash Flow Products';
 const COMPANY_ADDRESS_LINES = ['Bishop Ranch 3', '2603 Camino Ramon, Suite 200', 'San Ramon, CA 94583', 'USA'];
 const SUPPORT_EMAIL = 'info@elitecashflowproducts.com'; // change if needed
 
