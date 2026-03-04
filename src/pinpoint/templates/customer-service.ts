@@ -5,7 +5,7 @@
 
 const logoUrl = 'https://nmrwback.vuztec.com/public/elite/product_logo_color.png';
 
-const COMPANY_NAME = 'Elite Cash Flow Products';
+const COMPANY_NAME = 'Elite Cash Flow™ Products, LLC';
 
 // Theme (consistent with your other templates)
 const ACCENT = '#C9A227';
