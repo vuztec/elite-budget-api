@@ -62,7 +62,7 @@ export type InvoiceOrder = {
 
 const logoUrl = 'https://nmrwback.vuztec.com/public/elite/product_logo_color.png';
 
-const COMPANY_NAME = 'Elite Cash Flow Products';
+const COMPANY_NAME = 'Elite Cash Flow™ Products, LLC';
 const COMPANY_ADDRESS_LINES = ['Bishop Ranch 3', '2603 Camino Ramon, Suite 200', 'San Ramon, CA 94583', 'USA'];
 const SUPPORT_EMAIL = 'info@elitecashflowproducts.com'; // change if needed
 
