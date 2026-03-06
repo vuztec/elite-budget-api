@@ -37,7 +37,7 @@ export class PaymentService {
   }
 
   async create(user: Rootuser, coupon?: string) {
-    const baseAmount = Math.round(7.99 * 12 * 100); // $95.88 in cents
+    const baseAmount = Math.round(3.99 * 12 * 100); // $47.88 in cents
     let finalAmount = baseAmount;
     let appliedCoupon = null;
 
@@ -163,7 +163,7 @@ export class PaymentService {
 
   chargeCustomer(user: Rootuser, id: string) {
     return this.stripe.paymentIntents.create({
-      amount: Math.round(7.99 * 12 * 100), // Amount in the smallest currency unit, e.g., cents
+      amount: Math.round(3.99 * 12 * 100), // Amount in the smallest currency unit, e.g., cents
       currency: 'USD',
       customer: user.StripeId,
       payment_method_types: ['card'],
@@ -184,7 +184,7 @@ export class PaymentService {
       throw new Error('No payment method available for the customer.');
     }
 
-    const baseAmount = Math.round(7.99 * 12 * 100); // e.g., $95.88 in cents
+    const baseAmount = Math.round(3.99 * 12 * 100); // e.g., $47.88 in cents
     let discountAmount = 0;
     let appliedCoupon = null;
 
